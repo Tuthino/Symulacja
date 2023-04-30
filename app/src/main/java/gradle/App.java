@@ -4,14 +4,13 @@ package gradle;
 
 import java.util.ArrayList;
 import java.util.List;
-import gradle.controler;
 
-import com.google.common.base.Optional;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.shape.Line;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -31,6 +30,20 @@ public class App extends Application {
         createRectangles(rectangles, 5);
 
         addRectangleToRoot(root, rectangles);
+
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            
+            @Override
+            public void handle(KeyEvent event){
+                System.out.println(event.getCode());
+                if(event.getCode().toString()=="DOWN"){
+                    double rect_y = rectangles.get(0).getY();
+                    rectangles.get(0).setY(rect_y-10);;
+                }
+            }
+
+        }); 
+
         stage.setScene(scene);
         stage.show();
     }
