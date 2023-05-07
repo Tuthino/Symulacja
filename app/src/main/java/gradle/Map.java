@@ -29,8 +29,21 @@ public class Map extends Application {
         Character Scooby = new Character(0, 0, scooby_image);
         root.getChildren().add(Scooby);
 
+        // scene.setOnKeyPressed(new EventHanlder<KeyEvent>()) {
+
+        //     @Override
+        //     public void handle(KeyEvent event){
+        //         //Call movement funciotns
+
+
+        //     }
+        // }
+        
+        
         stage.setScene(scene);
         stage.show();
+        
+
     }
 
 

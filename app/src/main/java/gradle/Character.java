@@ -14,4 +14,24 @@ public class Character extends Rectangle {
         this.setFill(new ImagePattern(image));
     }
 
+public void MoveUp(Character character){
+    character.setY(character.getY()+10);
+}
+
+public void MoveDown(Character character){
+    character.setY(character.getY()-10);
+
+}
+
+public void ModeLeft(Character character){
+    character.setX(character.getX()-10);
+
+}
+
+public void ModeRight(Character character){
+    character.setX(character.getX()+10);
+
+}
+
+
 }
