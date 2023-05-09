@@ -2,37 +2,110 @@ package gradle;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+
 public class Character extends Rectangle {
-    public Character(double x, double y, String imagePath){
+    public Character(double x, double y, String imagePath) {
         this.setX(x);
         this.setY(y);
-        this.setWidth(50);
-        this.setHeight(50);
+        this.setWidth(45);
+        this.setHeight(45);
         Image image = new Image(imagePath);
         this.setFill(new ImagePattern(image));
     }
 
-public void MoveUp(Character character){
-    character.setY(character.getY()-10);
-    System.out.println("X: "+character.getX()+" Y: "+character.getY());
+    public void moveUp(Character character, Group root, List<Box> boxes) {
+        // Check all 8 boxes
+        if (checkIfWalls(character, root, boxes)) {
+            character.setY(character.getY() + 5);
+        } else {
+            character.setY(character.getY() - 5);
+            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        }
+    }
+
+    public void moveDown(Character character, Group root, List<Box> boxes) {
+        if (checkIfWalls(character, root, boxes)) {
+            character.setY(character.getY() - 5);
+
+        } else {
+            character.setY(character.getY() + 5);
+            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+
+        }
+    }
+
+    public void moveLeft(Character character, Group root, List<Box> boxes) {
+        if (checkIfWalls(character, root, boxes)) {
+            character.setX(character.getX() + 5);
+
+        } else {
+            character.setX(character.getX() - 5);
+            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        }
+    }
+
+    public void moveRight(Character character, Group root, List<Box> boxes) {
+        if (checkIfWalls(character, root, boxes)) {
+            character.setX(character.getX() - 5);
+
+        } else {
+            character.setX(character.getX() + 5);
+            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        }
+    }
+
+    public boolean checkIfWalls(Character character, Group root, List<Box> boxes) {
+        boolean intersects = false;
+
+        for (int i = 0; i < boxes.size(); i++) {
+            if (character.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())){
+                intersects = true;
+                System.out.println(boxes.get(i));
+                System.out.println(boxes.get(i).getClass().getSimpleName());
+            }
+        }
+        return intersects;
+    }
+
+    // This method gets all nodes from parent
+
+    // TODO!! CONVERT THIS TO ONLY ADD WALLS ^^
+    // THANKS TO THAT IT WILL HAVE LESS ITERATIONS, SO IT WILL NOT HAVE TO
+    // GO THROUGH EVERYNODE, but only walls
+    public static ArrayList<Node> getAllBoxes(Parent root) {
+        ArrayList<Node> nodes = new ArrayList<Node>();
+        addAllDescendentsBoxes(root, nodes);
+        return nodes;
+    }
+
+    private static void addAllDescendentsBoxes(Parent parent, ArrayList<Node> nodes) {
+        for (Node node : parent.getChildrenUnmodifiable()) {
+            System.out.println(node.getClass().getSimpleName());
+            nodes.add(node);
+            if (node instanceof Parent )
+                addAllDescendentsBoxes((Parent) node, nodes);
+        }
+    }
 }
 
-public void MoveDown(Character character){
-    character.setY(character.getY()+10);
-    System.out.println("X: "+character.getX()+" Y: "+character.getY());
-}
-
-public void MoveLeft(Character character){
-    character.setX(character.getX()-10);
-    System.out.println("X: "+character.getX()+" Y: "+character.getY());
-}
-
-public void MoveRight(Character character){
-    character.setX(character.getX()+10);
-    System.out.println("X: "+character.getX()+" Y: "+character.getY());
-}
-
-
-}
+// private <T> List<T> getNodesOfType(Pane parent, Class<T> type) {
+// List<T> elements = new ArrayList<>();
+// for (Node node : parent.getChildren()) {
+// if (node instanceof Pane) {
+// elements.addAll(getNodesOfType((Pane) node, type));
+// } else if (type.isAssignableFrom(node.getClass())) {
+// //noinspection unchecked
+// elements.add((T) node);
+// }
+// }
+// return Collections.unmodifiableList(elements);
