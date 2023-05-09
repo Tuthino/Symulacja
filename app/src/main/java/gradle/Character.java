@@ -15,22 +15,23 @@ public class Character extends Rectangle {
     }
 
 public void MoveUp(Character character){
-    character.setY(character.getY()+10);
+    character.setY(character.getY()-10);
+    System.out.println("X: "+character.getX()+" Y: "+character.getY());
 }
 
 public void MoveDown(Character character){
-    character.setY(character.getY()-10);
-
+    character.setY(character.getY()+10);
+    System.out.println("X: "+character.getX()+" Y: "+character.getY());
 }
 
-public void ModeLeft(Character character){
+public void MoveLeft(Character character){
     character.setX(character.getX()-10);
-
+    System.out.println("X: "+character.getX()+" Y: "+character.getY());
 }
 
-public void ModeRight(Character character){
+public void MoveRight(Character character){
     character.setX(character.getX()+10);
-
+    System.out.println("X: "+character.getX()+" Y: "+character.getY());
 }
 
 

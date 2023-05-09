@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -29,15 +31,29 @@ public class Map extends Application {
         Character Scooby = new Character(0, 0, scooby_image);
         root.getChildren().add(Scooby);
 
-        // scene.setOnKeyPressed(new EventHanlder<KeyEvent>()) {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
-        //     @Override
-        //     public void handle(KeyEvent event){
-        //         //Call movement funciotns
+            @Override
+            public void handle(KeyEvent event){
+                //Call movement funciotns
+                switch(event.getCode()){
+                    case UP:
+                        Scooby.MoveUp(Scooby);
+                        break;
+                    case DOWN:
+                        Scooby.MoveDown(Scooby);
+                        break;
+                    case RIGHT:
+                        Scooby.MoveRight(Scooby);                        
+                        break;
+                    case LEFT:
+                        Scooby.MoveLeft(Scooby);
+                        break;
+                }
+                
 
-
-        //     }
-        // }
+            }
+        });
         
         
         stage.setScene(scene);
