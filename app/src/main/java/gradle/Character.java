@@ -2,12 +2,11 @@ package gradle;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import gradle.Map;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -21,12 +20,34 @@ public class Character extends Rectangle {
         this.setHeight(45);
         Image image = new Image(imagePath);
         this.setFill(new ImagePattern(image));
+
+    }
+
+    public void move(Character character, Group root, List<Box> boxes, String direction) {
+        switch (direction) {
+            case "UP":
+                character.moveUp(character, root, boxes);
+                break;
+            case "DOWN":
+                character.moveDown(character, root, boxes);
+                break;
+            case "RIGHT":
+                character.moveRight(character, root, boxes);
+                break;
+            case "LEFT":
+                character.moveLeft(character, root, boxes);
+                break;
+        }
+
     }
 
     public void moveUp(Character character, Group root, List<Box> boxes) {
         // Check all 8 boxes
-        if (checkIfWalls(character, root, boxes)) {
-            character.setY(character.getY() + 5);
+        if (checkIfWalls(character, boxes)) {
+            while (checkIfWalls(character, boxes)) {
+                character.setY(character.getY() + 2);
+            }
+
         } else {
             character.setY(character.getY() - 5);
             System.out.println("X: " + character.getX() + " Y: " + character.getY());
@@ -34,8 +55,10 @@ public class Character extends Rectangle {
     }
 
     public void moveDown(Character character, Group root, List<Box> boxes) {
-        if (checkIfWalls(character, root, boxes)) {
-            character.setY(character.getY() - 5);
+        if (checkIfWalls(character, boxes)) {
+            while (checkIfWalls(character, boxes)) {
+                character.setY(character.getY() - 2);
+            }
 
         } else {
             character.setY(character.getY() + 5);
@@ -45,8 +68,10 @@ public class Character extends Rectangle {
     }
 
     public void moveLeft(Character character, Group root, List<Box> boxes) {
-        if (checkIfWalls(character, root, boxes)) {
-            character.setX(character.getX() + 5);
+        if (checkIfWalls(character, boxes)) {
+            while (checkIfWalls(character, boxes)) {
+                character.setX(character.getX() + 2);
+            }
 
         } else {
             character.setX(character.getX() - 5);
@@ -55,8 +80,10 @@ public class Character extends Rectangle {
     }
 
     public void moveRight(Character character, Group root, List<Box> boxes) {
-        if (checkIfWalls(character, root, boxes)) {
-            character.setX(character.getX() - 5);
+        if (checkIfWalls(character, boxes)) {
+            while (checkIfWalls(character, boxes)) {
+                character.setX(character.getX() - 2);
+            }
 
         } else {
             character.setX(character.getX() + 5);
@@ -64,11 +91,11 @@ public class Character extends Rectangle {
         }
     }
 
-    public boolean checkIfWalls(Character character, Group root, List<Box> boxes) {
+    public boolean checkIfWalls(Character character, List<Box> boxes) {
         boolean intersects = false;
 
         for (int i = 0; i < boxes.size(); i++) {
-            if (character.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())){
+            if (character.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {
                 intersects = true;
                 System.out.println(boxes.get(i));
                 System.out.println(boxes.get(i).getClass().getSimpleName());
@@ -92,7 +119,7 @@ public class Character extends Rectangle {
         for (Node node : parent.getChildrenUnmodifiable()) {
             System.out.println(node.getClass().getSimpleName());
             nodes.add(node);
-            if (node instanceof Parent )
+            if (node instanceof Parent)
                 addAllDescendentsBoxes((Parent) node, nodes);
         }
     }

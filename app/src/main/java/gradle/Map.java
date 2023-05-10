@@ -8,13 +8,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import gradle.Box;
 import javafx.stage.Stage;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
-    int scene_size = 600;
-    String scooby_image = "/Scooby.png";
+    private int scene_size = 600;
+    private String scooby_image = "/Scooby.png";
+    private String red_ghost_image = "/red_ghost.jpg";
+
 
     @Override
     public void start(Stage stage) {
@@ -28,8 +29,18 @@ public class Map extends Application {
         addBoxToRoot(root, boxes);
 
         // Add scooby :D 
-        MainCharacter Scooby = new MainCharacter(150, 150, scooby_image);
+        MainCharacter Scooby = new MainCharacter(0, 0, scooby_image);
         root.getChildren().add(Scooby);
+        // Add Ghost :D
+        Looker ghost_looker = new Looker(150, 150, red_ghost_image);
+        root.getChildren().add(ghost_looker);
+
+
+
+
+
+
+        // ########## MOVING ON KEY PRESS ##################
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -37,6 +48,10 @@ public class Map extends Application {
             public void handle(KeyEvent event){
                 //Call movement funciotns
                 switch(event.getCode()){
+                    case SPACE:
+                        String direction = ghost_looker.get_random_movement();
+                        ghost_looker.move(ghost_looker, root, boxes, direction);
+                        break;
                     case UP:
                         Scooby.moveUp(Scooby,root,boxes);
                         break;
@@ -54,7 +69,8 @@ public class Map extends Application {
 
             }
         });
-        
+       
+        // ########## MOVING ON KEY PRESS (END) ################### 
         
         stage.setScene(scene);
         stage.show();
