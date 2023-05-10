@@ -1,1 +1,3 @@
-# Symulacja
+# Symulacja - PacDOo
+
+Symulacja przenosi nas w świat PacMana, w którym głównymi bohaterami są postacie Scooby-Doo. Naszymi parametrami jest ilość członków uwielbianej spółki, czyli m.in. słynny pies oraz Kudłaty. Na przeciwko ich do starcia staną wszelakie potwory, których ilość i moc będzie naszymi kolejnymi parametrami. Bohaterowie naszej bajki z dzieciństwa będą mieli na celu zebranie jak największej ilości jedzenia na planszy wzorującej się na tej z PacMana. Każdy z zebranych itemów będzie miał odpowiednią ilość punktów w zależności od stopnia pyszności. Jednakże nie będzie to ich jedyny cel. Na każdym rogu bohaterowie będą musieli wyglądać potworów, które w starciu zwiększają ich poziom przestraszenia, aż do momentu uśmiercenia postaci. Potwory można odróżnić w zależności od stopnia mocy oraz siły z jaką może atakować naszą postać. Gra kończy się wygraną w momencie zebrania wszystkich itemów (jedzenia), jednak zdarza się to tylko wybrańcom.
