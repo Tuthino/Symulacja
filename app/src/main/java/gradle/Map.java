@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import org.checkerframework.common.value.qual.DoubleVal;
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -55,6 +52,8 @@ public class Map extends Application {
             @Override
             public void handle(KeyEvent event) {
                 // Call movement funciotns
+                Map.main_characters.get(0).steps_left=2;
+                Map.main_characters.get(0).setMovingDirection(event.getCode().toString());
                 Map.main_characters.get(0).move(event.getCode().toString());
             }
                 
@@ -65,7 +64,7 @@ public class Map extends Application {
         stage.setScene(scene);
         stage.show();
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 1, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);
 
     }
 

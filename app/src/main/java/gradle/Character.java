@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import javafx.scene.Node;
-import javafx.scene.Parent;
-
 public class Character extends Rectangle {
     protected boolean hitted_wall = false;
     protected String name;
-    private String moving_direction ;
+    private String moving_direction;
+    private int intersected_box_index;
+    protected int steps_left;
+    private int step_size = 5;
 
     public Character(double x, double y, String imagePath, String name) {
         this.setX(x);
@@ -30,8 +30,10 @@ public class Character extends Rectangle {
     }
 
     public void move(String direction) {
-
+        System.out.println(this.getMovingDirection());
+        System.out.println(direction);
         switch (direction) {
+
             case "UP":
                 this.moveUp();
                 break;
@@ -45,6 +47,8 @@ public class Character extends Rectangle {
                 this.moveLeft();
                 break;
         }
+        System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+        System.out.println(this.getMovingDirection());
 
     }
 
@@ -58,49 +62,86 @@ public class Character extends Rectangle {
 
     // ###################### MOVING ############################
     public void moveUp() {
+        if (this.steps_left>0){
+            this.steps_left-=1;
+            this.setY(this.getY() - this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setY(this.getY() + this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
 
-        this.setY(this.getY() - 5);
-        while (checkIfWalls(Map.boxes)
-                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
-            this.setY(this.getY() + 2);
-            hitted_wall = true;
+            }
         }
-        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
     }
 
     public void moveDown() {
-        this.setY(this.getY() + 5);
-        while (checkIfWalls( Map.boxes)
-                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
-            this.setY(this.getY() - 2);
-            hitted_wall = true;
+        if (this.steps_left>0){
+            this.steps_left-=1;
+              this.setY(this.getY() + this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setY(this.getY() - this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
+  
+            }
+         }
 
-        }
-        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
     }
 
     public void moveLeft() {
+        if (this.steps_left>0){
+            this.steps_left-=1;
+            this.setX(this.getX() - this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setX(this.getX() + this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
 
-        this.setX(this.getX() - 5);
-        while (checkIfWalls(Map.boxes)
-                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
-            this.setX(this.getX() + 2);
-            hitted_wall = true;
+            }
         }
-        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
+
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
     }
 
     public void moveRight() {
-        this.setX(this.getX() + 5);
-        while (checkIfWalls(Map.boxes)
-                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
-            this.setX(this.getX() - 2);
-            hitted_wall = true;
-        }
-        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
+            if (this.steps_left>0){
+                this.steps_left-=1;
+            this.setX(this.getX() + this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setX(this.getX() - this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
+                    }
+            }
+
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
     }
 
-    // ############# MOVING (END) #######################3
+    // ############# MOVING (END) #######################
+
+
+    public void goAroundBox(){
+        if (this.getMovingDirection() == "UP" || this.getMovingDirection() == "DOWN"){
+            if (Map.boxes.get(intersected_box_index).getMiddleX() < this.getMiddleX()) {
+                this.moveRight();
+            } else {
+                this.moveLeft();
+            }
+        } else if (this.getMovingDirection() == "LEFT" || this.getMovingDirection() == "RIGHT"){
+            if (Map.boxes.get(intersected_box_index).getMiddleY() > this.getMiddleY()) {
+                this.moveUp();
+            } else {
+                this.moveDown();
+            }
+        }
+
+    }
 
     public boolean checkIfWalls(List<Box> boxes) {
         boolean intersects = false;
@@ -108,8 +149,9 @@ public class Character extends Rectangle {
         for (int i = 0; i < boxes.size(); i++) {
             if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {
                 intersects = true;
-                // System.out.println(boxes.get(i));
-                // System.out.println(boxes.get(i).getClass().getSimpleName());
+                intersected_box_index = i;
+                System.out.println(boxes.get(i));
+                System.out.println(boxes.get(i).getClass().getSimpleName());
             }
         }
         return intersects;
@@ -126,18 +168,23 @@ public class Character extends Rectangle {
             return false;
         }
     }
-    public void setMovingDirection(String moving_direction){
+
+    public void setMovingDirection(String moving_direction) {
         this.moving_direction = moving_direction;
     }
-    public String getMovingDirection(){
+
+    public String getMovingDirection() {
         return this.moving_direction;
     }
-    public double getMiddleX(){
-        return (this.getX()+this.getWidth())/2;
+
+    public double getMiddleX() {
+        return (this.getX() + this.getWidth()) / 2;
     }
-    public double getMiddleY(){
-        return (this.getY()+this.getHeight())/2;
+
+    public double getMiddleY() {
+        return (this.getY() + this.getHeight()) / 2;
     }
+
     public void setRandomDirection() {
         Random random = new Random();
         ArrayList<String> directions = new ArrayList<>(
