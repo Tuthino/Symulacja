@@ -10,9 +10,11 @@ class MyAnimate implements Runnable {
         for (Looker ghost : Map.ghosts_lookers) {
             ghost.hitted_wall = false;
             int counter = 0;
-            String direction = ghost.get_random_direction();
-            while (ghost.hitted_wall == false && counter < 10) {
-                switch (direction) {
+            if(ghost.checkIfEnemyIsDiagonal()) {} else {ghost.setRandomDirection();};
+            System.out.println(ghost.getMovingDirection());
+
+            while (ghost.hitted_wall == false && counter < 1) {
+                switch (ghost.getMovingDirection()) {
                     case "UP":
                         ghost.moveUp();
                         counter++;

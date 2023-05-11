@@ -5,7 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,15 +15,17 @@ import javafx.scene.Parent;
 public class Character extends Rectangle {
     protected boolean hitted_wall = false;
     protected String name;
+    private String moving_direction ;
 
     public Character(double x, double y, String imagePath, String name) {
         this.setX(x);
         this.setY(y);
-        this.setWidth(45);
-        this.setHeight(45);
+        this.setWidth(Map.character_size);
+        this.setHeight(Map.character_size);
         this.setName(name);
         Image image = new Image(imagePath);
         this.setFill(new ImagePattern(image));
+        this.setRandomDirection();
 
     }
 
@@ -61,7 +65,7 @@ public class Character extends Rectangle {
             this.setY(this.getY() + 2);
             hitted_wall = true;
         }
-        System.out.println("X: " + this.getX() + " Y: " + this.getY());
+        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
     }
 
     public void moveDown() {
@@ -72,7 +76,7 @@ public class Character extends Rectangle {
             hitted_wall = true;
 
         }
-        System.out.println("X: " + this.getX() + " Y: " + this.getY());
+        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
     }
 
     public void moveLeft() {
@@ -83,7 +87,7 @@ public class Character extends Rectangle {
             this.setX(this.getX() + 2);
             hitted_wall = true;
         }
-        System.out.println("X: " + this.getX() + " Y: " + this.getY());
+        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
     }
 
     public void moveRight() {
@@ -93,7 +97,7 @@ public class Character extends Rectangle {
             this.setX(this.getX() - 2);
             hitted_wall = true;
         }
-        System.out.println("X: " + this.getX() + " Y: " + this.getY());
+        System.out.println(this.getClass().getSimpleName()+"X: " + this.getX() + " Y: " + this.getY());
     }
 
     // ############# MOVING (END) #######################3
@@ -104,8 +108,8 @@ public class Character extends Rectangle {
         for (int i = 0; i < boxes.size(); i++) {
             if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {
                 intersects = true;
-                System.out.println(boxes.get(i));
-                System.out.println(boxes.get(i).getClass().getSimpleName());
+                // System.out.println(boxes.get(i));
+                // System.out.println(boxes.get(i).getClass().getSimpleName());
             }
         }
         return intersects;
@@ -121,5 +125,24 @@ public class Character extends Rectangle {
         } else {
             return false;
         }
+    }
+    public void setMovingDirection(String moving_direction){
+        this.moving_direction = moving_direction;
+    }
+    public String getMovingDirection(){
+        return this.moving_direction;
+    }
+    public double getMiddleX(){
+        return (this.getX()+this.getWidth())/2;
+    }
+    public double getMiddleY(){
+        return (this.getY()+this.getHeight())/2;
+    }
+    public void setRandomDirection() {
+        Random random = new Random();
+        ArrayList<String> directions = new ArrayList<>(
+                Arrays.asList("UP", "DOWN", "RIGHT", "LEFT"));
+        int index = random.nextInt(100) % 4;
+        this.setMovingDirection(directions.get(index));
     }
 }

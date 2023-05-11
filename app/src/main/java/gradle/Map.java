@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import org.checkerframework.common.value.qual.DoubleVal;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -17,6 +20,7 @@ public class Map extends Application {
     private double scene_size = 600;
     private String scooby_image = "/Scooby.png";
     private String red_ghost_image = "/red_ghost.jpg";
+    protected static double character_size = 45;
     protected static List<MainCharacter> main_characters = new ArrayList<>();
     protected static List<Looker> ghosts_lookers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
@@ -35,7 +39,7 @@ public class Map extends Application {
         main_characters.add(Scooby);
         root.getChildren().add(main_characters.get(0));
         // Add Ghost :D
-        Looker ghost_looker = new Looker(150, 150, red_ghost_image);
+        Looker ghost_looker = new Looker(100, 100, red_ghost_image);
         ghosts_lookers.add(ghost_looker);
         root.getChildren().add(ghosts_lookers.get(0));
 
