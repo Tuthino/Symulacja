@@ -14,22 +14,22 @@ class MyAnimate implements Runnable {
             while (ghost.hitted_wall == false && counter < 10) {
                 switch (direction) {
                     case "UP":
-                        ghost.moveUp(ghost);
+                        ghost.moveUp();
                         counter++;
 
                         break;
                     case "DOWN":
-                        ghost.moveDown(ghost);
+                        ghost.moveDown();
                         counter++;
 
                         break;
                     case "RIGHT":
-                        ghost.moveRight(ghost);
+                        ghost.moveRight();
                         counter++;
 
                         break;
                     case "LEFT":
-                        ghost.moveLeft(ghost);
+                        ghost.moveLeft();
                         counter++;
 
                         break;

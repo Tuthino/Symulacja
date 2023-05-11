@@ -25,20 +25,20 @@ public class Character extends Rectangle {
 
     }
 
-    public void move(Character character, Map map, String direction) {
+    public void move(String direction) {
 
         switch (direction) {
             case "UP":
-                character.moveUp(character);
+                this.moveUp();
                 break;
             case "DOWN":
-                character.moveDown(character);
+                this.moveDown();
                 break;
             case "RIGHT":
-                character.moveRight(character);
+                this.moveRight();
                 break;
             case "LEFT":
-                character.moveLeft(character);
+                this.moveLeft();
                 break;
         }
 
@@ -53,56 +53,56 @@ public class Character extends Rectangle {
     }
 
     // ###################### MOVING ############################
-    public void moveUp(Character character) {
+    public void moveUp() {
 
-        character.setY(character.getY() - 5);
-        while (checkIfWalls(character, Map.boxes)
-                || checkIfMapBound(character, Map.scene.getWidth(), Map.scene.getHeight())) {
-            character.setY(character.getY() + 2);
+        this.setY(this.getY() - 5);
+        while (checkIfWalls(Map.boxes)
+                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            this.setY(this.getY() + 2);
             hitted_wall = true;
         }
-        System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        System.out.println("X: " + this.getX() + " Y: " + this.getY());
     }
 
-    public void moveDown(Character character) {
-        character.setY(character.getY() + 5);
-        while (checkIfWalls(character, Map.boxes)
-                || checkIfMapBound(character, Map.scene.getWidth(), Map.scene.getHeight())) {
-            character.setY(character.getY() - 2);
+    public void moveDown() {
+        this.setY(this.getY() + 5);
+        while (checkIfWalls( Map.boxes)
+                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            this.setY(this.getY() - 2);
             hitted_wall = true;
 
         }
-        System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        System.out.println("X: " + this.getX() + " Y: " + this.getY());
     }
 
-    public void moveLeft(Character character) {
+    public void moveLeft() {
 
-        character.setX(character.getX() - 5);
-        while (checkIfWalls(character, Map.boxes)
-                || checkIfMapBound(character, Map.scene.getWidth(), Map.scene.getHeight())) {
-            character.setX(character.getX() + 2);
+        this.setX(this.getX() - 5);
+        while (checkIfWalls(Map.boxes)
+                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            this.setX(this.getX() + 2);
             hitted_wall = true;
         }
-        System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        System.out.println("X: " + this.getX() + " Y: " + this.getY());
     }
 
-    public void moveRight(Character character) {
-        character.setX(character.getX() + 5);
-        while (checkIfWalls(character, Map.boxes)
-                || checkIfMapBound(character, Map.scene.getWidth(), Map.scene.getHeight())) {
-            character.setX(character.getX() - 2);
+    public void moveRight() {
+        this.setX(this.getX() + 5);
+        while (checkIfWalls(Map.boxes)
+                || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            this.setX(this.getX() - 2);
             hitted_wall = true;
         }
-        System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        System.out.println("X: " + this.getX() + " Y: " + this.getY());
     }
 
     // ############# MOVING (END) #######################3
 
-    public boolean checkIfWalls(Character character, List<Box> boxes) {
+    public boolean checkIfWalls(List<Box> boxes) {
         boolean intersects = false;
 
         for (int i = 0; i < boxes.size(); i++) {
-            if (character.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {
+            if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {
                 intersects = true;
                 System.out.println(boxes.get(i));
                 System.out.println(boxes.get(i).getClass().getSimpleName());
@@ -113,10 +113,10 @@ public class Character extends Rectangle {
 
     // ###### CHECK IF WE ARE GOING OUT OF BOUNDS
     // THIS HAS TO BE CHANGED FOR CHARACTER WIDTH
-    public boolean checkIfMapBound(Character character, double scene_width, double scene_height) {
-        if (character.getX() > scene_width - character.getWidth() || character.getX() < 0) {
+    public boolean checkIfMapBound(double scene_width, double scene_height) {
+        if (this.getX() > scene_width - this.getWidth() || this.getX() < 0) {
             return true;
-        } else if (character.getY() > scene_height - character.getHeight() || character.getY() < 0) {
+        } else if (this.getY() > scene_height - this.getHeight() || this.getY() < 0) {
             return true;
         } else {
             return false;

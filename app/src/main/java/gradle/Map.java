@@ -8,10 +8,8 @@ import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 
 public class Map extends Application {
@@ -19,8 +17,6 @@ public class Map extends Application {
     private double scene_size = 600;
     private String scooby_image = "/Scooby.png";
     private String red_ghost_image = "/red_ghost.jpg";
-    private boolean move_ghost = false;
-    private boolean animate = false;
     protected static List<MainCharacter> main_characters = new ArrayList<>();
     protected static List<Looker> ghosts_lookers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
@@ -55,22 +51,9 @@ public class Map extends Application {
             @Override
             public void handle(KeyEvent event) {
                 // Call movement funciotns
-                switch (event.getCode()) {
-                    case UP:
-                        Map.main_characters.get(0).moveUp(Map.main_characters.get(0));
-                        break;
-                    case DOWN:
-                        Map.main_characters.get(0).moveDown(Map.main_characters.get(0));
-                        break;
-                    case RIGHT:
-                        Map.main_characters.get(0).moveRight(Map.main_characters.get(0));
-                        break;
-                    case LEFT:
-                        Map.main_characters.get(0).moveLeft(Map.main_characters.get(0));
-                        break;
-                }
-
+                Map.main_characters.get(0).move(event.getCode().toString());
             }
+                
         });
 
         // ########## MOVING ON KEY PRESS (END) ###################
