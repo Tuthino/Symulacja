@@ -2,74 +2,154 @@ package gradle;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
+import java.util.Random;
 
 public class Character extends Rectangle {
-    public Character(double x, double y, String imagePath) {
+    protected boolean hitted_wall = false;
+    protected String name;
+    private String moving_direction;
+    private int intersected_box_index;
+    protected int steps_left;
+    private int step_size = 5;
+
+    public Character(double x, double y, String imagePath, String name) {
         this.setX(x);
         this.setY(y);
-        this.setWidth(45);
-        this.setHeight(45);
+        this.setWidth(Map.character_size);
+        this.setHeight(Map.character_size);
+        this.setName(name);
         Image image = new Image(imagePath);
         this.setFill(new ImagePattern(image));
+        this.setRandomDirection();
+
     }
 
-    public void moveUp(Character character, Group root, List<Box> boxes) {
-        // Check all 8 boxes
-        if (checkIfWalls(character, root, boxes)) {
-            character.setY(character.getY() + 5);
-        } else {
-            character.setY(character.getY() - 5);
-            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+    public void move(String direction) {
+        System.out.println(this.getMovingDirection());
+        System.out.println(direction);
+        switch (direction) {
+
+            case "UP":
+                this.moveUp();
+                break;
+            case "DOWN":
+                this.moveDown();
+                break;
+            case "RIGHT":
+                this.moveRight();
+                break;
+            case "LEFT":
+                this.moveLeft();
+                break;
         }
+        System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+        System.out.println(this.getMovingDirection());
+
     }
 
-    public void moveDown(Character character, Group root, List<Box> boxes) {
-        if (checkIfWalls(character, root, boxes)) {
-            character.setY(character.getY() - 5);
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        } else {
-            character.setY(character.getY() + 5);
-            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+    public String getName() {
+        return name;
+    }
 
+    // ###################### MOVING ############################
+    public void moveUp() {
+        if (this.steps_left>0){
+            this.steps_left-=1;
+            this.setY(this.getY() - this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setY(this.getY() + this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
+
+            }
         }
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
     }
 
-    public void moveLeft(Character character, Group root, List<Box> boxes) {
-        if (checkIfWalls(character, root, boxes)) {
-            character.setX(character.getX() + 5);
+    public void moveDown() {
+        if (this.steps_left>0){
+            this.steps_left-=1;
+              this.setY(this.getY() + this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setY(this.getY() - this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
+  
+            }
+         }
 
-        } else {
-            character.setX(character.getX() - 5);
-            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+    }
+
+    public void moveLeft() {
+        if (this.steps_left>0){
+            this.steps_left-=1;
+            this.setX(this.getX() - this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setX(this.getX() + this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
+
+            }
         }
+
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
     }
 
-    public void moveRight(Character character, Group root, List<Box> boxes) {
-        if (checkIfWalls(character, root, boxes)) {
-            character.setX(character.getX() - 5);
+    public void moveRight() {
+            if (this.steps_left>0){
+                this.steps_left-=1;
+            this.setX(this.getX() + this.step_size);
+            if (checkIfWalls(Map.boxes)
+                    || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+                this.setX(this.getX() - this.step_size);
+                hitted_wall = true;
+                this.goAroundBox();
+                    }
+            }
 
-        } else {
-            character.setX(character.getX() + 5);
-            System.out.println("X: " + character.getX() + " Y: " + character.getY());
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+    }
+
+    // ############# MOVING (END) #######################
+
+
+    public void goAroundBox(){
+        if (this.getMovingDirection() == "UP" || this.getMovingDirection() == "DOWN"){
+            if (Map.boxes.get(intersected_box_index).getMiddleX() < this.getMiddleX()) {
+                this.moveRight();
+            } else {
+                this.moveLeft();
+            }
+        } else if (this.getMovingDirection() == "LEFT" || this.getMovingDirection() == "RIGHT"){
+            if (Map.boxes.get(intersected_box_index).getMiddleY() > this.getMiddleY()) {
+                this.moveUp();
+            } else {
+                this.moveDown();
+            }
         }
+
     }
 
-    public boolean checkIfWalls(Character character, Group root, List<Box> boxes) {
+    public boolean checkIfWalls(List<Box> boxes) {
         boolean intersects = false;
 
         for (int i = 0; i < boxes.size(); i++) {
-            if (character.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())){
+            if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {
                 intersects = true;
+                intersected_box_index = i;
                 System.out.println(boxes.get(i));
                 System.out.println(boxes.get(i).getClass().getSimpleName());
             }
@@ -77,35 +157,39 @@ public class Character extends Rectangle {
         return intersects;
     }
 
-    // This method gets all nodes from parent
-
-    // TODO!! CONVERT THIS TO ONLY ADD WALLS ^^
-    // THANKS TO THAT IT WILL HAVE LESS ITERATIONS, SO IT WILL NOT HAVE TO
-    // GO THROUGH EVERYNODE, but only walls
-    public static ArrayList<Node> getAllBoxes(Parent root) {
-        ArrayList<Node> nodes = new ArrayList<Node>();
-        addAllDescendentsBoxes(root, nodes);
-        return nodes;
-    }
-
-    private static void addAllDescendentsBoxes(Parent parent, ArrayList<Node> nodes) {
-        for (Node node : parent.getChildrenUnmodifiable()) {
-            System.out.println(node.getClass().getSimpleName());
-            nodes.add(node);
-            if (node instanceof Parent )
-                addAllDescendentsBoxes((Parent) node, nodes);
+    // ###### CHECK IF WE ARE GOING OUT OF BOUNDS
+    // THIS HAS TO BE CHANGED FOR CHARACTER WIDTH
+    public boolean checkIfMapBound(double scene_width, double scene_height) {
+        if (this.getX() > scene_width - this.getWidth() || this.getX() < 0) {
+            return true;
+        } else if (this.getY() > scene_height - this.getHeight() || this.getY() < 0) {
+            return true;
+        } else {
+            return false;
         }
     }
-}
 
-// private <T> List<T> getNodesOfType(Pane parent, Class<T> type) {
-// List<T> elements = new ArrayList<>();
-// for (Node node : parent.getChildren()) {
-// if (node instanceof Pane) {
-// elements.addAll(getNodesOfType((Pane) node, type));
-// } else if (type.isAssignableFrom(node.getClass())) {
-// //noinspection unchecked
-// elements.add((T) node);
-// }
-// }
-// return Collections.unmodifiableList(elements);
+    public void setMovingDirection(String moving_direction) {
+        this.moving_direction = moving_direction;
+    }
+
+    public String getMovingDirection() {
+        return this.moving_direction;
+    }
+
+    public double getMiddleX() {
+        return (this.getX() + this.getWidth()) / 2;
+    }
+
+    public double getMiddleY() {
+        return (this.getY() + this.getHeight()) / 2;
+    }
+
+    public void setRandomDirection() {
+        Random random = new Random();
+        ArrayList<String> directions = new ArrayList<>(
+                Arrays.asList("UP", "DOWN", "RIGHT", "LEFT"));
+        int index = random.nextInt(100) % 4;
+        this.setMovingDirection(directions.get(index));
+    }
+}
