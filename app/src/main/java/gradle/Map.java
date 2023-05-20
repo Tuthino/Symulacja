@@ -2,6 +2,7 @@ package gradle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,58 +15,144 @@ import javafx.stage.Stage;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
-    private double scene_size = 600;
-    private String scooby_image = "/Scooby.png";
-    private String red_ghost_image = "/red_ghost.jpg";
+    public static double scene_size = 600;
+    private String scooby_image = "Scooby.png";
+    private String red_ghost_image = "red_ghost.jpg";
+    private String ham_image = "ham_img.jpg";
+    private String scooby_crisp_image = "scooby_crisp_img.jpg";
+    private String pancake_image = "pancake_img.jpg";
+    int Ham_number;
+    int Pancake_number;
+    int Scooby_crisp_number;
+
     protected static double character_size = 45;
     protected static List<MainCharacter> main_characters = new ArrayList<>();
     protected static List<Looker> ghosts_lookers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
+
+    protected static List<Food> food_list = new ArrayList<>();
     protected static Group root;
     protected static Scene scene;
 
     @Override
     public void start(Stage stage) {
-        root = new Group();
-        scene = new Scene(root, scene_size + 50, scene_size + 50);
+        root = new Group(); // podscena
+        scene = new Scene(root, scene_size + 50, scene_size + 50); // scena o danych wymiarach
+        // FXMLLoader loader = new FXMLLoader(Map.class.getResource("Symulacja.fxml"));
 
         // ############## ADD CHARACTERS TO THE MAP #####################
 
         // Add scooby :D
         MainCharacter Scooby = new MainCharacter(0, 0, scooby_image, "Scooby");
-        main_characters.add(Scooby);
-        root.getChildren().add(main_characters.get(0));
+        main_characters.add(Scooby); // dodatnie do tablicy main_characters
+        root.getChildren().add(main_characters.get(0)); // dodanie postaci do root
+
         // Add Ghost :D
         Looker ghost_looker = new Looker(100, 100, red_ghost_image);
-        ghosts_lookers.add(ghost_looker);
-        root.getChildren().add(ghosts_lookers.get(0));
+        ghosts_lookers.add(ghost_looker); // dodanie do ghosts_lookers
+        root.getChildren().add(ghosts_lookers.get(0)); // dodanie postaci do root
 
         // ############## ADD CHARACTERS TO THE MAP (END) ###################
 
         createBoxes(boxes, scene_size / 100, scene_size / 100);
-
         addBoxToRoot(root, boxes);
+
+        // Add Food
+
+        // TODO Making buttons for the options (for example version1: 3 Ham, 4 Pancake,
+        // 1 Scooby_crisp; version2: 5 Ham, ...)
+        // Asking how many items they want
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("How many Ham items do you want?");
+        System.out.print("  Ham: ");
+
+        try {
+            while(!input.hasNextInt()){
+                input.next();
+                System.out.print("  Please give a number: ");
+                                
+            };
+            Ham_number = input.nextInt();
+
+            for (int i = 0; i < Ham_number; i++) {
+                food_list.add(new Food(ham_image));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+
+        System.out.println("How many Pancake items do you want?");
+        System.out.print("  Pancake: ");
+        try {
+            while(!input.hasNextInt()){
+                input.next();
+                System.out.print("  Please give a number: ");
+                                
+            };
+            Pancake_number = input.nextInt();
+
+            for (int i = 0; i < Pancake_number; i++) {
+                food_list.add(new Food(pancake_image));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+
+        System.out.println("How many Scooby_crisp items do you want?");
+        System.out.print("  Scooby_crisp: ");
+        try {
+            while(!input.hasNextInt()){
+                input.next();
+                System.out.print("  Please give a number: ");
+                                
+            };
+            Scooby_crisp_number = input.nextInt();
+            for (int i = 0; i < Scooby_crisp_number; i++) {
+                food_list.add(new Food(scooby_crisp_image));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+
+        // Adding food to the list
+
+        addFoodToRoot(root, food_list);
 
         // ########## MOVING ON KEY PRESS ##################
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
             @Override
             public void handle(KeyEvent event) {
-                // Call movement funciotns
-                Map.main_characters.get(0).steps_left=2;
+                // Call movement funcions
+                Map.main_characters.get(0).steps_left = 2;
                 Map.main_characters.get(0).setMovingDirection(event.getCode().toString());
                 Map.main_characters.get(0).move(event.getCode().toString());
             }
-                
         });
 
         // ########## MOVING ON KEY PRESS (END) ###################
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
+                                                                                 // wątkiem
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
+                                                                                      // natychmiast co 200 milisekund
 
         stage.setScene(scene);
         stage.show();
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);
+    }
 
+    // ###################### FOOD #################################### //
+
+    // Add all Food object to the root group
+    private void addFoodToRoot(Group root, List<Food> food_list) {
+        for (Food element : food_list) {
+            root.getChildren().add(element);
+        }
     }
 
     // ###################### BOXES ################################### //
@@ -82,13 +169,8 @@ public class Map extends Application {
         int counter = 0;
         for (int i = 0; i < rect_num_y; i++) {
             // boxes.add(new ArrayList<>());
-
             for (int j = 0; j < rect_num_x; j++) {
-                boxes.add(new Box());
-                boxes.get(counter).setX((50.0 + j * 100.0));
-                boxes.get(counter).setY(50.0 + i * 100.0);
-                boxes.get(counter).setWidth(49);
-                boxes.get(counter).setHeight(49);
+                boxes.add(new Box(i, j));
                 counter++;
             }
         }
@@ -118,6 +200,10 @@ public class Map extends Application {
 
     public List<Box> getBoxes() {
         return boxes;
+    }
+
+    public List<Food> getFood_list() {
+        return food_list;
     }
 
     public Group getRootGroup() {
