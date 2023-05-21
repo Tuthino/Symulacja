@@ -1,11 +1,8 @@
 package gradle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 // LOOKER GHOST CLASS
-public class Looker extends Character {
+public class Looker extends Ghost {
     // Default constructor with "Looker" name
     public Looker(double x, double y, String imagePath) {
         super(x, y, imagePath, "Looker");
@@ -40,10 +37,10 @@ public class Looker extends Character {
                 is_diagonal = true;
             }
                 
-            System.out.println("IS diagonal?: " + is_diagonal + this.getMovingDirection());
-            System.out.println("mainCharacter middle X: "+main_character.getMiddleX()+" Y: "+main_character.getMiddleY()+" GHOST middle X: "+this.getMiddleX()+" Y: "+this.getMiddleY());
-            System.out.println("mainCharacter X: "+main_character.getX()+" Y: "+main_character.getY()+" GHOST X: "+this.getX()+" Y: "+this.getY());
-            System.out.println("difference X: "+x_difference+" Y: "+y_difference);
+            // System.out.println("IS diagonal?: " + is_diagonal + this.getMovingDirection());
+            // System.out.println("mainCharacter middle X: "+main_character.getMiddleX()+" Y: "+main_character.getMiddleY()+" GHOST middle X: "+this.getMiddleX()+" Y: "+this.getMiddleY());
+            // System.out.println("mainCharacter X: "+main_character.getX()+" Y: "+main_character.getY()+" GHOST X: "+this.getX()+" Y: "+this.getY());
+            // System.out.println("difference X: "+x_difference+" Y: "+y_difference);
         }
         // TODO :D 
         // Now we have to check if there is a wall between them (it is lazy version, because of simplified map ^^)

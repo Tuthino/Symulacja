@@ -21,6 +21,8 @@ public class Map extends Application {
     private String ham_image = "ham_img.jpg";
     private String scooby_crisp_image = "scooby_crisp_img.jpg";
     private String pancake_image = "pancake_img.jpg";
+    private String yellow_ghost_image = "yellow_ghost.jpg";
+    private String blue_ghost_image = "blue_ghost.jpg";
     int Ham_number;
     int Pancake_number;
     int Scooby_crisp_number;
@@ -28,6 +30,8 @@ public class Map extends Application {
     protected static double character_size = 45;
     protected static List<MainCharacter> main_characters = new ArrayList<>();
     protected static List<Looker> ghosts_lookers = new ArrayList<>();
+    protected static List<Listener> ghosts_listeners = new ArrayList<>();
+    protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
 
     protected static List<Food> food_list = new ArrayList<>();
@@ -44,13 +48,22 @@ public class Map extends Application {
 
         // Add scooby :D
         MainCharacter Scooby = new MainCharacter(0, 0, scooby_image, "Scooby");
+        Scooby.setStepSize(10);
         main_characters.add(Scooby); // dodatnie do tablicy main_characters
         root.getChildren().add(main_characters.get(0)); // dodanie postaci do root
 
-        // Add Ghost :D
-        Looker ghost_looker = new Looker(100, 100, red_ghost_image);
-        ghosts_lookers.add(ghost_looker); // dodanie do ghosts_lookers
+        // // Add Lookers :D
+        ghosts_lookers.add(new Looker(100, 100, red_ghost_image)); // dodanie do ghosts_lookers
         root.getChildren().add(ghosts_lookers.get(0)); // dodanie postaci do root
+
+        // Add Listeners :D 
+        ghosts_listeners.add(new Listener(100, 100, yellow_ghost_image));
+        root.getChildren().add(ghosts_listeners.get(0)); // dodanie postaci do root
+
+        // Add Wallhackers :D
+        ghosts_wallhackers.add(new Wallhacker(300, 300, blue_ghost_image));
+        root.getChildren().add(ghosts_wallhackers.get(0)); // dodanie postaci do root
+
 
         // ############## ADD CHARACTERS TO THE MAP (END) ###################
 
@@ -63,63 +76,63 @@ public class Map extends Application {
         // 1 Scooby_crisp; version2: 5 Ham, ...)
         // Asking how many items they want
 
-        Scanner input = new Scanner(System.in);
+        // Scanner input = new Scanner(System.in);
 
-        System.out.println("How many Ham items do you want?");
-        System.out.print("  Ham: ");
+        // System.out.println("How many Ham items do you want?");
+        // System.out.print("  Ham: ");
 
-        try {
-            while(!input.hasNextInt()){
-                input.next();
-                System.out.print("  Please give a number: ");
+        // try {
+        //     while(!input.hasNextInt()){
+        //         input.next();
+        //         System.out.print("  Please give a number: ");
                                 
-            };
-            Ham_number = input.nextInt();
+        //     };
+        //     Ham_number = input.nextInt();
 
-            for (int i = 0; i < Ham_number; i++) {
-                food_list.add(new Food(ham_image));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
+        //     for (int i = 0; i < Ham_number; i++) {
+        //         food_list.add(new Food(ham_image));
+        //     }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        //     e.getCause();
+        // }
 
-        System.out.println("How many Pancake items do you want?");
-        System.out.print("  Pancake: ");
-        try {
-            while(!input.hasNextInt()){
-                input.next();
-                System.out.print("  Please give a number: ");
+        // System.out.println("How many Pancake items do you want?");
+        // System.out.print("  Pancake: ");
+        // try {
+        //     while(!input.hasNextInt()){
+        //         input.next();
+        //         System.out.print("  Please give a number: ");
                                 
-            };
-            Pancake_number = input.nextInt();
+        //     };
+        //     Pancake_number = input.nextInt();
 
-            for (int i = 0; i < Pancake_number; i++) {
-                food_list.add(new Food(pancake_image));
-            }
+        //     for (int i = 0; i < Pancake_number; i++) {
+        //         food_list.add(new Food(pancake_image));
+        //     }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        //     e.getCause();
+        // }
 
-        System.out.println("How many Scooby_crisp items do you want?");
-        System.out.print("  Scooby_crisp: ");
-        try {
-            while(!input.hasNextInt()){
-                input.next();
-                System.out.print("  Please give a number: ");
+        // System.out.println("How many Scooby_crisp items do you want?");
+        // System.out.print("  Scooby_crisp: ");
+        // try {
+        //     while(!input.hasNextInt()){
+        //         input.next();
+        //         System.out.print("  Please give a number: ");
                                 
-            };
-            Scooby_crisp_number = input.nextInt();
-            for (int i = 0; i < Scooby_crisp_number; i++) {
-                food_list.add(new Food(scooby_crisp_image));
-            }
+        //     };
+        //     Scooby_crisp_number = input.nextInt();
+        //     for (int i = 0; i < Scooby_crisp_number; i++) {
+        //         food_list.add(new Food(scooby_crisp_image));
+        //     }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        //     e.getCause();
+        // }
 
         // Adding food to the list
 
@@ -166,12 +179,10 @@ public class Map extends Application {
 
     // Create simple boxes
     public void createBoxes(List<Box> boxes, double rect_num_x, double rect_num_y) {
-        int counter = 0;
         for (int i = 0; i < rect_num_y; i++) {
             // boxes.add(new ArrayList<>());
             for (int j = 0; j < rect_num_x; j++) {
                 boxes.add(new Box(i, j));
-                counter++;
             }
         }
     }
@@ -187,7 +198,7 @@ public class Map extends Application {
     }
 
     public void setMapSize(int size) {
-        this.scene_size = size;
+        Map.scene_size = size;
     }
 
     public List<MainCharacter> getMainCharacters() {

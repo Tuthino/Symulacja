@@ -178,4 +178,9 @@ public class Character extends Rectangle {
     public String getName() {
         return name;
     }
+
+    public void setStepSize(int step_size){
+        this.step_size = step_size;
+    }
+
 }
