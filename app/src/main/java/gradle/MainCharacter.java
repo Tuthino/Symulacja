@@ -6,7 +6,7 @@ public class MainCharacter extends Character {
         super(x, y, imagePath, name);
     }
 
-    // TODO do sth with these shit
+    // TODO do funcions
     public void eating() {};
     public void getting_points() {}
     public void moving() {};

@@ -7,7 +7,6 @@ class MyAnimate implements Runnable {
         // System.out.println("Animate task");
         System.out.println(Map.main_characters.get(0).getX());
 
-
         for (Wallhacker ghost : Map.ghosts_wallhackers){
             ghost.steps_left = 2;
             if(ghost.checkWhereEnemy()) {

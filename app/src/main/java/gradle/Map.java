@@ -70,69 +70,66 @@ public class Map extends Application {
         createBoxes(boxes, scene_size / 100, scene_size / 100);
         addBoxToRoot(root, boxes);
 
-        // Add Food
+        // Adding Food
 
-        // TODO Making buttons for the options (for example version1: 3 Ham, 4 Pancake,
-        // 1 Scooby_crisp; version2: 5 Ham, ...)
+        //TODO Making buttons for the options (for example version1: 3 Ham, 4 Pancake, 1 Scooby_crisp; version2: 5 Ham, ...)
         // Asking how many items they want
 
-        // Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
-        // System.out.println("How many Ham items do you want?");
-        // System.out.print("  Ham: ");
+        System.out.println("How many Ham items do you want?");
+        System.out.print("  Ham: ");
 
-        // try {
-        //     while(!input.hasNextInt()){
-        //         input.next();
-        //         System.out.print("  Please give a number: ");
-                                
-        //     };
-        //     Ham_number = input.nextInt();
+        try {
+            while(!input.hasNextInt()){
+                input.next();
+                System.out.print("  Please give a number: ");
+            };
 
-        //     for (int i = 0; i < Ham_number; i++) {
-        //         food_list.add(new Food(ham_image));
-        //     }
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     e.getCause();
-        // }
+            Ham_number = input.nextInt();
 
-        // System.out.println("How many Pancake items do you want?");
-        // System.out.print("  Pancake: ");
-        // try {
-        //     while(!input.hasNextInt()){
-        //         input.next();
-        //         System.out.print("  Please give a number: ");
-                                
-        //     };
-        //     Pancake_number = input.nextInt();
+            for (int i = 0; i < Ham_number; i++) {
+                food_list.add(new Food(ham_image));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
 
-        //     for (int i = 0; i < Pancake_number; i++) {
-        //         food_list.add(new Food(pancake_image));
-        //     }
+        System.out.println("How many Pancake items do you want?");
+        System.out.print("  Pancake: ");
+        try {
+            while(!input.hasNextInt()){
+                input.next();
+                System.out.print("  Please give a number: ");
+            };
+            Pancake_number = input.nextInt();
 
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     e.getCause();
-        // }
+            for (int i = 0; i < Pancake_number; i++) {
+                food_list.add(new Food(pancake_image));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
 
-        // System.out.println("How many Scooby_crisp items do you want?");
-        // System.out.print("  Scooby_crisp: ");
-        // try {
-        //     while(!input.hasNextInt()){
-        //         input.next();
-        //         System.out.print("  Please give a number: ");
-                                
-        //     };
-        //     Scooby_crisp_number = input.nextInt();
-        //     for (int i = 0; i < Scooby_crisp_number; i++) {
-        //         food_list.add(new Food(scooby_crisp_image));
-        //     }
+        System.out.println("How many Scooby_crisp items do you want?");
+        System.out.print("  Scooby_crisp: ");
 
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     e.getCause();
-        // }
+        try {
+            while(!input.hasNextInt()){
+                input.next();
+                System.out.print("  Please give a number: ");
+            };
+            Scooby_crisp_number = input.nextInt();
+            for (int i = 0; i < Scooby_crisp_number; i++) {
+                food_list.add(new Food(scooby_crisp_image));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
 
         // Adding food to the list
 
@@ -151,13 +148,14 @@ public class Map extends Application {
 
         // ########## MOVING ON KEY PRESS (END) ###################
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
-                                                                                 // wątkiem
+        // wątkiem
         executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
-                                                                                      // natychmiast co 200 milisekund
+        // natychmiast co 200 milisekund
 
         stage.setScene(scene);
         stage.show();
     }
+
 
     // ###################### FOOD #################################### //
 

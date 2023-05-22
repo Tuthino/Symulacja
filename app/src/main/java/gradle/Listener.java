@@ -11,6 +11,9 @@ public class Listener extends Ghost {
 
     private double listening_size;
 
+    public void listenerMove() {
+
+    }
 
     public boolean checkIfNearby(){
         boolean is_nearby = false;
@@ -31,12 +34,8 @@ public class Listener extends Ghost {
                 this.setMovingDirection("LEFT");
                 is_nearby = true;
             }
-        
-
-
-
-    }    
-    return is_nearby;
-}
+        }
+        return is_nearby;
+    }
 }
 

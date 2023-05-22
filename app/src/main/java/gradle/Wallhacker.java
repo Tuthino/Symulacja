@@ -9,7 +9,8 @@ public class Wallhacker extends Ghost {
         super(x, y, imagePath, name);
     }
 
-
+    public void wallhackerMove() {
+    }
 
     public boolean checkWhereEnemy(){
         for (MainCharacter main_character : Map.main_characters){
@@ -26,8 +27,7 @@ public class Wallhacker extends Ghost {
                 this.setMovingDirection("LEFT");
                 break;
             }
-
+        }
+        return true;
     }
-    return true;
-}
 }
