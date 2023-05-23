@@ -33,6 +33,7 @@ public class Map extends Application {
     protected static List<Listener> ghosts_listeners = new ArrayList<>();
     protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
+    protected static List<Ghost> ghosts = new ArrayList<>();
 
     protected static List<Food> food_list = new ArrayList<>();
     protected static Group root;
@@ -52,7 +53,14 @@ public class Map extends Application {
         main_characters.add(Scooby); // dodatnie do tablicy main_characters
         root.getChildren().add(main_characters.get(0)); // dodanie postaci do root
 
-        // // Add Lookers :D
+        // Add ghosts
+        ghosts.add(new Looker(100, 100, red_ghost_image));
+        ghosts.add(new Listener(100, 100, yellow_ghost_image));
+        ghosts.add(new Wallhacker(300, 300, blue_ghost_image));
+
+        addGhostsToRoot(root, ghosts);
+
+        /* Add Lookers :D
         ghosts_lookers.add(new Looker(100, 100, red_ghost_image)); // dodanie do ghosts_lookers
         root.getChildren().add(ghosts_lookers.get(0)); // dodanie postaci do root
 
@@ -63,7 +71,7 @@ public class Map extends Application {
         // Add Wallhackers :D
         ghosts_wallhackers.add(new Wallhacker(300, 300, blue_ghost_image));
         root.getChildren().add(ghosts_wallhackers.get(0)); // dodanie postaci do root
-
+        */
 
         // ############## ADD CHARACTERS TO THE MAP (END) ###################
 
@@ -162,6 +170,15 @@ public class Map extends Application {
     // Add all Food object to the root group
     private void addFoodToRoot(Group root, List<Food> food_list) {
         for (Food element : food_list) {
+            root.getChildren().add(element);
+        }
+    }
+
+    // ###################### GHOSTS #################################### //
+
+    // Add all Ghosts object to the root group
+    private void addGhostsToRoot(Group root, List<Ghost> ghosts) {
+        for (Ghost element : ghosts) {
             root.getChildren().add(element);
         }
     }

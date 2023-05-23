@@ -1,6 +1,7 @@
 package gradle;
 
 public class Wallhacker extends Ghost {
+
     public Wallhacker(double x, double y, String imagePath) {
         super(x, y, imagePath, "Wallhacker");
     }

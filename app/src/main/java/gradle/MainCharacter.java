@@ -2,6 +2,8 @@ package gradle;
 
 public class MainCharacter extends Character {
 
+    private static int listening_size = 10;
+    private static int scaring_level = 0;
     public MainCharacter(double x, double y, String imagePath, String name) {
         super(x, y, imagePath, name);
     }
@@ -10,9 +12,38 @@ public class MainCharacter extends Character {
     public void eating() {};
     public void getting_points() {}
     public void moving() {};
-    public void check_if_ghost() {};
+    public boolean check_if_ghost() {
+        boolean is_nerby = false;
+        for (Ghost ghost : Map.ghosts) {
+            double distanceX = Math.abs(this.getMiddleX() - ghost.getMiddleX());
+            double distanceY = Math.abs(this.getMiddleY() - ghost.getMiddleY());
+
+            if(distanceX <= listening_size && this.getMiddleX()<ghost.getMiddleX()){
+                setMovingDirection("LEFT");
+                is_nerby = true;
+            } else if (distanceX <= listening_size && this.getMiddleX()>ghost.getMiddleX()) {
+                setMovingDirection("RIGHT");
+                is_nerby = true;
+            } else if (distanceY <= listening_size && this.getMiddleY()<ghost.getMiddleY()) {
+                setMovingDirection("DOWN");
+                is_nerby = true;
+            } else if (distanceY <= listening_size && this.getMiddleY()>ghost.getMiddleY()) {
+                setMovingDirection("UP");
+                is_nerby = true;
+            }
+        }
+        return is_nerby;
+    }
     public void escape() {};
     public void check_if_food() {};
-    public void get_scared() {};
+    public boolean get_scared() {
+        for (Ghost ghost : Map.ghosts) {
+            if (this.getBoundsInParent().intersects(ghost.getBoundsInParent())) {
+                scaring_level += ghost.getScaringPoints();
+                return true;
+            }
+        }
+        return false;
+    }
     public void dying() {};
 }
