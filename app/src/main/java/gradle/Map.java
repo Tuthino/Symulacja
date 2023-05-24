@@ -33,7 +33,7 @@ public class Map extends Application {
     protected static List<Listener> ghosts_listeners = new ArrayList<>();
     protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
-    protected static List<Ghost> ghosts = new ArrayList<>();
+    protected static List<List<Ghost>> ghosts = new ArrayList<List<Ghost>>();
 
     protected static List<Food> food_list = new ArrayList<>();
     protected static Group root;
@@ -54,9 +54,13 @@ public class Map extends Application {
         root.getChildren().add(main_characters.get(0)); // dodanie postaci do root
 
         // Add ghosts
-        ghosts.add(new Looker(100, 100, red_ghost_image));
-        ghosts.add(new Listener(100, 100, yellow_ghost_image));
-        ghosts.add(new Wallhacker(300, 300, blue_ghost_image));
+        for(int i=0; i<3; i++){
+            ghosts.add(new ArrayList<>());
+        }
+
+        ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
+        ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+        ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
 
         addGhostsToRoot(root, ghosts);
 
@@ -177,9 +181,11 @@ public class Map extends Application {
     // ###################### GHOSTS #################################### //
 
     // Add all Ghosts object to the root group
-    private void addGhostsToRoot(Group root, List<Ghost> ghosts) {
-        for (Ghost element : ghosts) {
-            root.getChildren().add(element);
+    private void addGhostsToRoot(Group root, List<List<Ghost>> ghosts) {
+        for(int i=0; i<ghosts.size(); i++){
+            for (int j=0; j<ghosts.get(i).size(); j++) {
+                root.getChildren().add(ghosts.get(i).get(j));
+            }
         }
     }
 

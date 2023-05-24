@@ -7,7 +7,8 @@ class MyAnimate implements Runnable {
         // System.out.println("Animate task");
         System.out.println(Map.main_characters.get(0).getX());
 
-        for (Wallhacker ghost : Map.ghosts_wallhackers){
+        for (int i=0; i<Map.ghosts.get(2).size(); i++){
+            Wallhacker ghost = (Wallhacker) Map.ghosts.get(2).get(i);
             ghost.steps_left = 2;
             if(ghost.checkWhereEnemy()) {
 
@@ -35,8 +36,9 @@ class MyAnimate implements Runnable {
         }
 
 
-        
-        for (Listener ghost : Map.ghosts_listeners){
+
+        for (int i=0; i<Map.ghosts.get(1).size(); i++){
+            Listener ghost = (Listener) Map.ghosts.get(1).get(i);
             ghost.steps_left = 2;
             if(ghost.checkIfNearby()) {
 
@@ -65,7 +67,8 @@ class MyAnimate implements Runnable {
 
 
 
-        for (Looker ghost : Map.ghosts_lookers) {
+        for (int i=0; i<Map.ghosts.get(0).size(); i++){
+            Looker ghost = (Looker) Map.ghosts.get(0).get(i);
             ghost.steps_left = 2;
             if(ghost.checkIfEnemyIsDiagonal()) {
 
