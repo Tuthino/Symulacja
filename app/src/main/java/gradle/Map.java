@@ -29,9 +29,9 @@ public class Map extends Application {
 
     protected static double character_size = 45;
     protected static List<MainCharacter> main_characters = new ArrayList<>();
-    protected static List<Looker> ghosts_lookers = new ArrayList<>();
-    protected static List<Listener> ghosts_listeners = new ArrayList<>();
-    protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
+    //protected static List<Looker> ghosts_lookers = new ArrayList<>();
+    //protected static List<Listener> ghosts_listeners = new ArrayList<>();
+    //protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
     protected static List<List<Ghost>> ghosts = new ArrayList<List<Ghost>>();
 
@@ -101,7 +101,7 @@ public class Map extends Application {
             Ham_number = input.nextInt();
 
             for (int i = 0; i < Ham_number; i++) {
-                food_list.add(new Food(ham_image));
+                food_list.add(new Food(ham_image, "Ham"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +118,7 @@ public class Map extends Application {
             Pancake_number = input.nextInt();
 
             for (int i = 0; i < Pancake_number; i++) {
-                food_list.add(new Food(pancake_image));
+                food_list.add(new Food(pancake_image, "Pancake"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,7 +135,7 @@ public class Map extends Application {
             };
             Scooby_crisp_number = input.nextInt();
             for (int i = 0; i < Scooby_crisp_number; i++) {
-                food_list.add(new Food(scooby_crisp_image));
+                food_list.add(new Food(scooby_crisp_image, "Scooby_crisp"));
             }
 
         } catch (Exception e) {
@@ -224,10 +224,6 @@ public class Map extends Application {
 
     public List<MainCharacter> getMainCharacters() {
         return main_characters;
-    }
-
-    public List<Looker> getLookers() {
-        return ghosts_lookers;
     }
 
     public List<Box> getBoxes() {

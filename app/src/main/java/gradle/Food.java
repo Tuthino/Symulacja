@@ -9,7 +9,10 @@ import java.util.Random;
 public class Food extends Rectangle {
     private Random rand ;
     //private long seed = 0;
-    Food(String ImagePath){
+    private int points;
+    private String name;
+
+    Food(String ImagePath, String name){
         //this.setX(x);
         //this.setY(y);
         //rand = new Random(seed);
@@ -20,6 +23,7 @@ public class Food extends Rectangle {
         this.setHeight(20);
         Image photo = new Image(ImagePath);
         this.setFill(new ImagePattern(photo));
+        this.name = name;
 
         choosing_place();
     }
@@ -38,5 +42,28 @@ public class Food extends Rectangle {
             }
         }
         return false;
+    }
+
+    public int getPoints(){
+        if(this.name == "Ham")
+            return points = 5;
+        else if(this.name == "Pancake")
+            return points = 10;
+        else if(this.name == "Scooby_crisp")
+            return points = 15;
+        else
+            return points = 0;
+    }
+
+    public double getMiddleX() {
+        return (this.getX() + this.getWidth()) / 2;
+    }
+
+    public double getMiddleY() {
+        return (this.getY() + this.getHeight()) / 2;
+    }
+
+    public String getName(){
+        return this.name;
     }
 }
