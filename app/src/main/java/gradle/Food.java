@@ -7,10 +7,12 @@ import javafx.scene.shape.Rectangle;
 import java.util.Random;
 
 public class Food extends Rectangle {
-    Random rand = new Random();
+    private Random rand;
+    private long seed = 0;
     Food(String ImagePath){
         //this.setX(x);
         //this.setY(y);
+        rand = new Random(seed);
         this.setX(rand.nextDouble(Map.scene_size));
         this.setY(rand.nextDouble(Map.scene_size));
         this.setWidth(20);
