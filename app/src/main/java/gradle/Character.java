@@ -15,7 +15,7 @@ public class Character extends Rectangle {
     private String moving_direction;
     private int intersected_box_index;
     protected int steps_left;
-    private int step_size = 5;
+    private int step_size;
 
     public Character(double x, double y, String imagePath, String name) {
         this.setX(x);

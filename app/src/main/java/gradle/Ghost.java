@@ -4,6 +4,7 @@ public class Ghost extends Character{
     private int scaringPoints;
     Ghost(double x, double y, String ImagePath, String name){
         super(x, y, ImagePath, name);
+        setStepSize(2);
     }
 
     public int getScaringPoints(){

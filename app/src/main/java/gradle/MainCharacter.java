@@ -2,11 +2,12 @@ package gradle;
 
 public class MainCharacter extends Character {
 
-    private int listening_size = 10;
+    private int listening_size = 7;
     private int scaring_level = 0;
     private int character_points = 0;
     public MainCharacter(double x, double y, String imagePath, String name) {
         super(x, y, imagePath, name);
+        setStepSize(5);
     }
 
     public boolean check_if_ghost() {

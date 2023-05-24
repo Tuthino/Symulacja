@@ -147,7 +147,7 @@ public class Map extends Application {
 
         addFoodToRoot(root, food_list);
 
-        // ########## MOVING ON KEY PRESS ##################
+        /* ########## MOVING ON KEY PRESS ##################
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -157,6 +157,7 @@ public class Map extends Application {
                 Map.main_characters.get(0).move(event.getCode().toString());
             }
         });
+        */
 
         // ########## MOVING ON KEY PRESS (END) ###################
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
