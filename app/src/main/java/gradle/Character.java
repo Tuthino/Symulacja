@@ -92,8 +92,8 @@ public class Character extends Rectangle {
     }
 
     public void moveRight() {
-            if (this.steps_left>0){
-                this.steps_left-=1;
+        if (this.steps_left>0){
+            this.steps_left-=1;
             this.setX(this.getX() + this.step_size);
             if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
                 this.setX(this.getX() - this.step_size);
@@ -151,8 +151,15 @@ public class Character extends Rectangle {
     public void setRandomDirection() {
         Random random = new Random();
         ArrayList<String> directions = new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT"));
-        int index = random.nextInt(100) % 4;
+        int index = random.nextInt(100) % directions.size();
         this.setMovingDirection(directions.get(index));
+    }
+
+    public void setRandomDirectionShorter(List<String> directions) {
+        Random random = new Random();
+        int index = random.nextInt(100) % directions.size();
+        this.setMovingDirection(directions.get(index));
+        System.out.println(this.getMovingDirection());
     }
 
     public double getMiddleX() {
