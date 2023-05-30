@@ -5,16 +5,27 @@ class MyAnimate implements Runnable {
     @Override
     public void run() {
         // System.out.println("Animate task");
-        System.out.println(Map.main_characters.get(0).getX());
+
 
         for(MainCharacter mainCharacter : Map.main_characters){
-             mainCharacter.steps_left = 2;
+             mainCharacter.steps_left = 1;
 
-             if(mainCharacter.check_if_ghost()){
-                 System.out.println("Running from ghost");
-             } else if (mainCharacter.hitted_wall == true) {
+             if (mainCharacter.hitted_wall == true) {
                  mainCharacter.setRandomDirection();
                  mainCharacter.hitted_wall = false;
+             }else if(!mainCharacter.check_if_ghost().isEmpty()){
+                 System.out.println("Running from ghost");
+                 mainCharacter.setRandomDirectionShorter(mainCharacter.check_if_ghost());
+                 System.out.println(mainCharacter.getMovingDirection());
+             }
+             else if(!mainCharacter.check_if_food().isEmpty()){                                 //TODO wykonywanie pojedyncze funckji
+                System.out.println("Going for food");
+                mainCharacter.setRandomDirectionShorter(mainCharacter.check_if_food());
+                if (mainCharacter.eating()){
+                    System.out.println("Eating");
+                }
+             }else{
+                 mainCharacter.setRandomDirection();
              }
 
             while (mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0) {
@@ -37,13 +48,14 @@ class MyAnimate implements Runnable {
 
         for (int i=0; i<Map.ghosts.get(2).size(); i++){
             Wallhacker ghost = (Wallhacker) Map.ghosts.get(2).get(i);
-            ghost.steps_left = 2;
-            if(ghost.checkWhereEnemy()) {
-                System.out.println("Going to enemy");
-            } else if (ghost.hitted_wall==true){
+            ghost.steps_left = 1;
+
+            if (ghost.hitted_wall==true){
                 ghost.setRandomDirection();
-            };
-            ghost.hitted_wall = false;
+                ghost.hitted_wall = false;
+            }else if(ghost.checkWhereEnemy()) {
+                System.out.println("Going to enemy");
+            }
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
                 switch (ghost.getMovingDirection()) {
@@ -65,13 +77,14 @@ class MyAnimate implements Runnable {
 
         for (int i=0; i<Map.ghosts.get(1).size(); i++){
             Listener ghost = (Listener) Map.ghosts.get(1).get(i);
-            ghost.steps_left = 2;
-            if(ghost.checkIfNearby()) {
+            ghost.steps_left = 1;
 
-            } else if (ghost.hitted_wall==true){
+            if (ghost.hitted_wall==true){
                 ghost.setRandomDirection();
-            };
-            ghost.hitted_wall = false;
+                ghost.hitted_wall = false;
+            }else if(ghost.checkIfNearby()) {
+                System.out.println("Going to enemy");
+            }
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
                 switch (ghost.getMovingDirection()) {
@@ -95,14 +108,14 @@ class MyAnimate implements Runnable {
 
         for (int i=0; i<Map.ghosts.get(0).size(); i++){
             Looker ghost = (Looker) Map.ghosts.get(0).get(i);
-            ghost.steps_left = 2;
-            if(ghost.checkIfEnemyIsDiagonal()) {
+            ghost.steps_left = 1;
 
-            } else if (ghost.hitted_wall==true){
+            if (ghost.hitted_wall==true){
                 ghost.setRandomDirection();
-            };
-
-            ghost.hitted_wall = false;
+                ghost.hitted_wall = false;
+            }else if(ghost.checkIfEnemyIsDiagonal()) {
+                System.out.println("Going to enemy");
+            }
 
             System.out.println(ghost.getMovingDirection());
 
