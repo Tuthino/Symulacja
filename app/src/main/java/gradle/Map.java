@@ -162,7 +162,7 @@ public class Map extends Application {
         // ########## MOVING ON KEY PRESS (END) ###################
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
         // wątkiem
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 150, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
         // natychmiast co 200 milisekund
 
         stage.setScene(scene);

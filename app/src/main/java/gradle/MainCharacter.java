@@ -1,8 +1,11 @@
 package gradle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainCharacter extends Character {
 
-    private int listening_size = 7;
+    private int listening_size = 5;
     private int scaring_level = 0;
     private int character_points = 0;
     public MainCharacter(double x, double y, String imagePath, String name) {
@@ -10,53 +13,78 @@ public class MainCharacter extends Character {
         setStepSize(5);
     }
 
-    public boolean check_if_ghost() {
-        boolean is_nerby = false;
+    public List check_if_ghost() {
+        boolean is_nearby = false;
+        List<String> find_ghost = new ArrayList<>();
+        List<String> running = new ArrayList<>();
         for(int i=0; i<Map.ghosts.size(); i++){
             for (int j=0; j<Map.ghosts.get(i).size(); j++) {
                 Ghost ghost = Map.ghosts.get(i).get(j);
                 double distanceX = Math.abs(this.getMiddleX() - ghost.getMiddleX());
                 double distanceY = Math.abs(this.getMiddleY() - ghost.getMiddleY());
 
-                if (distanceX <= listening_size && this.getMiddleX() < ghost.getMiddleX()) {
-                    setMovingDirection("LEFT");
-                    is_nerby = true;
-                } else if (distanceX <= listening_size && this.getMiddleX() > ghost.getMiddleX()) {
-                    setMovingDirection("RIGHT");
-                    is_nerby = true;
-                } else if (distanceY <= listening_size && this.getMiddleY() < ghost.getMiddleY()) {
-                    setMovingDirection("DOWN");
-                    is_nerby = true;
-                } else if (distanceY <= listening_size && this.getMiddleY() > ghost.getMiddleY()) {
-                    setMovingDirection("UP");
-                    is_nerby = true;
+                if ((distanceY <= this.listening_size) && (this.getMiddleX() > ghost.getMiddleX()) ){
+                    find_ghost.add("LEFT");
+                    is_nearby = true;
+                }
+                if ((distanceY <= this.listening_size) && (this.getMiddleX() < ghost.getMiddleX()) ){
+                    find_ghost.add("RIGHT");
+                    is_nearby = true;
+                }
+                if ((distanceX <= this.listening_size) && (this.getMiddleY() < ghost.getMiddleY()) ){
+                    find_ghost.add("DOWN");
+                    is_nearby = true;
+                }
+                if ((distanceX <= this.listening_size) && (this.getMiddleY() > ghost.getMiddleY()) ){
+                    find_ghost.add("UP");
+                    is_nearby = true;
                 }
             }
         }
-        return is_nerby;
+        System.out.println("Ghosts nearby: " + is_nearby);
+        System.out.println("Position of ghosts: " + find_ghost);
+
+        if(!find_ghost.contains("LEFT"))
+            running.add("LEFT");
+        if(!find_ghost.contains("RIGHT"))
+            running.add("RIGHT");
+        if(!find_ghost.contains("UP"))
+            running.add("UP");
+        if(!find_ghost.contains("DOWN"))
+            running.add("DOWN");
+
+        System.out.println("Ways out: " + running);
+        return running;
     }
-    public boolean check_if_food() {
-        boolean is_nerby = false;
+    public List check_if_food() {
+        boolean is_nearby = false;
+        List<String> find_food = new ArrayList<>();
         for(int i=0; i<Map.food_list.size(); i++){
             Food food = Map.food_list.get(i);
             double distanceX = Math.abs(this.getMiddleX() - food.getMiddleX());
             double distanceY = Math.abs(this.getMiddleY() - food.getMiddleY());
 
-            if (distanceX <= listening_size && this.getMiddleX() < food.getMiddleX()) {
-                setMovingDirection("RIGHT");
-                is_nerby = true;
-            } else if (distanceX <= listening_size && this.getMiddleX() > food.getMiddleX()) {
-                setMovingDirection("LEFT");
-                is_nerby = true;
-            } else if (distanceY <= listening_size && this.getMiddleY() < food.getMiddleY()) {
-                setMovingDirection("UP");
-                is_nerby = true;
-            } else if (distanceY <= listening_size && this.getMiddleY() > food.getMiddleY()) {
-                setMovingDirection("DOWN");
-                is_nerby = true;
+            if ((distanceY <= this.listening_size) && (this.getMiddleX() > food.getMiddleX()) ){
+                find_food.add("LEFT");
+                is_nearby = true;
+            }
+            if ((distanceY <= this.listening_size) && (this.getMiddleX() < food.getMiddleX()) ){
+                find_food.add("RIGHT");
+                is_nearby = true;
+            }
+            if ((distanceX <= this.listening_size) && (this.getMiddleY() < food.getMiddleY()) ){
+                find_food.add("DOWN");
+                is_nearby = true;
+            }
+            if ((distanceX <= this.listening_size) && (this.getMiddleY() > food.getMiddleY()) ){
+                find_food.add("UP");
+                is_nearby = true;
             }
         }
-        return is_nerby;
+        System.out.println("Food nearby: " + is_nearby);
+        System.out.println("Position of food: " + find_food);
+
+        return find_food;
     }
 
     public boolean eating() {
@@ -64,6 +92,7 @@ public class MainCharacter extends Character {
             Food food = Map.food_list.get(i);
             if (this.getBoundsInParent().intersects(food.getBoundsInParent())) {
                 character_points += food.getPoints();
+                Map.root.getChildren().remove(food);                                    // TODO nie usuwa się
                 return true;
             }
         }
