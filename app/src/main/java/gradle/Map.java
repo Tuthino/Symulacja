@@ -12,6 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
@@ -166,6 +167,9 @@ public class Map extends Application {
         // natychmiast co 200 milisekund
 
         stage.setScene(scene);
+
+        stage.initStyle(StageStyle.UTILITY);                    // zmiana stylu
+
         stage.show();
     }
 
