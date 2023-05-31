@@ -129,8 +129,8 @@ public class Character extends Rectangle {
             if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {                                // getBoundsInParent() - zwraca granice wezła w kontekście jego rodzica
                 intersects = true;                                                                                      // node1.interesects(node2) - interakcja jednego elementu z drugim
                 intersected_box_index = i;
-                System.out.println(boxes.get(i));
-                System.out.println(boxes.get(i).getClass().getSimpleName());
+                System.out.println("  " + boxes.get(i));                                                                       //TODO mainCharacter wykrywa cały czas
+                System.out.println("  " + boxes.get(i).getClass().getSimpleName());
             }
         }
         return intersects;
@@ -159,7 +159,7 @@ public class Character extends Rectangle {
         Random random = new Random();
         int index = random.nextInt(100) % directions.size();
         this.setMovingDirection(directions.get(index));
-        System.out.println(this.getMovingDirection());
+        System.out.println("  " + this.getMovingDirection());
     }
 
     public double getMiddleX() {
