@@ -56,10 +56,12 @@ public class Character extends Rectangle {
         if (this.steps_left>0){
             this.steps_left-=1;
             this.setY(this.getY() - this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(Map.boxes)) {
                 this.setY(this.getY() + this.step_size);                                                                // cofanie ruchu
                 hitted_wall = true;
                 this.goAroundBox();
+            } else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+                hitted_wall = true;
             }
         }
         // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
@@ -69,10 +71,12 @@ public class Character extends Rectangle {
         if (this.steps_left>0){
             this.steps_left-=1;
               this.setY(this.getY() + this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(Map.boxes)) {
                 this.setY(this.getY() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
+            }else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+                hitted_wall = true;
             }
          }
         // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
@@ -82,10 +86,12 @@ public class Character extends Rectangle {
         if (this.steps_left>0){
             this.steps_left-=1;
             this.setX(this.getX() - this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(Map.boxes)) {
                 this.setX(this.getX() + this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
+            }else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+                hitted_wall = true;
             }
         }
         // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
@@ -95,10 +101,12 @@ public class Character extends Rectangle {
             if (this.steps_left>0){
                 this.steps_left-=1;
             this.setX(this.getX() + this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(Map.boxes)) {
                 this.setX(this.getX() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
+            }else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+                hitted_wall = true;
             }
         }
         // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
@@ -139,13 +147,29 @@ public class Character extends Rectangle {
     // ###### CHECK IF WE ARE GOING OUT OF BOUNDS
     // THIS HAS TO BE CHANGED FOR CHARACTER WIDTH
     public boolean checkIfMapBound(double scene_width, double scene_height) {
-        if (this.getX() > scene_width - this.getWidth() || this.getX() < 0) {
+        if (this.getX() > (scene_width - this.getWidth())){
+            this.setX(this.getX() - this.step_size);
             return true;
-        } else if (this.getY() > scene_height - this.getHeight() || this.getY() < 0) {
+        } else if (this.getX() < 0){
+            this.setX(this.getX() + this.step_size);
             return true;
-        } else {
-            return false;
+        } else if (this.getY() > (scene_height - this.getHeight())){
+            this.setY(this.getY() - this.step_size);
+            return true;
+        } else if (this.getY() < 0){
+            this.setY(this.getY() + this.step_size);
+            return true;
         }
+        return false;
+
+
+        // if (this.getX() > scene_width - this.getWidth() || this.getX() < 0) {
+        //     return true;
+        // } else if (this.getY() > scene_height - this.getHeight() || this.getY() < 0) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
     public void setRandomDirection() {
