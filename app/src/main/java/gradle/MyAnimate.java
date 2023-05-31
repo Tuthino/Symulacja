@@ -7,6 +7,24 @@ class MyAnimate implements Runnable {
         // System.out.println("Animate task");
         System.out.println(Map.main_characters.get(0).getX());
 
+        for(MainCharacter mainCharacter : Map.main_characters){
+             mainCharacter.steps_left = 2;
+
+            System.out.println(mainCharacter.getClass().getName());
+
+            if(mainCharacter.check_if_food()) {
+
+            } else if (mainCharacter.hitted_wall==true){
+                mainCharacter.setRandomDirection();
+            };
+             mainCharacter.hitted_wall = false;
+            while(mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0 ){
+                System.out.println("Moving");
+                mainCharacter.move(mainCharacter.getMovingDirection());
+            }
+
+            }
+
         for (int i=0; i<Map.ghosts.get(2).size(); i++){
             Wallhacker ghost = (Wallhacker) Map.ghosts.get(2).get(i);
             ghost.steps_left = 2;
