@@ -28,9 +28,9 @@ public class Listener extends Ghost {
                 // We have to know if it is closer on Y axis or X axis
                 
                     // we have to move right or left
-                    if((this.getMiddleX() >= main_character.getMiddleX()) && x_difference> 10){
+                    if((this.getMiddleX() >= main_character.getMiddleX()) && x_difference>= 20){
                         this.setMovingDirection("LEFT");
-                    } else if((this.getMiddleX() < main_character.getMiddleX()) && x_difference> 10){
+                    } else if((this.getMiddleX() < main_character.getMiddleX()) && x_difference> 20){
                         this.setMovingDirection("RIGHT");
                     }
                     else if(this.getMiddleY() >= main_character.getMiddleY()){

@@ -15,18 +15,17 @@ public class Wallhacker extends Ghost {
 
     public boolean checkWhereEnemy(){
         for (MainCharacter main_character : Map.main_characters){
-            if  (this.getMiddleY() > main_character.getMiddleY()){
-                this.setMovingDirection("UP");
-                break;
-            } else if (  (this.getMiddleY() < main_character.getMiddleY()) ){
-                this.setMovingDirection("DOWN");
-                break;
-            } else if (  (this.getMiddleX() < main_character.getMiddleX()) ){
-                this.setMovingDirection("RIGHT");
-                break;
-            } else if ( (this.getMiddleX() > main_character.getMiddleX()) ){
+            double y_difference = Math.abs(this.getMiddleY() - main_character.getMiddleY()); // wartość bezwzględna
+            double x_difference = Math.abs(this.getMiddleX() - main_character.getMiddleX());
+            if((this.getMiddleX() >= main_character.getMiddleX()) && x_difference>= 20){
                 this.setMovingDirection("LEFT");
-                break;
+            } else if((this.getMiddleX() < main_character.getMiddleX()) && x_difference> 20){
+                this.setMovingDirection("RIGHT");
+            }
+            else if(this.getMiddleY() >= main_character.getMiddleY()){
+                this.setMovingDirection("UP");
+            } else if (this.getMiddleY() < main_character.getMiddleY()){
+                this.setMovingDirection("DOWN");
             }
         }
         return true;
