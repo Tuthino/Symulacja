@@ -4,28 +4,30 @@ class MyAnimate implements Runnable {
 
     @Override
     public void run() {
-        // System.out.println("Animate task");
-
+        System.out.println("\nAnimate task");
 
         for(MainCharacter mainCharacter : Map.main_characters){
              mainCharacter.steps_left = 1;
 
+            System.out.println(mainCharacter.getClass().getName());
+
              if (mainCharacter.hitted_wall == true) {
                  mainCharacter.setRandomDirection();
                  mainCharacter.hitted_wall = false;
-             }else if(!mainCharacter.check_if_ghost().isEmpty()){
-                 System.out.println("Running from ghost");
-                 mainCharacter.setRandomDirectionShorter(mainCharacter.check_if_ghost());
-                 System.out.println(mainCharacter.getMovingDirection());
+             }else if(mainCharacter.check_if_ghost()){
+                 System.out.println("  Running from ghost");
+                 if(mainCharacter.getting_scared()){
+                     System.out.println("  Getting scared");
+                     if(mainCharacter.dying()){
+                         System.out.println("  Dying");
+                     }
+                 }
              }
-             else if(!mainCharacter.check_if_food().isEmpty()){                                 //TODO wykonywanie pojedyncze funckji
-                System.out.println("Going for food");
-                mainCharacter.setRandomDirectionShorter(mainCharacter.check_if_food());
+             else if(mainCharacter.check_if_food()){                                 //TODO wykonywanie pojedyncze funkcji
+                System.out.println("  Going for food");
                 if (mainCharacter.eating()){
-                    System.out.println("Eating");
+                    System.out.println("  Eating");
                 }
-             }else{
-                 mainCharacter.setRandomDirection();
              }
 
             while (mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0) {
@@ -46,6 +48,8 @@ class MyAnimate implements Runnable {
             }
         }
 
+        System.out.println("Ghosts");
+
         for (int i=0; i<Map.ghosts.get(2).size(); i++){
             Wallhacker ghost = (Wallhacker) Map.ghosts.get(2).get(i);
             ghost.steps_left = 1;
@@ -54,7 +58,7 @@ class MyAnimate implements Runnable {
                 ghost.setRandomDirection();
                 ghost.hitted_wall = false;
             }else if(ghost.checkWhereEnemy()) {
-                System.out.println("Going to enemy");
+                System.out.println("  Going to enemy");
             }
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
