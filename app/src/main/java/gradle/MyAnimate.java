@@ -13,14 +13,12 @@ class MyAnimate implements Runnable {
              if (mainCharacter.hitted_wall == true) {
                  mainCharacter.setRandomDirection();
                  mainCharacter.hitted_wall = false;
-             }else if(!mainCharacter.check_if_ghost().isEmpty()){
+             }else if(mainCharacter.check_if_ghost()){
                  System.out.println("Running from ghost");
-                 mainCharacter.setRandomDirectionShorter(mainCharacter.check_if_ghost());
                  System.out.println(mainCharacter.getMovingDirection());
              }
-             else if(!mainCharacter.check_if_food().isEmpty()){                                 //TODO wykonywanie pojedyncze funckji
+             else if(mainCharacter.check_if_food()){                                 //TODO wykonywanie pojedyncze funckji
                 System.out.println("Going for food");
-                mainCharacter.setRandomDirectionShorter(mainCharacter.check_if_food());
                 if (mainCharacter.eating()){
                     System.out.println("Eating");
                 }
