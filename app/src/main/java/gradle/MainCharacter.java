@@ -13,7 +13,7 @@ public class MainCharacter extends Character {
         setStepSize(5);
     }
 
-    public List check_if_ghost() {
+    public boolean check_if_ghost() {
         boolean is_nearby = false;
         List<String> find_ghost = new ArrayList<>();
         List<String> running = new ArrayList<>();
@@ -41,8 +41,8 @@ public class MainCharacter extends Character {
                 }
             }
         }
-        System.out.println("Ghosts nearby: " + is_nearby);
-        System.out.println("Position of ghosts: " + find_ghost);
+        System.out.println("  Ghosts nearby: " + is_nearby);
+        System.out.println("  Position of ghosts: " + find_ghost);
 
         if(!find_ghost.contains("LEFT"))
             running.add("LEFT");
@@ -53,10 +53,11 @@ public class MainCharacter extends Character {
         if(!find_ghost.contains("DOWN"))
             running.add("DOWN");
 
-        System.out.println("Ways out: " + running);
-        return running;
+        System.out.println("  Ways out: " + running);
+        this.setRandomDirectionShorter(running);
+        return is_nearby;
     }
-    public List check_if_food() {
+    public boolean check_if_food() {
         boolean is_nearby = false;
         List<String> find_food = new ArrayList<>();
         for(int i=0; i<Map.food_list.size(); i++){
@@ -81,10 +82,11 @@ public class MainCharacter extends Character {
                 is_nearby = true;
             }
         }
-        System.out.println("Food nearby: " + is_nearby);
-        System.out.println("Position of food: " + find_food);
+        System.out.println("  Food nearby: " + is_nearby);
+        System.out.println("  Position of food: " + find_food);
+        this.setRandomDirectionShorter(find_food);
 
-        return find_food;
+        return is_nearby;
     }
 
     public boolean eating() {
@@ -92,6 +94,7 @@ public class MainCharacter extends Character {
             Food food = Map.food_list.get(i);
             if (this.getBoundsInParent().intersects(food.getBoundsInParent())) {
                 character_points += food.getPoints();
+                Map.food_list.remove(food);
                 Map.root.getChildren().remove(food);                                    // TODO nie usuwa się
                 return true;
             }
@@ -115,6 +118,7 @@ public class MainCharacter extends Character {
         boolean died = false;
         if(scaring_level>=20){
             Map.root.getChildren().remove(this);
+            Map.main_characters.remove(this);                                                                           // TODO nie możemy bo musimy później wyświetlić dane tego
             died = true;
         }
         return died;
