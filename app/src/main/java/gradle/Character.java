@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static gradle.Map.boxes;
+
 public class Character extends Rectangle {
     protected boolean hitted_wall = false;
     protected String name;
@@ -27,6 +29,14 @@ public class Character extends Rectangle {
         this.setFill(new ImagePattern(image));
         this.setRandomDirection();
     }
+
+    public Character(double x, double y){
+        this.setX(x);
+        this.setY(y);
+        this.setWidth(Map.character_size);
+        this.setHeight(Map.character_size);
+    }
+
 
     public void move(String direction) {
         System.out.println(this.getMovingDirection());
@@ -56,7 +66,7 @@ public class Character extends Rectangle {
         if (this.steps_left>0){
             this.steps_left-=1;
             this.setY(this.getY() - this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
                 this.setY(this.getY() + this.step_size);                                                                // cofanie ruchu
                 hitted_wall = true;
                 this.goAroundBox();
@@ -69,7 +79,7 @@ public class Character extends Rectangle {
         if (this.steps_left>0){
             this.steps_left-=1;
               this.setY(this.getY() + this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
                 this.setY(this.getY() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
@@ -82,7 +92,7 @@ public class Character extends Rectangle {
         if (this.steps_left>0){
             this.steps_left-=1;
             this.setX(this.getX() - this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
                 this.setX(this.getX() + this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
@@ -95,7 +105,7 @@ public class Character extends Rectangle {
         if (this.steps_left>0){
             this.steps_left-=1;
             this.setX(this.getX() + this.step_size);
-            if (checkIfWalls(Map.boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
+            if (checkIfWalls(boxes) || checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())) {
                 this.setX(this.getX() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
@@ -108,13 +118,13 @@ public class Character extends Rectangle {
 
     public void goAroundBox(){
         if (this.getMovingDirection() == "UP" || this.getMovingDirection() == "DOWN"){
-            if (Map.boxes.get(intersected_box_index).getMiddleX() < this.getMiddleX()) {
+            if (boxes.get(intersected_box_index).getMiddleX() < this.getMiddleX()) {
                 this.moveRight();
             } else {
                 this.moveLeft();
             }
         } else if (this.getMovingDirection() == "LEFT" || this.getMovingDirection() == "RIGHT"){
-            if (Map.boxes.get(intersected_box_index).getMiddleY() > this.getMiddleY()) {
+            if (boxes.get(intersected_box_index).getMiddleY() > this.getMiddleY()) {
                 this.moveUp();
             } else {
                 this.moveDown();
@@ -146,6 +156,45 @@ public class Character extends Rectangle {
         } else {
             return false;
         }
+    }
+
+    public boolean checkIfWalls_NextMove(String moving_direction){
+        boolean intersects = false;
+        moving_direction = this.getMovingDirection();
+        Character beta_version = new Character(this.getX(), this.getY());
+
+        switch (moving_direction){
+            case "UP":
+                beta_version.setY(beta_version.getY() - this.getStepSize());
+                break;
+            case "DOWN":
+                beta_version.setY(beta_version.getY() + this.getStepSize());
+                break;
+            case "RIGHT":
+                beta_version.setX(beta_version.getX() + this.getStepSize());
+                break;
+            case "LEFT":
+                beta_version.setX(beta_version.getX() - this.getStepSize());
+                break;
+        }
+
+        for (int i = 0; i < boxes.size(); i++) {
+            if (beta_version.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {                                // getBoundsInParent() - zwraca granice wezła w kontekście jego rodzica
+                intersects = true;
+            }
+        }
+
+        if (!intersects) {
+            if (beta_version.getX() > Map.scene_size - beta_version.getWidth() || beta_version.getX() < 0) {
+                return true;
+            } else if (beta_version.getY() > Map.scene_size - beta_version.getHeight() || beta_version.getY() < 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return intersects;
     }
 
     public void setRandomDirection() {
@@ -184,6 +233,10 @@ public class Character extends Rectangle {
 
     public String getName() {
         return name;
+    }
+
+    public int getStepSize(){
+        return step_size;
     }
 
     public void setStepSize(int step_size){
