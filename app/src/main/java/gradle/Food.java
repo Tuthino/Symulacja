@@ -11,6 +11,7 @@ public class Food extends Rectangle {
     //private long seed = 0;
     private int points;
     private String name;
+    public Image photo;
 
     Food(String ImagePath, String name){
         //this.setX(x);
@@ -19,9 +20,9 @@ public class Food extends Rectangle {
         rand = new Random();
         this.setX(rand.nextDouble(Map.scene_size));
         this.setY(rand.nextDouble(Map.scene_size));
-        this.setWidth(20);
-        this.setHeight(20);
-        Image photo = new Image(ImagePath);
+        this.setWidth(40);
+        this.setHeight(40);
+        photo = new Image(ImagePath);
         this.setFill(new ImagePattern(photo));
         this.name = name;
 

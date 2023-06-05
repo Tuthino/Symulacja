@@ -30,9 +30,9 @@ public class Map extends Application {
 
     protected static double character_size = 45;
     protected static List<MainCharacter> main_characters = new ArrayList<>();
-    //protected static List<Looker> ghosts_lookers = new ArrayList<>();
-    //protected static List<Listener> ghosts_listeners = new ArrayList<>();
-    //protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
+    // protected static List<Looker> ghosts_lookers = new ArrayList<>();
+    // protected static List<Listener> ghosts_listeners = new ArrayList<>();
+    // protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
     protected static List<List<Ghost>> ghosts = new ArrayList<List<Ghost>>();
 
@@ -55,28 +55,15 @@ public class Map extends Application {
         root.getChildren().add(main_characters.get(0)); // dodanie postaci do root
 
         // Add ghosts
-        for(int i=0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             ghosts.add(new ArrayList<>());
         }
 
-        ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
-        ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
-        ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
+        // ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
+        // ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+        // ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
 
         addGhostsToRoot(root, ghosts);
-
-        /* Add Lookers :D
-        ghosts_lookers.add(new Looker(100, 100, red_ghost_image)); // dodanie do ghosts_lookers
-        root.getChildren().add(ghosts_lookers.get(0)); // dodanie postaci do root
-
-        // Add Listeners :D 
-        ghosts_listeners.add(new Listener(100, 100, yellow_ghost_image));
-        root.getChildren().add(ghosts_listeners.get(0)); // dodanie postaci do root
-
-        // Add Wallhackers :D
-        ghosts_wallhackers.add(new Wallhacker(300, 300, blue_ghost_image));
-        root.getChildren().add(ghosts_wallhackers.get(0)); // dodanie postaci do root
-        */
 
         // ############## ADD CHARACTERS TO THE MAP (END) ###################
 
@@ -85,66 +72,22 @@ public class Map extends Application {
 
         // Adding Food
 
-        //TODO Making buttons for the options (for example version1: 3 Ham, 4 Pancake, 1 Scooby_crisp; version2: 5 Ham, ...)
+        // TODO Making buttons for the options (for example version1: 3 Ham, 4 Pancake,
+        // 1 Scooby_crisp; version2: 5 Ham, ...)
         // Asking how many items they want
 
-        Scanner input = new Scanner(System.in);
-
-        System.out.println("How many Ham items do you want?");
-        System.out.print("  Ham: ");
-
-        try {
-            while(!input.hasNextInt()){
-                input.next();
-                System.out.print("  Please give a number: ");
-            };
-
-            Ham_number = input.nextInt();
-
-            for (int i = 0; i < Ham_number; i++) {
-                food_list.add(new Food(ham_image, "Ham"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-
-        System.out.println("How many Pancake items do you want?");
-        System.out.print("  Pancake: ");
-        try {
-            while(!input.hasNextInt()){
-                input.next();
-                System.out.print("  Please give a number: ");
-            };
-            Pancake_number = input.nextInt();
-
-            for (int i = 0; i < Pancake_number; i++) {
-                food_list.add(new Food(pancake_image, "Pancake"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-
-        System.out.println("How many Scooby_crisp items do you want?");
-        System.out.print("  Scooby_crisp: ");
-
-        try {
-            while(!input.hasNextInt()){
-                input.next();
-                System.out.print("  Please give a number: ");
-            };
-            Scooby_crisp_number = input.nextInt();
-            for (int i = 0; i < Scooby_crisp_number; i++) {
-                food_list.add(new Food(scooby_crisp_image, "Scooby_crisp"));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
+        setFoodNumbers(3,0, 0);
 
         // Adding food to the list
+        for (int i = 0; i < Scooby_crisp_number; i++) {
+            food_list.add(new Food(scooby_crisp_image, "Scooby_crisp"));
+        }
+        for (int i = 0; i < Pancake_number; i++) {
+            food_list.add(new Food(pancake_image, "Pancake"));
+        }
+        for (int i = 0; i < Ham_number; i++) {
+            food_list.add(new Food(ham_image, "Ham"));
+        }
 
         addFoodToRoot(root, food_list);
 
@@ -173,7 +116,6 @@ public class Map extends Application {
         stage.show();
     }
 
-
     // ###################### FOOD #################################### //
 
     // Add all Food object to the root group
@@ -187,8 +129,8 @@ public class Map extends Application {
 
     // Add all Ghosts object to the root group
     private void addGhostsToRoot(Group root, List<List<Ghost>> ghosts) {
-        for(int i=0; i<ghosts.size(); i++){
-            for (int j=0; j<ghosts.get(i).size(); j++) {
+        for (int i = 0; i < ghosts.size(); i++) {
+            for (int j = 0; j < ghosts.get(i).size(); j++) {
                 root.getChildren().add(ghosts.get(i).get(j));
             }
         }
@@ -245,5 +187,59 @@ public class Map extends Application {
 
     public Scene getScene() {
         return scene;
+    }
+    public void setFoodNumbers(int ham, int pancakes, int crisp){
+        Ham_number = ham;
+        Pancake_number = pancakes;
+        Scooby_crisp_number = crisp;
+    }
+    public void getFoodNumbersInput(){
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("How many Ham items do you want?");
+        System.out.print("  Ham: ");
+
+        try {
+            while (!input.hasNextInt()) {
+                input.next();
+                System.out.print("  Please give a number: ");
+            }
+            ;
+            Ham_number = input.nextInt();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+
+        System.out.println("How many Pancake items do you want?");
+        System.out.print("  Pancake: ");
+        try {
+            while (!input.hasNextInt()) {
+                input.next();
+                System.out.print("  Please give a number: ");
+            }
+            ;
+            Pancake_number = input.nextInt();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+
+        System.out.println("How many Scooby_crisp items do you want?");
+        System.out.print("  Scooby_crisp: ");
+
+        try {
+            while (!input.hasNextInt()) {
+                input.next();
+                System.out.print("  Please give a number: ");
+            }
+            ;
+            Scooby_crisp_number = input.nextInt();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
     }
 }
