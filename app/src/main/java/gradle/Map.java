@@ -16,7 +16,7 @@ import javafx.stage.StageStyle;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
-    public static double scene_size = 600;
+    public static double scene_size = 200;
     private String scooby_image = "Scooby.png";
     private String red_ghost_image = "red_ghost.jpg";
     private String ham_image = "ham_img.jpg";
@@ -59,9 +59,9 @@ public class Map extends Application {
             ghosts.add(new ArrayList<>());
         }
 
-        // ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
-        // ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
-        // ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
+        ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
+        //ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+        //ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
 
         addGhostsToRoot(root, ghosts);
 
@@ -111,7 +111,7 @@ public class Map extends Application {
 
         stage.setScene(scene);
 
-        stage.initStyle(StageStyle.UTILITY);                    // zmiana stylu
+        //stage.initStyle(StageStyle.UTILITY);                    // zmiana stylu
 
         stage.show();
     }
