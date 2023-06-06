@@ -160,7 +160,6 @@ public class Character extends Rectangle {
 
     public boolean checkIfWalls_NextMove(String moving_direction){
         boolean intersects = false;
-        moving_direction = this.getMovingDirection();
         Character beta_version = new Character(this.getX(), this.getY());
 
         switch (moving_direction){
@@ -200,7 +199,12 @@ public class Character extends Rectangle {
     public void setRandomDirection() {
         Random random = new Random();
         ArrayList<String> directions = new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT"));
+
         int index = random.nextInt(100) % directions.size();
+        while (checkIfWalls_NextMove(directions.get(index))){
+            index = random.nextInt(100) % directions.size();
+            this.setMovingDirection(directions.get(index));
+        }
         this.setMovingDirection(directions.get(index));
     }
 
