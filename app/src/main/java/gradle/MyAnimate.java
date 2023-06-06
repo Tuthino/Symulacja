@@ -4,63 +4,28 @@ class MyAnimate implements Runnable {
 
     @Override
     public void run() {
-        // System.out.println("Animate task");
+        System.out.println("\nAnimate task\n");
 
-
-        for(MainCharacter mainCharacter : Map.main_characters){
-             mainCharacter.steps_left = 1;
-
-             if (mainCharacter.hitted_wall == true) {
-                 mainCharacter.setRandomDirection();
-                 mainCharacter.hitted_wall = false;
-             }else if(mainCharacter.check_if_ghost()){
-                 System.out.println("Running from ghost");
-                 System.out.println(mainCharacter.getMovingDirection());
-             }
-             else if(mainCharacter.check_if_food()){                                 //TODO wykonywanie pojedyncze funckji
-                System.out.println("Going for food");
-                if (mainCharacter.eating()){
-                    System.out.println("Eating");
-                }
-             }else{
-                 mainCharacter.setRandomDirection();
-             }
-
-            while (mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0) {
-                switch (mainCharacter.getMovingDirection()) {
-                    case "UP":
-                        mainCharacter.moveUp();
-                        break;
-                    case "DOWN":
-                        mainCharacter.moveDown();
-                        break;
-                    case "RIGHT":
-                        mainCharacter.moveRight();
-                        break;
-                    case "LEFT":
-                        mainCharacter.moveLeft();
-                        break;
-                }
-            }
-        }
+        System.out.println(" Main Character");
 
         for(MainCharacter mainCharacter : Map.main_characters){
-             mainCharacter.steps_left = 2;
+            mainCharacter.steps_left = 2;
 
-            System.out.println(mainCharacter.getClass().getName());
-
-            if(mainCharacter.check_if_food()) {
-
-            } else if (mainCharacter.hitted_wall==true){
+            if (mainCharacter.hitted_wall == true){
                 mainCharacter.setRandomDirection();
-            };
-             mainCharacter.hitted_wall = false;
+            }/*else if(mainCharacter.check_if_ghost()) {
+                System.out.println("  Running from ghost");
+            }*/else if(mainCharacter.check_if_food()) {                                 //TODO wykonywanie pojedyncze funckji
+                System.out.println("  Going for food");
+            }
+            ;
+            mainCharacter.hitted_wall = false;
             while(mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0 ){
-                System.out.println("Moving");
+                System.out.println("  Moving");
                 mainCharacter.move(mainCharacter.getMovingDirection());
             }
 
-            }
+        }
 
         for (int i=0; i<Map.ghosts.get(2).size(); i++){
             Wallhacker ghost = (Wallhacker) Map.ghosts.get(2).get(i);
@@ -99,7 +64,7 @@ class MyAnimate implements Runnable {
                 ghost.setRandomDirection();
                 ghost.hitted_wall = false;
             }else if(ghost.checkIfNearby()) {
-                System.out.println("Going to enemy");
+                System.out.println("  Going to enemy");
             }
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
@@ -119,8 +84,6 @@ class MyAnimate implements Runnable {
                 }
             }
         }
-
-
 
         for (int i=0; i<Map.ghosts.get(0).size(); i++){
             Looker ghost = (Looker) Map.ghosts.get(0).get(i);

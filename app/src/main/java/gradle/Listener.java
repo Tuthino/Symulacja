@@ -13,10 +13,6 @@ public class Listener extends Ghost {
 
     private double listening_size = 100;
 
-    public void listenerMove() {
-
-    }
-
     public boolean checkIfNearby() {
         boolean is_nearby = false;
         for (MainCharacter main_character : Map.main_characters) {

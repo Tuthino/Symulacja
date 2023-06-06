@@ -10,9 +10,6 @@ public class Wallhacker extends Ghost {
         super(x, y, imagePath, name);
     }
 
-    public void wallhackerMove() {
-    }
-
     public boolean checkWhereEnemy(){
         for (MainCharacter main_character : Map.main_characters){
             double y_difference = Math.abs(this.getMiddleY() - main_character.getMiddleY()); // wartość bezwzględna
