@@ -12,12 +12,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
-    public static double scene_size = 400;
+    public static int scene_size = 300;
     private String scooby_image = "Scooby.png";
     private String red_ghost_image = "red_ghost.jpg";
     private String ham_image = "ham_img.jpg";
@@ -56,6 +58,11 @@ public class Map extends Application {
         root = new Group(); // podscena
         scene = new Scene(root, scene_size + 50, scene_size + 50); // scena o danych wymiarach
         // FXMLLoader loader = new FXMLLoader(Map.class.getResource("Symulacja.fxml"));
+
+        Rectangle background = new Rectangle(0, 0, scene_size+50, scene_size+50);
+        background.setFill(Color.BLACK);
+
+        root.getChildren().add(background);
 
         // ############## ADD CHARACTERS TO THE MAP #####################
 
@@ -114,10 +121,10 @@ public class Map extends Application {
         });
 
         // ########## MOVING ON KEY PRESS (END) ###################
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
-        // wątkiem
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
-        // natychmiast co 200 milisekund
+
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
 
         stage.setScene(scene);
         stage.show();
@@ -164,37 +171,6 @@ public class Map extends Application {
 
     // ###################### BOXES (END) ################################### //
 
-    public double getMapWidth() {
-        return scene_size;
-    }
-
-    public double getMapHeight() {
-        return scene_size;
-    }
-
-    public void setMapSize(int size) {
-        Map.scene_size = size;
-    }
-
-    public List<MainCharacter> getMainCharacters() {
-        return main_characters;
-    }
-
-    public List<Box> getBoxes() {
-        return boxes;
-    }
-
-    public List<Food> getFood_list() {
-        return food_list;
-    }
-
-    public Group getRootGroup() {
-        return root;
-    }
-
-    public Scene getScene() {
-        return scene;
-    }
     public void setFoodNumbers(int ham, int pancakes, int crisp){
         Ham_number = ham;
         Pancake_number = pancakes;
@@ -249,4 +225,37 @@ public class Map extends Application {
             e.getCause();
         }
     }
+
+    public double getMapWidth() {
+        return scene_size;
+    }
+
+    public double getMapHeight() {
+        return scene_size;
+    }
+
+    public void setMapSize(int size) {
+        Map.scene_size = size;
+    }
+
+    public List<MainCharacter> getMainCharacters() {
+        return main_characters;
+    }
+
+    public List<Box> getBoxes() {
+        return boxes;
+    }
+
+    public List<Food> getFood_list() {
+        return food_list;
+    }
+
+    public Group getRootGroup() {
+        return root;
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
 }
