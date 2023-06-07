@@ -1,9 +1,13 @@
 package gradle;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -20,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
@@ -32,29 +37,34 @@ public class Map extends Application {
     private String yellow_ghost_image = "yellow_ghost.jpg";
     private String blue_ghost_image = "blue_ghost.jpg";
     private String PacDoo_image = "PacDoo.jpg";
+    private String Ghosts_image = "Ghosts.jpg";
     int Ham_number;
     int Pancake_number;
     int Scooby_crisp_number;
 
     protected static double character_size = 45;
     protected static List<MainCharacter> main_characters = new ArrayList<>();
+    protected MainCharacter Scooby;
     // protected static List<Looker> ghosts_lookers = new ArrayList<>();
     // protected static List<Listener> ghosts_listeners = new ArrayList<>();
     // protected static List<Wallhacker> ghosts_wallhackers = new ArrayList<>();
     protected static List<Box> boxes = new ArrayList<>();
     protected static List<List<Ghost>> ghosts = new ArrayList<List<Ghost>>();
-
     protected static List<Food> food_list = new ArrayList<>();
-
     protected static Stage stage;
     protected static Group opening_root;
+    protected static Group choosing_ghost_root;
     protected static Group root;
     protected static Scene opening_scene;
+    protected static Scene choosing_ghost_scene;
     protected static Scene scene;
     protected static ScheduledExecutorService executor;
+    protected static int seconds;
+    protected static Timeline timeline;
     @Override
     public void start(Stage stage) {
         // Thanks to this override, application ends after closing windows
+
         /*stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
@@ -64,6 +74,29 @@ public class Map extends Application {
             }
         });*/
 
+        // ############## ADD MAIN SCENE #####################
+
+        root = new Group(); // podscena
+        scene = new Scene(root, scene_size + 50, scene_size + 50); // scena o danych wymiarach
+        // FXMLLoader loader = new FXMLLoader(Map.class.getResource("Symulacja.fxml"));
+
+        // Adding time
+
+        Label timerLabel = new Label("Time: 0 seconds");
+        root.getChildren().add(timerLabel);
+
+        Duration duration = Duration.seconds(1);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            seconds++;
+            timerLabel.setText("Time: " + seconds + " seconds");
+        });
+
+        // Tworzenie Timeline z powtarzającymi się KeyFrame'ami
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(Animation.INDEFINITE);
+
+        scene.setFill(Color.BLACK);
+
         // ############## ADD OPENINING SCENE #####################
 
         opening_root = new Group(); // podscena
@@ -71,9 +104,11 @@ public class Map extends Application {
         opening_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(scene);
+                stage.setScene(choosing_ghost_scene);
+                /*timeline.play();
                 executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
                 executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+                */
             }
         });
         opening_root.getChildren().add(opening_button);
@@ -93,32 +128,127 @@ public class Map extends Application {
         opening_scene = new Scene(opening_root, 400, 400);
         opening_scene.setFill(Color.BLACK);
 
-        // ############## ADD MAIN SCENE #####################
+        // ############## ADD CHOOSING_GHOST SCENE #####################
 
-        root = new Group(); // podscena
-        scene = new Scene(root, scene_size + 50, scene_size + 50); // scena o danych wymiarach
-        // FXMLLoader loader = new FXMLLoader(Map.class.getResource("Symulacja.fxml"));
+        choosing_ghost_root = new Group(); // podscena
 
-        scene.setFill(Color.BLACK);
-
-        // ############## ADD CHARACTERS TO THE MAP #####################
-
-        // Add scooby :D
-        MainCharacter Scooby = new MainCharacter(0, 0, scooby_image, "Scooby");
-        Scooby.setStepSize(10);
-        main_characters.add(Scooby); // dodatnie do tablicy main_characters
-        root.getChildren().add(main_characters.get(0)); // dodanie postaci do root
-
-        // Add ghosts
+        // Making ghosts list
         for (int i = 0; i < 3; i++) {
             ghosts.add(new ArrayList<>());
         }
 
-        // ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
-        ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
-        // ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
+        Button WallhackerButton = new Button("Wallhacker");
+        WallhackerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
+                addGhostsToRoot(root, ghosts);
 
-        addGhostsToRoot(root, ghosts);
+                stage.setScene(scene);
+                timeline.play();
+                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
+                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+            }
+        });
+
+        Button LookerButton = new Button("Looker");
+        LookerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
+                addGhostsToRoot(root, ghosts);
+
+                stage.setScene(scene);
+                timeline.play();
+                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
+                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+            }
+        });
+
+        Button ListenerButton = new Button("Listener");
+        ListenerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+                addGhostsToRoot(root, ghosts);
+
+                stage.setScene(scene);
+                timeline.play();
+                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
+                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+            }
+        });
+
+        ImageView imageView1 = new ImageView(Ghosts_image);
+        choosing_ghost_root.getChildren().add(imageView1);
+        imageView1.setFitHeight(60);
+        imageView1.setFitWidth(280);
+        imageView1.setLayoutX(60);
+        imageView1.setLayoutY(130);
+
+        choosing_ghost_root.getChildren().add(WallhackerButton);
+        WallhackerButton.setLayoutX(149);
+        WallhackerButton.setLayoutY(200);
+
+        ImageView blueGhost = new ImageView(blue_ghost_image);
+        blueGhost.setFitWidth(32);
+        blueGhost.setFitHeight(32);
+
+        WallhackerButton.setGraphic(blueGhost);
+        WallhackerButton.setTextFill(Color.WHITE);
+        WallhackerButton.setStyle("-fx-background-color: blue");
+
+        choosing_ghost_root.getChildren().add(ListenerButton);
+        ListenerButton.setLayoutX(50);
+        ListenerButton.setLayoutY(200);
+
+        ImageView yellowGhost = new ImageView(yellow_ghost_image);
+        yellowGhost.setFitWidth(32);
+        yellowGhost.setFitHeight(32);
+
+        ListenerButton.setGraphic(yellowGhost);
+        ListenerButton.setTextFill(Color.WHITE);
+        ListenerButton.setStyle("-fx-background-color: blue");
+
+        choosing_ghost_root.getChildren().add(LookerButton);
+        LookerButton.setLayoutX(265);
+        LookerButton.setLayoutY(200);
+
+        ImageView redGhost = new ImageView(red_ghost_image);
+        redGhost.setFitWidth(32);
+        redGhost.setFitHeight(32);
+
+        LookerButton.setGraphic(redGhost);
+        LookerButton.setTextFill(Color.WHITE);
+        LookerButton.setStyle("-fx-background-color: blue");
+
+        choosing_ghost_scene = new Scene(choosing_ghost_root, 400, 400);
+        choosing_ghost_scene.setFill(Color.BLACK);
+
+        // ############## ADD CHARACTERS TO THE MAP #####################
+
+        // Add scooby :D
+        Scooby = new MainCharacter(0, 0, scooby_image, "Scooby");
+        Scooby.setStepSize(10);
+        main_characters.add(Scooby); // dodatnie do tablicy main_characters
+        root.getChildren().add(main_characters.get(0)); // dodanie postaci do root
+
+        /* Adding Scooby details
+        Label pointsLabel = new Label("Points: 0");
+        root.getChildren().add(pointsLabel);
+        pointsLabel.setLayoutX(scene_size/2);
+
+        KeyFrame keyFrame1 = new KeyFrame(duration, event -> {
+            pointsLabel.setText("Points: " + Scooby.getCharacter_points());
+        });
+
+        Label scaringLabel = new Label("Scaring level: 0");
+        root.getChildren().add(scaringLabel);
+        scaringLabel.setLayoutX(scene_size-40);
+
+        KeyFrame keyFrame2 = new KeyFrame(duration, event -> {
+            scaringLabel.setText("Scaring level: " + Scooby.getScaring_level());
+        });*/
 
         // ############## ADD CHARACTERS TO THE MAP (END) ###################
 

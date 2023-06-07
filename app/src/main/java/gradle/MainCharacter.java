@@ -141,8 +141,9 @@ public class MainCharacter extends Character {
         if(Map.food_list.isEmpty()){
             //End of the game
             System.out.println("Scooby ate everything :D");
-            Map.executor.shutdownNow();
             this.viewResults();
+            Map.timeline.stop();
+            Map.executor.shutdownNow();
             //Platform.exit();
             //System.exit(0);
         }
@@ -157,6 +158,7 @@ public class MainCharacter extends Character {
     public void viewResults(){
         System.out.println("\n  Scaring level: " + this.getScaring_level());
         System.out.println("  Points: " + this.getCharacter_points());
+        System.out.println("  Time: " + Map.seconds + " seconds");
     }
 
     public void increaseScaringLvl(int scaringPoints){
