@@ -1,20 +1,24 @@
 package gradle;
 
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Map extends Application {
@@ -27,6 +31,7 @@ public class Map extends Application {
     private String pancake_image = "pancake_img.jpg";
     private String yellow_ghost_image = "yellow_ghost.jpg";
     private String blue_ghost_image = "blue_ghost.jpg";
+    private String PacDoo_image = "PacDoo.jpg";
     int Ham_number;
     int Pancake_number;
     int Scooby_crisp_number;
@@ -40,29 +45,61 @@ public class Map extends Application {
     protected static List<List<Ghost>> ghosts = new ArrayList<List<Ghost>>();
 
     protected static List<Food> food_list = new ArrayList<>();
-    protected static Group root;
-    protected static Scene scene;
 
+    protected static Stage stage;
+    protected static Group opening_root;
+    protected static Group root;
+    protected static Scene opening_scene;
+    protected static Scene scene;
+    protected static ScheduledExecutorService executor;
     @Override
     public void start(Stage stage) {
         // Thanks to this override, application ends after closing windows
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        /*stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
                 // @TODO We can list stats here ;p
                 Platform.exit();
                 System.exit(0);
             }
+        });*/
+
+        // ############## ADD OPENINING SCENE #####################
+
+        opening_root = new Group(); // podscena
+        Button opening_button = new Button("Start the simulation");
+        opening_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.setScene(scene);
+                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
+                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+            }
         });
-        
+        opening_root.getChildren().add(opening_button);
+
+        opening_button.setLayoutX(140);
+        opening_button.setLayoutY(220);
+        opening_button.setTextFill(Color.WHITE);
+        opening_button.setStyle("-fx-background-color: blue");
+
+        ImageView imageView = new ImageView(PacDoo_image);
+        opening_root.getChildren().add(imageView);
+        imageView.setFitHeight(90);
+        imageView.setFitWidth(300);
+        imageView.setLayoutX(60);
+        imageView.setLayoutY(120);
+
+        opening_scene = new Scene(opening_root, 400, 400);
+        opening_scene.setFill(Color.BLACK);
+
+        // ############## ADD MAIN SCENE #####################
+
         root = new Group(); // podscena
         scene = new Scene(root, scene_size + 50, scene_size + 50); // scena o danych wymiarach
         // FXMLLoader loader = new FXMLLoader(Map.class.getResource("Symulacja.fxml"));
 
-        Rectangle background = new Rectangle(0, 0, scene_size+50, scene_size+50);
-        background.setFill(Color.BLACK);
-
-        root.getChildren().add(background);
+        scene.setFill(Color.BLACK);
 
         // ############## ADD CHARACTERS TO THE MAP #####################
 
@@ -122,13 +159,11 @@ public class Map extends Application {
 
         // ########## MOVING ON KEY PRESS (END) ###################
 
-
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
-
-        stage.setScene(scene);
+        stage.setScene(opening_scene);
         stage.show();
+
     }
+
 
     // ###################### FOOD #################################### //
 

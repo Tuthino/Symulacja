@@ -13,13 +13,15 @@ public class Ghost extends Character{
             for (MainCharacter mainCharacter: Map.main_characters) {
                if (this.getBoundsInParent().intersects(mainCharacter.getBoundsInParent())) {
                     mainCharacter.increaseScaringLvl( this.getScaringPoints());
-                    System.out.println("scaring "+mainCharacter.getScaring_level());
+                    System.out.println("  scaring " + mainCharacter.getScaring_level());
                     
             }
             if( mainCharacter.getScaring_level()>=100 ){
                 mainCharacter.dying();
                 System.out.println("Scooby DIED :((");
-                Platform.exit();
+                //Platform.exit();
+                Map.executor.shutdownNow();
+                mainCharacter.viewResults();
             }
         }
     }

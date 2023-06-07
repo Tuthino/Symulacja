@@ -58,7 +58,7 @@ public class MainCharacter extends Character {
     }
 
     // @TODO We may add checking which food is closer to us
-    public boolean check_if_food() {
+    /*public boolean check_if_food() {
         boolean is_nearby = false;
         List<String> find_food = new ArrayList<>();
 
@@ -95,6 +95,35 @@ public class MainCharacter extends Character {
             eating();
         }
         return is_nearby;
+    }*/
+
+    public boolean check_if_food() { // Checks if we can smell the food ;p
+        boolean is_nearby = false;
+        for (int i = 0; i < Map.food_list.size(); i++) {
+            Food food = Map.food_list.get(i);
+            double x_difference = Math.abs(this.getMiddleX() - food.getMiddleX());
+            double y_difference = Math.abs(this.getMiddleY() - food.getMiddleY());
+            if ((x_difference <= listening_size) && ((y_difference <= listening_size))) {
+                System.out.println("Food nearby");
+                is_nearby = true;
+                // We have to know if it is closer on Y axis or X axis
+
+                // we have to move right or left
+                // System.out.println(food);
+                if ((this.getMiddleX() >= food.getMiddleX()) && x_difference >= 20) {
+                    this.setMovingDirection("LEFT");
+                } else if ((this.getMiddleX() < food.getMiddleX()) && x_difference > 20) {
+                    this.setMovingDirection("RIGHT");
+                } else if (this.getMiddleY() >= food.getMiddleY()) {
+                    this.setMovingDirection("UP");
+                } else if (this.getMiddleY() < food.getMiddleY()) {
+                    this.setMovingDirection("DOWN");
+                }
+            }
+            eating(); // Confusing name, but it checks if we are intersection food, so we have to call it
+            // Everytime we are near food
+        }
+        return is_nearby;
     }
 
     public void eating() {
@@ -112,8 +141,10 @@ public class MainCharacter extends Character {
         if(Map.food_list.isEmpty()){
             //End of the game
             System.out.println("Scooby ate everything :D");
-            Platform.exit();
-            System.exit(0);
+            Map.executor.shutdownNow();
+            this.viewResults();
+            //Platform.exit();
+            //System.exit(0);
         }
     }
 
@@ -121,6 +152,11 @@ public class MainCharacter extends Character {
             this.setX(Map.scene_size*2);
             this.setY(Map.scene_size*2);
             this.is_alive = false;
+    }
+
+    public void viewResults(){
+        System.out.println("\n  Scaring level: " + this.getScaring_level());
+        System.out.println("  Points: " + this.getCharacter_points());
     }
 
     public void increaseScaringLvl(int scaringPoints){
