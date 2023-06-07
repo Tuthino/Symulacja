@@ -5,21 +5,22 @@ class MyAnimate implements Runnable {
     @Override
     public void run() {
         // System.out.println("Animate task");
-        System.out.println(Map.main_characters.get(0).getX());
+        // System.out.println(Map.main_characters.get(0).getX());
 
         for(MainCharacter mainCharacter : Map.main_characters){
              mainCharacter.steps_left = 2;
 
-            System.out.println(mainCharacter.getClass().getName());
+            // System.out.println(mainCharacter.getClass().getName());
+            if(mainCharacter.detect_ghost()){
 
-            if(mainCharacter.check_if_food()) {
+            }else if(mainCharacter.check_if_food()) {
 
             } else if (mainCharacter.hitted_wall==true){
                 mainCharacter.setRandomDirection();
             };
              mainCharacter.hitted_wall = false;
             while(mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0 ){
-                System.out.println("Moving");
+                // System.out.println("Moving");
                 mainCharacter.move(mainCharacter.getMovingDirection());
             }
 
@@ -36,20 +37,7 @@ class MyAnimate implements Runnable {
             ghost.hitted_wall = false;
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
-                switch (ghost.getMovingDirection()) {
-                    case "UP":
-                        ghost.moveUp();
-                        break;
-                    case "DOWN":
-                        ghost.moveDown();
-                        break;
-                    case "RIGHT":
-                        ghost.moveRight();
-                        break;
-                    case "LEFT":
-                        ghost.moveLeft();
-                        break;
-                }
+                ghost.move(ghost.getMovingDirection());
             }
         }
 
@@ -66,20 +54,7 @@ class MyAnimate implements Runnable {
             ghost.hitted_wall = false;
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
-                switch (ghost.getMovingDirection()) {
-                    case "UP":
-                        ghost.moveUp();
-                        break;
-                    case "DOWN":
-                        ghost.moveDown();
-                        break;
-                    case "RIGHT":
-                        ghost.moveRight();
-                        break;
-                    case "LEFT":
-                        ghost.moveLeft();
-                        break;
-                }
+                ghost.move(ghost.getMovingDirection());
             }
         }
 
@@ -95,24 +70,8 @@ class MyAnimate implements Runnable {
             };
 
             ghost.hitted_wall = false;
-
-            System.out.println(ghost.getMovingDirection());
-
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
-                switch (ghost.getMovingDirection()) {
-                    case "UP":
-                        ghost.moveUp();
-                        break;
-                    case "DOWN":
-                        ghost.moveDown();
-                        break;
-                    case "RIGHT":
-                        ghost.moveRight();
-                        break;
-                    case "LEFT":
-                        ghost.moveLeft();
-                        break;
-                }
+                ghost.move(ghost.getMovingDirection());
             }
         }
     }

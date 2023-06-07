@@ -7,15 +7,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
-    public static double scene_size = 600;
+    public static double scene_size = 400;
     private String scooby_image = "Scooby.png";
     private String red_ghost_image = "red_ghost.jpg";
     private String ham_image = "ham_img.jpg";
@@ -41,6 +43,16 @@ public class Map extends Application {
 
     @Override
     public void start(Stage stage) {
+        // Thanks to this override, application ends after closing windows
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                // @TODO We can list stats here ;p
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+        
         root = new Group(); // podscena
         scene = new Scene(root, scene_size + 50, scene_size + 50); // scena o danych wymiarach
         // FXMLLoader loader = new FXMLLoader(Map.class.getResource("Symulacja.fxml"));
@@ -59,7 +71,7 @@ public class Map extends Application {
         }
 
         // ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
-        // ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+        ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
         // ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
 
         addGhostsToRoot(root, ghosts);

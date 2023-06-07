@@ -15,7 +15,7 @@ public class Character extends Rectangle {
     private String moving_direction;
     private int intersected_box_index;
     protected int steps_left;
-    private int step_size = 5;
+    protected int step_size = 5;
 
     public Character(double x, double y, String imagePath, String name) {
         this.setX(x);
@@ -29,8 +29,8 @@ public class Character extends Rectangle {
     }
 
     public void move(String direction) {
-        System.out.println(this.getMovingDirection());
-        System.out.println(direction);
+        // System.out.println(this.getMovingDirection());
+        // System.out.println(direction);
 
         switch (direction) {
             case "UP":
@@ -46,8 +46,8 @@ public class Character extends Rectangle {
                 this.moveLeft();
                 break;
         }
-        System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
-        System.out.println(this.getMovingDirection());
+        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+        // System.out.println(this.getMovingDirection());
 
     }
 
@@ -137,8 +137,8 @@ public class Character extends Rectangle {
             if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {                                // getBoundsInParent() - zwraca granice wezła w kontekście jego rodzica
                 intersects = true;                                                                                      // node1.interesects(node2) - interakcja jednego elementu z drugim
                 intersected_box_index = i;
-                System.out.println(boxes.get(i));
-                System.out.println(boxes.get(i).getClass().getSimpleName());
+                // System.out.println(boxes.get(i));
+                // System.out.println(boxes.get(i).getClass().getSimpleName());
             }
         }
         return intersects;
