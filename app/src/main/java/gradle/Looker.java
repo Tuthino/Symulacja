@@ -12,19 +12,18 @@ public class Looker extends Ghost {
         super(x, y, imagePath, name);
     }
 
-    public void lookerMove() {
-
-    }
-
     public boolean checkIfEnemyIsDiagonal() {
         boolean is_diagonal = false;
+
         for (MainCharacter main_character : Map.main_characters) {
             // Check poziomo XD
             double y_difference = Math.abs(this.getY() - main_character.getY());                                        // wartość bezwzględna
             double x_difference = Math.abs(this.getX() - main_character.getX());
+
             if(x_difference < (this.getWidth() + main_character.getWidth()) || (y_difference < (this.getHeight()+main_character.getHeight()))){
                 scaring();
             }   
+
             // Character is above us
             if ( (x_difference <= Map.character_size) && (this.getMiddleY() > main_character.getMiddleY()) ){
                 this.setMovingDirection("UP");
@@ -45,8 +44,6 @@ public class Looker extends Ghost {
             // System.out.println("mainCharacter X: "+main_character.getX()+" Y: "+main_character.getY()+" GHOST X: "+this.getX()+" Y: "+this.getY());
             // System.out.println("difference X: "+x_difference+" Y: "+y_difference);
         }
-        // TODO :D 
-        // Now we have to check if there is a wall between them (it is lazy version, because of simplified map ^^)
         return is_diagonal;
     }
 }

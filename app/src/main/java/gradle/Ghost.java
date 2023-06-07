@@ -9,15 +9,6 @@ public class Ghost extends Character{
         this.setScaringPoints(10);
     }
 
-    public int getScaringPoints(){
-        return scaringPoints;
-    }
-
-    public void setScaringPoints(int scaringPoints){
-        this.scaringPoints = scaringPoints;
-    }
-
-
     public void scaring() {
             for (MainCharacter mainCharacter: Map.main_characters) {
                if (this.getBoundsInParent().intersects(mainCharacter.getBoundsInParent())) {
@@ -31,5 +22,13 @@ public class Ghost extends Character{
                 Platform.exit();
             }
         }
+    }
+
+    public int getScaringPoints(){
+        return scaringPoints;
+    }
+
+    public void setScaringPoints(int scaringPoints){
+        this.scaringPoints = scaringPoints;
     }
 }
