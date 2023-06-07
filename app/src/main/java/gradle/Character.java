@@ -215,6 +215,23 @@ public class Character extends Rectangle {
         System.out.println("  " + this.getMovingDirection());
     }
 
+    public List findWay() {
+        List<String> directions = new ArrayList<>();
+        String[] ways = new String[4];
+
+        ways[0] = "LEFT";
+        ways[1] = "RIGHT";
+        ways[2] = "UP";
+        ways[3] = "DOWN";
+
+        for (int i = 0; i < ways.length; i++) {
+            if (!checkIfWalls_NextMove(ways[i])) {
+                directions.add(ways[i]);
+            }
+        }
+        return directions;
+    }
+
     public double getMiddleX() {
         return (this.getX() + this.getWidth()) / 2;
     }
