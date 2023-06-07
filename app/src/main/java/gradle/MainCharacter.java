@@ -1,11 +1,14 @@
 package gradle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javafx.application.Platform;
 
 public class MainCharacter extends Character {
 
-    private int listening_size = 100;
-    private int ghost_detecting_size = 70;
+    private int listening_size = 70;
+    private int ghost_detecting_size = 55;
     private int scaring_level = 0;
     private int character_points = 0;
     private boolean is_alive = true;
@@ -31,26 +34,50 @@ public class MainCharacter extends Character {
                 // But I don't have time for it now :(
                 if ((x_difference <= ghost_detecting_size) && ((y_difference <= ghost_detecting_size))) {
                     if ( (x_difference <= Map.character_size) && (this.getMiddleY() >= ghost.getMiddleY() && y_difference > Map.character_size/2) ){
-                        System.out.println("Ghost detected");
-                        this.setMovingDirection("DOWN");
+                        if (this.getY()>=Map.scene_size){
+                            this.setRandomDirection(new ArrayList<>(Arrays.asList("RIGHT", "LEFT")));
+                            // System.out.println("Ghost detected1");
+                            return true;
+                        } else{
+                            this.setMovingDirection("DOWN");
+                            // System.out.println("Ghost detected2");
+                            return true;
+                        }
                     } else if ( (x_difference <= Map.character_size) && (this.getMiddleY() < ghost.getMiddleY()) && y_difference > Map.character_size/2){
-                        this.setMovingDirection("UP");
-                        System.out.println("Ghost detected");
+                        if (this.getY()<=0){
+                            if (this.hitted_wall==true){
+                                this.setRandomDirection(new ArrayList<>(Arrays.asList("RIGHT", "LEFT")));
+                            } else {};
+                            return true;
+
+                        }else {
+                            this.setMovingDirection("UP");
+                            return true;
+                        }
 
                     } else if ( (y_difference <= Map.character_size) && (this.getMiddleX() <= ghost.getMiddleX()) ){
-                        this.setMovingDirection("LEFT");
-                        System.out.println("Ghost detected");
+                        if (this.getX()<=0){
+                            this.setRandomDirection(new ArrayList<>(Arrays.asList("UP", "DOWN")));
+                            return true;
+                        }else{
+                            this.setMovingDirection("LEFT");
+                            return true;
+                        }
 
                     } else if ( (y_difference <= Map.character_size) && (this.getMiddleX() > ghost.getMiddleX()) ){
-                        this.setMovingDirection("RIGHT");
-                        System.out.println("Ghost detected");
-
+                        if (this.getX()>=Map.scene_size-this.getWidth()){
+                            this.setRandomDirection(new ArrayList<>(Arrays.asList("UP", "DOWN")));
+                            return true;
+                        }else{
+                            this.setMovingDirection("RIGHT");
+                            return true;
+                        }
                     }
                 }
 
             }
             }
-        return is_nearby;
+            return false;
     }
 
     // @TODO We may add checking which food is closer to us

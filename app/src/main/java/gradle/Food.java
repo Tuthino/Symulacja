@@ -8,15 +8,11 @@ import java.util.Random;
 
 public class Food extends Rectangle {
     private Random rand ;
-    //private long seed = 0;
     private int points;
     private String name;
     public Image photo;
 
-    Food(String ImagePath, String name){
-        //this.setX(x);
-        //this.setY(y);
-        //rand = new Random(seed);
+    Food(String ImagePath, String name, int points){
         rand = new Random();
         this.setX(rand.nextDouble(Map.scene_size));
         this.setY(rand.nextDouble(Map.scene_size));
@@ -25,6 +21,7 @@ public class Food extends Rectangle {
         photo = new Image(ImagePath);
         this.setFill(new ImagePattern(photo));
         this.name = name;
+        this.points = points;
 
         choosing_place();
     }
@@ -32,7 +29,6 @@ public class Food extends Rectangle {
         while (checkIfBox()){
             this.setX(rand.nextDouble(Map.scene_size));
             this.setY(rand.nextDouble(Map.scene_size));
-            //System.out.println(getX() + " " + getY());
         }
     }
 
@@ -46,14 +42,7 @@ public class Food extends Rectangle {
     }
 
     public int getPoints(){
-        if(this.name == "Ham")
-            return points = 5;
-        else if(this.name == "Pancake")
-            return points = 10;
-        else if(this.name == "Scooby_crisp")
-            return points = 15;
-        else
-            return points = 0;
+        return this.points;
     }
 
     public double getMiddleX() {

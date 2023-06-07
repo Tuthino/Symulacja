@@ -1,5 +1,8 @@
 package gradle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 class MyAnimate implements Runnable {
 
     @Override
@@ -12,11 +15,11 @@ class MyAnimate implements Runnable {
 
             // System.out.println(mainCharacter.getClass().getName());
             if(mainCharacter.detect_ghost()){
-
+                System.out.println(mainCharacter.getMovingDirection());
             }else if(mainCharacter.check_if_food()) {
 
             } else if (mainCharacter.hitted_wall==true){
-                mainCharacter.setRandomDirection();
+                mainCharacter.setRandomDirection(new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT")));
             };
              mainCharacter.hitted_wall = false;
             while(mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0 ){
@@ -32,7 +35,7 @@ class MyAnimate implements Runnable {
             if(ghost.checkWhereEnemy()) {
 
             } else if (ghost.hitted_wall==true){
-                ghost.setRandomDirection();
+                ghost.setRandomDirection(new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT")));
             };
             ghost.hitted_wall = false;
 
@@ -49,7 +52,7 @@ class MyAnimate implements Runnable {
             if(ghost.checkIfNearby()) {
 
             } else if (ghost.hitted_wall==true){
-                ghost.setRandomDirection();
+                ghost.setRandomDirection(new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT")));
             };
             ghost.hitted_wall = false;
 
@@ -66,7 +69,7 @@ class MyAnimate implements Runnable {
             if(ghost.checkIfEnemyIsDiagonal()) {
 
             } else if (ghost.hitted_wall==true){
-                ghost.setRandomDirection();
+                ghost.setRandomDirection(new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT")));
             };
 
             ghost.hitted_wall = false;

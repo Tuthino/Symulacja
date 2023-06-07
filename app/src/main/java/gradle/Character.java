@@ -25,7 +25,7 @@ public class Character extends Rectangle {
         this.setName(name);
         Image image = new Image(imagePath);
         this.setFill(new ImagePattern(image));
-        this.setRandomDirection();
+        this.setRandomDirection(new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT")));
     }
 
     public void move(String direction) {
@@ -172,10 +172,9 @@ public class Character extends Rectangle {
         // }
     }
 
-    public void setRandomDirection() {
+    public void setRandomDirection(ArrayList<String> directions) {
         Random random = new Random();
-        ArrayList<String> directions = new ArrayList<>(Arrays.asList("UP", "DOWN", "RIGHT", "LEFT"));
-        int index = random.nextInt(100) % 4;
+        int index = random.nextInt(100) % directions.size();
         this.setMovingDirection(directions.get(index));
     }
 

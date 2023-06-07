@@ -71,7 +71,7 @@ public class Map extends Application {
         }
 
         // ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
-        ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+        ghosts.get(1).add(new Listener(200, 200, yellow_ghost_image));
         // ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
 
         addGhostsToRoot(root, ghosts);
@@ -87,17 +87,17 @@ public class Map extends Application {
         // 1 Scooby_crisp; version2: 5 Ham, ...)
         // Asking how many items they want
 
-        setFoodNumbers(3,0, 0);
+        setFoodNumbers(3,3, 3);
 
         // Adding food to the list
         for (int i = 0; i < Scooby_crisp_number; i++) {
-            food_list.add(new Food(scooby_crisp_image, "Scooby_crisp"));
+            food_list.add(new Food(scooby_crisp_image, "Scooby_crisp", 15));
         }
         for (int i = 0; i < Pancake_number; i++) {
-            food_list.add(new Food(pancake_image, "Pancake"));
+            food_list.add(new Food(pancake_image, "Pancake", 5));
         }
         for (int i = 0; i < Ham_number; i++) {
-            food_list.add(new Food(ham_image, "Ham"));
+            food_list.add(new Food(ham_image, "Ham", 10));
         }
 
         addFoodToRoot(root, food_list);

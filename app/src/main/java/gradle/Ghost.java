@@ -25,10 +25,11 @@ public class Ghost extends Character{
                     System.out.println("scaring "+mainCharacter.getScaring_level());
                     
             }
-            if( mainCharacter.getScaring_level()>=40 ){
+            if( mainCharacter.getScaring_level()>=100 ){
                 mainCharacter.dying();
                 System.out.println("Scooby DIED :((");
                 Platform.exit();
+                System.exit(0);
             }
         }
     }
