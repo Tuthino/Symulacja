@@ -87,7 +87,7 @@ public class Map extends Application {
         // 1 Scooby_crisp; version2: 5 Ham, ...)
         // Asking how many items they want
 
-        setFoodNumbers(3,0, 0);
+        setFoodNumbers(3,2, 2);
 
         // Adding food to the list
         for (int i = 0; i < Scooby_crisp_number; i++) {
