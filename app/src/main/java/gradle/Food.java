@@ -29,7 +29,7 @@ public class Food extends Rectangle {
         choosing_place();
     }
     public void choosing_place(){
-        while (checkIfBox()){
+        while (checkIfBox() || checkIfFood()){
             this.setX(rand.nextDouble(Map.scene_size));
             this.setY(rand.nextDouble(Map.scene_size));
             //System.out.println(getX() + " " + getY());
@@ -39,6 +39,15 @@ public class Food extends Rectangle {
     public boolean checkIfBox() {
         for (Box box : Map.boxes) {
             if (this.getBoundsInParent().intersects(box.getBoundsInParent())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkIfFood(){
+        for (Food food : Map.food_list) {
+            if (this.getBoundsInParent().intersects(food.getBoundsInParent())) {
                 return true;
             }
         }
