@@ -8,10 +8,12 @@ public class MainCharacter extends Character {
     private int listening_size = 100;
     private int scaring_level = 0;
     private int character_points = 0;
+    private boolean death = false;
 
     public MainCharacter(double x, double y, String imagePath, String name) {
         super(x, y, imagePath, name);
         setStepSize(5);
+
     }
 
     public boolean check_if_ghost() {
@@ -46,7 +48,7 @@ public class MainCharacter extends Character {
         System.out.println("  Ghosts nearby: " + is_nearby);
         System.out.println("  Position of ghosts: " + find_ghost);
 
-        if(!find_ghost.contains("LEFT"))
+        /*if(!find_ghost.contains("LEFT"))
             running.add("LEFT");
         if(!find_ghost.contains("RIGHT"))
             running.add("RIGHT");
@@ -56,7 +58,10 @@ public class MainCharacter extends Character {
             running.add("DOWN");
 
         System.out.println("  Ways out: " + running);
-        setRandomDirectionShorter(running);
+        setRandomDirectionShorter(running);*/
+
+        //getting_scared();
+
         return is_nearby;
     }
 
@@ -117,6 +122,11 @@ public class MainCharacter extends Character {
                 Ghost ghost = Map.ghosts.get(i).get(j);
                 if (this.getBoundsInParent().intersects(ghost.getBoundsInParent())) {
                     scaring_level += ghost.getScaringPoints();
+                    System.out.println("  scaring_level: " + this.scaring_level);
+                    if(dying()){
+                        death = true;
+                        System.out.println("  death status: " + this.death);
+                    }
                     return true;
                 }
             }
@@ -126,8 +136,7 @@ public class MainCharacter extends Character {
 
     public boolean dying() {
         boolean died = false;
-        if (scaring_level >= 20) {
-            Map.root.getChildren().remove(this);
+        if (scaring_level >= 30) {
             died = true;
         }
         return died;
@@ -143,5 +152,9 @@ public class MainCharacter extends Character {
 
     public int getListening_size() {
         return listening_size;
+    }
+
+    public boolean getDeathStatus(){
+        return death;
     }
 }

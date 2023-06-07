@@ -9,7 +9,7 @@ class MyAnimate implements Runnable {
         System.out.println(" Main Character");
 
         for(MainCharacter mainCharacter : Map.main_characters){
-            mainCharacter.steps_left = 2;
+            mainCharacter.steps_left = 1;
 
             if (mainCharacter.hitted_wall == true){
                 mainCharacter.setRandomDirection();
