@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MainCharacter extends Character {
 
-    private int listening_size = 100;
+    private int listening_size = Map.scene_size;
     private int ghost_detecting_size = 70;
     private int scaring_level = 0;
     private int character_points = 0;
@@ -22,7 +22,6 @@ public class MainCharacter extends Character {
         // With detecting ghosts we have to be first check if it is near us (in some kind of radius)
         // There is no sense of running if ghost is away from us
         // After that we have to check if it is diagonal with us (so there are no boxes between us)
-
 
         boolean is_nearby = false;
         for (int i = 0; i < Map.ghosts.size(); i++) {
@@ -93,7 +92,6 @@ public class MainCharacter extends Character {
             if (is_nearby){
                 setRandomDirectionShorter(find_food);
             }
-
             eating();
         }
         return is_nearby;
@@ -125,6 +123,9 @@ public class MainCharacter extends Character {
             this.is_alive = false;
     }
 
+    public void increaseScaringLvl(int scaringPoints){
+        this.scaring_level+=scaringPoints;
+    }
     public int getCharacter_points() {
         return character_points;
     }
@@ -135,8 +136,5 @@ public class MainCharacter extends Character {
 
     public int getListening_size() {
         return listening_size;
-    }
-    public void increaseScaringLvl(int scaringPoints){
-        this.scaring_level+=scaringPoints;
     }
 }
