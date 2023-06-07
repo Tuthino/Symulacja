@@ -22,6 +22,9 @@ public class Looker extends Ghost {
             // Check poziomo XD
             double y_difference = Math.abs(this.getY() - main_character.getY());                                        // wartość bezwzględna
             double x_difference = Math.abs(this.getX() - main_character.getX());
+            if(x_difference < (this.getWidth() + main_character.getWidth()) || (y_difference < (this.getHeight()+main_character.getHeight()))){
+                scaring();
+            }   
             // Character is above us
             if ( (x_difference <= Map.character_size) && (this.getMiddleY() > main_character.getMiddleY()) ){
                 this.setMovingDirection("UP");

@@ -4,115 +4,74 @@ class MyAnimate implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("\nAnimate task\n");
-
-        System.out.println(" Main Character");
+        // System.out.println("Animate task");
+        // System.out.println(Map.main_characters.get(0).getX());
 
         for(MainCharacter mainCharacter : Map.main_characters){
-            mainCharacter.steps_left = 1;
+             mainCharacter.steps_left = 2;
 
-            if (mainCharacter.hitted_wall == true){
+            // System.out.println(mainCharacter.getClass().getName());
+            if(mainCharacter.detect_ghost()){
+
+            }else if(mainCharacter.check_if_food()) {
+
+            } else if (mainCharacter.hitted_wall==true){
                 mainCharacter.setRandomDirection();
-            }/*else if(mainCharacter.check_if_ghost()) {
-                System.out.println("  Running from ghost");
-            }*/else if(mainCharacter.check_if_food()) {                                 //TODO wykonywanie pojedyncze funckji
-                System.out.println("  Going for food");
-            }
-            ;
-            mainCharacter.hitted_wall = false;
+            };
+             mainCharacter.hitted_wall = false;
             while(mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0 ){
-                System.out.println("  Moving");
+                // System.out.println("Moving");
                 mainCharacter.move(mainCharacter.getMovingDirection());
             }
 
-        }
+            }
 
         for (int i=0; i<Map.ghosts.get(2).size(); i++){
             Wallhacker ghost = (Wallhacker) Map.ghosts.get(2).get(i);
-            ghost.steps_left = 1;
+            ghost.steps_left = 2;
+            if(ghost.checkWhereEnemy()) {
 
-            if (ghost.hitted_wall==true){
+            } else if (ghost.hitted_wall==true){
                 ghost.setRandomDirection();
-                ghost.hitted_wall = false;
-            }else if(ghost.checkWhereEnemy()) {
-                System.out.println("Going to enemy");
-            }
+            };
+            ghost.hitted_wall = false;
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
-                switch (ghost.getMovingDirection()) {
-                    case "UP":
-                        ghost.moveUp();
-                        break;
-                    case "DOWN":
-                        ghost.moveDown();
-                        break;
-                    case "RIGHT":
-                        ghost.moveRight();
-                        break;
-                    case "LEFT":
-                        ghost.moveLeft();
-                        break;
-                }
+                ghost.move(ghost.getMovingDirection());
             }
         }
+
+
 
         for (int i=0; i<Map.ghosts.get(1).size(); i++){
             Listener ghost = (Listener) Map.ghosts.get(1).get(i);
-            ghost.steps_left = 1;
+            ghost.steps_left = 2;
+            if(ghost.checkIfNearby()) {
 
-            if (ghost.hitted_wall==true){
+            } else if (ghost.hitted_wall==true){
                 ghost.setRandomDirection();
-                ghost.hitted_wall = false;
-            }else if(ghost.checkIfNearby()) {
-                System.out.println("  Going to enemy");
-            }
+            };
+            ghost.hitted_wall = false;
 
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
-                switch (ghost.getMovingDirection()) {
-                    case "UP":
-                        ghost.moveUp();
-                        break;
-                    case "DOWN":
-                        ghost.moveDown();
-                        break;
-                    case "RIGHT":
-                        ghost.moveRight();
-                        break;
-                    case "LEFT":
-                        ghost.moveLeft();
-                        break;
-                }
+                ghost.move(ghost.getMovingDirection());
             }
         }
 
+
+
         for (int i=0; i<Map.ghosts.get(0).size(); i++){
             Looker ghost = (Looker) Map.ghosts.get(0).get(i);
-            ghost.steps_left = 1;
+            ghost.steps_left = 2;
+            if(ghost.checkIfEnemyIsDiagonal()) {
 
-            if (ghost.hitted_wall==true){
+            } else if (ghost.hitted_wall==true){
                 ghost.setRandomDirection();
-                ghost.hitted_wall = false;
-            }else if(ghost.checkIfEnemyIsDiagonal()) {
-                System.out.println("Going to enemy");
-            }
+            };
 
-            System.out.println(ghost.getMovingDirection());
-
+            ghost.hitted_wall = false;
             while (ghost.hitted_wall == false && ghost.steps_left != 0) {
-                switch (ghost.getMovingDirection()) {
-                    case "UP":
-                        ghost.moveUp();
-                        break;
-                    case "DOWN":
-                        ghost.moveDown();
-                        break;
-                    case "RIGHT":
-                        ghost.moveRight();
-                        break;
-                    case "LEFT":
-                        ghost.moveLeft();
-                        break;
-                }
+                ghost.move(ghost.getMovingDirection());
             }
         }
     }

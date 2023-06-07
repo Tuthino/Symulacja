@@ -7,16 +7,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
-    public static double scene_size = 200;
+    public static double scene_size = 400;
     private String scooby_image = "Scooby.png";
     private String red_ghost_image = "red_ghost.jpg";
     private String ham_image = "ham_img.jpg";
@@ -42,6 +43,16 @@ public class Map extends Application {
 
     @Override
     public void start(Stage stage) {
+        // Thanks to this override, application ends after closing windows
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                // @TODO We can list stats here ;p
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+        
         root = new Group(); // podscena
         scene = new Scene(root, scene_size + 50, scene_size + 50); // scena o danych wymiarach
         // FXMLLoader loader = new FXMLLoader(Map.class.getResource("Symulacja.fxml"));
@@ -59,9 +70,9 @@ public class Map extends Application {
             ghosts.add(new ArrayList<>());
         }
 
-        ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
-        //ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
-        //ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
+        // ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
+        ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+        // ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
 
         addGhostsToRoot(root, ghosts);
 
@@ -76,7 +87,7 @@ public class Map extends Application {
         // 1 Scooby_crisp; version2: 5 Ham, ...)
         // Asking how many items they want
 
-        setFoodNumbers(3,0, 0);
+        setFoodNumbers(3,2, 2);
 
         // Adding food to the list
         for (int i = 0; i < Scooby_crisp_number; i++) {
@@ -91,7 +102,7 @@ public class Map extends Application {
 
         addFoodToRoot(root, food_list);
 
-        /* ########## MOVING ON KEY PRESS ##################
+        // ########## MOVING ON KEY PRESS ##################
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -101,18 +112,14 @@ public class Map extends Application {
                 Map.main_characters.get(0).move(event.getCode().toString());
             }
         });
-        */
 
         // ########## MOVING ON KEY PRESS (END) ###################
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
         // wątkiem
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 150, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
         // natychmiast co 200 milisekund
 
         stage.setScene(scene);
-
-        //stage.initStyle(StageStyle.UTILITY);                    // zmiana stylu
-
         stage.show();
     }
 

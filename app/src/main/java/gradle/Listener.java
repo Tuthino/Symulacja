@@ -1,7 +1,7 @@
 package gradle;
 
+
 public class Listener extends Ghost {
-    private int scaring = 5;
 
     public Listener(double x, double y, String imagePath) {
         super(x, y, imagePath, "Listener");
@@ -18,7 +18,9 @@ public class Listener extends Ghost {
         for (MainCharacter main_character : Map.main_characters) {
             double y_difference = Math.abs(this.getMiddleY() - main_character.getMiddleY()); // wartość bezwzględna
             double x_difference = Math.abs(this.getMiddleX() - main_character.getMiddleX());
-            
+            if(x_difference < (this.getWidth() + main_character.getWidth()) || (y_difference < (this.getHeight()+main_character.getHeight()))){
+                scaring();
+            }            
             if ((x_difference <= listening_size) && ((y_difference <= listening_size))) {
                 is_nearby = true;
                 // We have to know if it is closer on Y axis or X axis
