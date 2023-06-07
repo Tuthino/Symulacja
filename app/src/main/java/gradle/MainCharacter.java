@@ -2,6 +2,9 @@ package gradle;
 
 import javafx.application.Platform;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainCharacter extends Character {
 
     private int listening_size = 100;
@@ -26,59 +29,72 @@ public class MainCharacter extends Character {
             for (Ghost ghost : Map.ghosts.get(i)) {
                 double x_difference = Math.abs(this.getMiddleX() - ghost.getMiddleX());
                 double y_difference= Math.abs(this.getMiddleY() - ghost.getMiddleY());
+
                 // @TODO Here we also could add something like.... check which ghost is the nearest
                 // Because in current state we are taking first ghost in list that meets criteria
                 // But I don't have time for it now :(
+
                 if ((x_difference <= ghost_detecting_size) && ((y_difference <= ghost_detecting_size))) {
                     if ( (x_difference <= Map.character_size) && (this.getMiddleY() >= ghost.getMiddleY() && y_difference > Map.character_size/2) ){
                         System.out.println("Ghost detected");
                         this.setMovingDirection("DOWN");
+                        is_nearby = true;
                     } else if ( (x_difference <= Map.character_size) && (this.getMiddleY() < ghost.getMiddleY()) && y_difference > Map.character_size/2){
                         this.setMovingDirection("UP");
                         System.out.println("Ghost detected");
-
+                        is_nearby = true;
                     } else if ( (y_difference <= Map.character_size) && (this.getMiddleX() <= ghost.getMiddleX()) ){
                         this.setMovingDirection("LEFT");
                         System.out.println("Ghost detected");
-
+                        is_nearby = true;
                     } else if ( (y_difference <= Map.character_size) && (this.getMiddleX() > ghost.getMiddleX()) ){
                         this.setMovingDirection("RIGHT");
                         System.out.println("Ghost detected");
-
+                        is_nearby = true;
                     }
                 }
-
             }
-            }
+        }
         return is_nearby;
     }
 
     // @TODO We may add checking which food is closer to us
-    public boolean check_if_food() { // Checks if we can smell the food ;p 
+    public boolean check_if_food() {
         boolean is_nearby = false;
+        List<String> find_food = new ArrayList<>();
+
         for (int i = 0; i < Map.food_list.size(); i++) {
             Food food = Map.food_list.get(i);
-            double x_difference = Math.abs(this.getMiddleX() - food.getMiddleX());
-            double y_difference = Math.abs(this.getMiddleY() - food.getMiddleY());
-            if ((x_difference <= listening_size) && ((y_difference <= listening_size))) {
-                System.out.println("Food nearby");
+            double distanceX = Math.abs(this.getMiddleX() - food.getMiddleX());
+            double distanceY = Math.abs(this.getMiddleY() - food.getMiddleY());
+
+            if ((distanceX <= listening_size) && ((distanceY <= listening_size))) {
+                System.out.println("  Food nearby: " + food);
                 is_nearby = true;
                 // We have to know if it is closer on Y axis or X axis
 
                 // we have to move right or left
-                // System.out.println(food);
-                if ((this.getMiddleX() >= food.getMiddleX()) && x_difference >= 20) {
-                    this.setMovingDirection("LEFT");
-                } else if ((this.getMiddleX() < food.getMiddleX()) && x_difference > 20) {
-                    this.setMovingDirection("RIGHT");
-                } else if (this.getMiddleY() >= food.getMiddleY()) {
-                    this.setMovingDirection("UP");
-                } else if (this.getMiddleY() < food.getMiddleY()) {
-                    this.setMovingDirection("DOWN");
+                if ((this.getMiddleX() >= food.getMiddleX()) && distanceX >= 20) {
+                    find_food.add("LEFT");
+                }
+                if ((this.getMiddleX() < food.getMiddleX()) && distanceX > 20) {
+                    find_food.add("RIGHT");
+                }
+                if (this.getMiddleY() >= food.getMiddleY()) {
+                    find_food.add("UP");
+                }
+                if (this.getMiddleY() < food.getMiddleY()) {
+                    find_food.add("DOWN");
                 }
             }
-            eating(); // Confusing name, but it checks if we are intersection food, so we have to call it 
-                    // Everytime we are near food
+            System.out.println("  Food nearby: " + is_nearby);
+            System.out.println("  Position of food: " + find_food);
+
+            if (is_nearby){
+                setRandomDirectionShorter(find_food);
+            }
+
+            eating();
         }
         return is_nearby;
     }
@@ -88,18 +104,18 @@ public class MainCharacter extends Character {
             Food food = Map.food_list.get(i);
             if (this.getBoundsInParent().intersects(food.getBoundsInParent())) {
                 character_points += food.getPoints();
-                System.out.println("Eeating");
+                System.out.println("  Eating");
                 food.setX(Map.scene_size*2);
                 food.setY(Map.scene_size*2);
                 Map.food_list.remove(i);
             }
         }
+
         if(Map.food_list.isEmpty()){
             //End of the game
             System.out.println("Scooby ate everything :D");
             Platform.exit();
             System.exit(0);
-
         }
     }
 
