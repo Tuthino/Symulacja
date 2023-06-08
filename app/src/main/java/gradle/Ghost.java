@@ -14,7 +14,6 @@ public class Ghost extends Character{
                if (this.getBoundsInParent().intersects(mainCharacter.getBoundsInParent())) {
                     mainCharacter.increaseScaringLvl( this.getScaringPoints());
                     System.out.println("  scaring " + mainCharacter.getScaring_level());
-                    
             }
             if( mainCharacter.getScaring_level()>=100 ){
                 mainCharacter.dying();

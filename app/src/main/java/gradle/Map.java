@@ -29,6 +29,8 @@ import javafx.util.Duration;
 public class Map extends Application {
     // Hardcoded Scene size for testing
     public static int scene_size = 300;
+    protected static String level;
+    protected static String ghost;
     private String scooby_image = "Scooby.png";
     private String red_ghost_image = "red_ghost.jpg";
     private String ham_image = "ham_img.jpg";
@@ -38,6 +40,7 @@ public class Map extends Application {
     private String blue_ghost_image = "blue_ghost.jpg";
     private String PacDoo_image = "PacDoo.jpg";
     private String Ghosts_image = "Ghosts.jpg";
+    private String Level_image = "Level.jpg";
     int Ham_number;
     int Pancake_number;
     int Scooby_crisp_number;
@@ -53,9 +56,11 @@ public class Map extends Application {
     protected static List<Food> food_list = new ArrayList<>();
     protected static Stage stage;
     protected static Group opening_root;
+    protected static Group choosing_level_root;
     protected static Group choosing_ghost_root;
     protected static Group root;
     protected static Scene opening_scene;
+    protected static Scene choosing_level_scene;
     protected static Scene choosing_ghost_scene;
     protected static Scene scene;
     protected static ScheduledExecutorService executor;
@@ -104,9 +109,9 @@ public class Map extends Application {
         opening_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(choosing_ghost_scene);
+                stage.setScene(choosing_level_scene);
                 /*timeline.play();
-                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
+                executor = Executors.newScheduledThreadPool(1);                                                  // tworzenie harmonogramu z jednym wątkiem
                 executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
                 */
             }
@@ -120,13 +125,83 @@ public class Map extends Application {
 
         ImageView imageView = new ImageView(PacDoo_image);
         opening_root.getChildren().add(imageView);
-        imageView.setFitHeight(90);
+        imageView.setFitHeight(80);
         imageView.setFitWidth(300);
-        imageView.setLayoutX(60);
-        imageView.setLayoutY(120);
+        imageView.setLayoutX(50);
+        imageView.setLayoutY(130);
 
         opening_scene = new Scene(opening_root, 400, 400);
         opening_scene.setFill(Color.BLACK);
+
+        // ############## ADD CHOOSING_LEVEL SCENE #####################
+
+        choosing_level_root = new Group(); // podscena
+
+        Button easyLevelButton = new Button("Easy");
+        easyLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                level = "Easy";
+
+                setFoodNumbers(1,1, 1);
+                addFoodToList();
+                addFoodToRoot(root, food_list);
+                stage.setScene(choosing_ghost_scene);
+            }
+        });
+
+        Button mediumLevelButton = new Button("Medium");
+        mediumLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                level = "Medium";
+
+                setFoodNumbers(2,2, 2);
+                addFoodToList();
+                addFoodToRoot(root, food_list);
+                stage.setScene(choosing_ghost_scene);
+            }
+        });
+
+        Button hardLevelButton = new Button("Hard");
+        hardLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                level = "Hard";
+
+                setFoodNumbers(3,3, 3);
+                addFoodToList();
+                addFoodToRoot(root, food_list);
+                stage.setScene(choosing_ghost_scene);
+            }
+        });
+        ImageView imageView1 = new ImageView(Level_image);
+        choosing_level_root.getChildren().add(imageView1);
+        imageView1.setFitHeight(80);
+        imageView1.setFitWidth(300);
+        imageView1.setLayoutX(50);
+        imageView1.setLayoutY(130);
+
+        choosing_level_root.getChildren().add(easyLevelButton);
+        easyLevelButton.setLayoutX(90);
+        easyLevelButton.setLayoutY(220);
+        easyLevelButton.setTextFill(Color.WHITE);
+        easyLevelButton.setStyle("-fx-background-color: blue");
+
+        choosing_level_root.getChildren().add(mediumLevelButton);
+        mediumLevelButton.setLayoutX(170);
+        mediumLevelButton.setLayoutY(220);
+        mediumLevelButton.setTextFill(Color.WHITE);
+        mediumLevelButton.setStyle("-fx-background-color: blue");
+
+        choosing_level_root.getChildren().add(hardLevelButton);
+        hardLevelButton.setLayoutX(270);
+        hardLevelButton.setLayoutY(220);
+        hardLevelButton.setTextFill(Color.WHITE);
+        hardLevelButton.setStyle("-fx-background-color: blue");
+
+        choosing_level_scene = new Scene(choosing_level_root, 400, 400);
+        choosing_level_scene.setFill(Color.BLACK);
 
         // ############## ADD CHOOSING_GHOST SCENE #####################
 
@@ -141,13 +216,11 @@ public class Map extends Application {
         WallhackerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                ghost = "Wallhacker";
+
                 ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
                 addGhostsToRoot(root, ghosts);
-
-                stage.setScene(scene);
-                timeline.play();
-                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
-                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+                changingToMainScene(stage, scene, timeline);
             }
         });
 
@@ -155,13 +228,11 @@ public class Map extends Application {
         LookerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                ghost = "Looker";
+
                 ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
                 addGhostsToRoot(root, ghosts);
-
-                stage.setScene(scene);
-                timeline.play();
-                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
-                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+                changingToMainScene(stage, scene, timeline);
             }
         });
 
@@ -169,26 +240,24 @@ public class Map extends Application {
         ListenerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                ghost = "Listener";
+
                 ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
                 addGhostsToRoot(root, ghosts);
-
-                stage.setScene(scene);
-                timeline.play();
-                executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
-                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+                changingToMainScene(stage, scene, timeline);
             }
         });
 
-        ImageView imageView1 = new ImageView(Ghosts_image);
-        choosing_ghost_root.getChildren().add(imageView1);
-        imageView1.setFitHeight(60);
-        imageView1.setFitWidth(280);
-        imageView1.setLayoutX(60);
-        imageView1.setLayoutY(130);
+        ImageView imageView2 = new ImageView(Ghosts_image);
+        choosing_ghost_root.getChildren().add(imageView2);
+        imageView2.setFitHeight(80);
+        imageView2.setFitWidth(300);
+        imageView2.setLayoutX(50);
+        imageView2.setLayoutY(130);
 
         choosing_ghost_root.getChildren().add(WallhackerButton);
         WallhackerButton.setLayoutX(149);
-        WallhackerButton.setLayoutY(200);
+        WallhackerButton.setLayoutY(220);
 
         ImageView blueGhost = new ImageView(blue_ghost_image);
         blueGhost.setFitWidth(32);
@@ -200,7 +269,7 @@ public class Map extends Application {
 
         choosing_ghost_root.getChildren().add(ListenerButton);
         ListenerButton.setLayoutX(50);
-        ListenerButton.setLayoutY(200);
+        ListenerButton.setLayoutY(220);
 
         ImageView yellowGhost = new ImageView(yellow_ghost_image);
         yellowGhost.setFitWidth(32);
@@ -212,7 +281,7 @@ public class Map extends Application {
 
         choosing_ghost_root.getChildren().add(LookerButton);
         LookerButton.setLayoutX(265);
-        LookerButton.setLayoutY(200);
+        LookerButton.setLayoutY(220);
 
         ImageView redGhost = new ImageView(red_ghost_image);
         redGhost.setFitWidth(32);
@@ -255,27 +324,6 @@ public class Map extends Application {
         createBoxes(boxes, scene_size / 100, scene_size / 100);
         addBoxToRoot(root, boxes);
 
-        // Adding Food
-
-        // TODO Making buttons for the options (for example version1: 3 Ham, 4 Pancake,
-        // 1 Scooby_crisp; version2: 5 Ham, ...)
-        // Asking how many items they want
-
-        setFoodNumbers(3,2, 2);
-
-        // Adding food to the list
-        for (int i = 0; i < Scooby_crisp_number; i++) {
-            food_list.add(new Food(scooby_crisp_image, "Scooby_crisp"));
-        }
-        for (int i = 0; i < Pancake_number; i++) {
-            food_list.add(new Food(pancake_image, "Pancake"));
-        }
-        for (int i = 0; i < Ham_number; i++) {
-            food_list.add(new Food(ham_image, "Ham"));
-        }
-
-        addFoodToRoot(root, food_list);
-
         // ########## MOVING ON KEY PRESS ##################
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -291,11 +339,29 @@ public class Map extends Application {
 
         stage.setScene(opening_scene);
         stage.show();
-
     }
 
+    private void changingToMainScene(Stage stage, Scene scene, Timeline timeline){
+        stage.setScene(scene);
+        timeline.play();
+        executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+    }
 
     // ###################### FOOD #################################### //
+
+    // Add food to the list
+    private void addFoodToList(){
+        for (int i = 0; i < Scooby_crisp_number; i++) {
+            food_list.add(new Food(scooby_crisp_image, "Scooby_crisp"));
+        }
+        for (int i = 0; i < Pancake_number; i++) {
+            food_list.add(new Food(pancake_image, "Pancake"));
+        }
+        for (int i = 0; i < Ham_number; i++) {
+            food_list.add(new Food(ham_image, "Ham"));
+        }
+    }
 
     // Add all Food object to the root group
     private void addFoodToRoot(Group root, List<Food> food_list) {

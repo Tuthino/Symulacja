@@ -48,7 +48,7 @@ public class MainCharacter extends Character {
                         is_nearby = true;
                     } else if ( (y_difference <= Map.character_size) && (this.getMiddleX() > ghost.getMiddleX()) ){
                         this.setMovingDirection("RIGHT");
-                        System.out.println("Ghost detected");
+                        System.out.println("  Ghost detected");
                         is_nearby = true;
                     }
                 }
@@ -104,7 +104,7 @@ public class MainCharacter extends Character {
             double x_difference = Math.abs(this.getMiddleX() - food.getMiddleX());
             double y_difference = Math.abs(this.getMiddleY() - food.getMiddleY());
             if ((x_difference <= listening_size) && ((y_difference <= listening_size))) {
-                System.out.println("Food nearby");
+                System.out.println("  Food nearby");
                 is_nearby = true;
                 // We have to know if it is closer on Y axis or X axis
 
@@ -156,7 +156,9 @@ public class MainCharacter extends Character {
     }
 
     public void viewResults(){
-        System.out.println("\n  Scaring level: " + this.getScaring_level());
+        System.out.println("\n  Level: " + Map.level);
+        System.out.println("  Ghost: " + Map.ghost);
+        System.out.println("  Scaring level: " + this.getScaring_level());
         System.out.println("  Points: " + this.getCharacter_points());
         System.out.println("  Time: " + Map.seconds + " seconds");
     }
