@@ -12,6 +12,7 @@ plugins {
     id 'java'
     id 'org.openjfx.javafxplugin' version '0.0.13'
 }
+
 jar {
     manifest {
         attributes(
@@ -23,7 +24,9 @@ repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
-
+compileJava {
+    exclude 'module-info.java'
+}
 javafx {
     version = "20"
     modules = [ 'javafx.controls', 'javafx.fxml' ]

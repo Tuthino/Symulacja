@@ -35,3 +35,4 @@ gradle-server/src/main/resources/*.jar
 
 .vscode
 .idea
+out.txt

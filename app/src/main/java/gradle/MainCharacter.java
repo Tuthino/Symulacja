@@ -8,7 +8,7 @@ import javafx.application.Platform;
 public class MainCharacter extends Character {
 
     private int listening_size = 70;
-    private int ghost_detecting_size = 55;
+    private int ghost_detecting_size = 60;
     private int scaring_level = 0;
     private int character_points = 0;
     private boolean is_alive = true;
@@ -33,8 +33,8 @@ public class MainCharacter extends Character {
                 // Because in current state we are taking first ghost in list that meets criteria
                 // But I don't have time for it now :(
                 if ((x_difference <= ghost_detecting_size) && ((y_difference <= ghost_detecting_size))) {
-                    if ( (x_difference <= Map.character_size) && (this.getMiddleY() >= ghost.getMiddleY() && y_difference > Map.character_size/2) ){
-                        if (this.getY()>=Map.scene_size){
+                    if ( (x_difference <= Map.character_size) && (this.getMiddleY() >= ghost.getMiddleY() && y_difference < Map.character_size/2) ){
+                        if (this.getY()>=Map.scene_size-5){
                             this.setRandomDirection(new ArrayList<>(Arrays.asList("RIGHT", "LEFT")));
                             // System.out.println("Ghost detected1");
                             return true;
@@ -43,8 +43,8 @@ public class MainCharacter extends Character {
                             // System.out.println("Ghost detected2");
                             return true;
                         }
-                    } else if ( (x_difference <= Map.character_size) && (this.getMiddleY() < ghost.getMiddleY()) && y_difference > Map.character_size/2){
-                        if (this.getY()<=0){
+                    } else if ( (x_difference <= Map.character_size) && (this.getMiddleY() < ghost.getMiddleY()) && y_difference < Map.character_size/2){
+                        if (this.getY()<=5){
                             if (this.hitted_wall==true){
                                 this.setRandomDirection(new ArrayList<>(Arrays.asList("RIGHT", "LEFT")));
                             } else {};
@@ -88,7 +88,7 @@ public class MainCharacter extends Character {
             double x_difference = Math.abs(this.getMiddleX() - food.getMiddleX());
             double y_difference = Math.abs(this.getMiddleY() - food.getMiddleY());
             if ((x_difference <= listening_size) && ((y_difference <= listening_size))) {
-                System.out.println("Food nearby");
+                // System.out.println("Food nearby");
                 is_nearby = true;
                 // We have to know if it is closer on Y axis or X axis
 
@@ -115,7 +115,8 @@ public class MainCharacter extends Character {
             Food food = Map.food_list.get(i);
             if (this.getBoundsInParent().intersects(food.getBoundsInParent())) {
                 character_points += food.getPoints();
-                System.out.println("Eeating");
+                // System.out.println("Eeating");
+
                 food.setX(Map.scene_size*2);
                 food.setY(Map.scene_size*2);
                 Map.food_list.remove(i);
@@ -123,7 +124,7 @@ public class MainCharacter extends Character {
         }
         if(Map.food_list.isEmpty()){
             //End of the game
-            System.out.println("Scooby ate everything :D");
+            System.out.println("output: Scooby ate everything :D");
             Platform.exit();
             System.exit(0);
 

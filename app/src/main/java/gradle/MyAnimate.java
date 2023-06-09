@@ -11,11 +11,11 @@ class MyAnimate implements Runnable {
         // System.out.println(Map.main_characters.get(0).getX());
 
         for(MainCharacter mainCharacter : Map.main_characters){
-             mainCharacter.steps_left = 2;
+             mainCharacter.steps_left = 3;
 
             // System.out.println(mainCharacter.getClass().getName());
             if(mainCharacter.detect_ghost()){
-                System.out.println(mainCharacter.getMovingDirection());
+                // System.out.println(mainCharacter.getMovingDirection());
             }else if(mainCharacter.check_if_food()) {
 
             } else if (mainCharacter.hitted_wall==true){
@@ -31,7 +31,7 @@ class MyAnimate implements Runnable {
 
         for (int i=0; i<Map.ghosts.get(2).size(); i++){
             Wallhacker ghost = (Wallhacker) Map.ghosts.get(2).get(i);
-            ghost.steps_left = 2;
+            ghost.steps_left = 3;
             if(ghost.checkWhereEnemy()) {
 
             } else if (ghost.hitted_wall==true){

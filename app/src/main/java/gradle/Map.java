@@ -70,8 +70,8 @@ public class Map extends Application {
             ghosts.add(new ArrayList<>());
         }
 
-        // ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
-        ghosts.get(1).add(new Listener(200, 200, yellow_ghost_image));
+        ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
+        // ghosts.get(1).add(new Listener(200, 200, yellow_ghost_image));
         // ghosts.get(2).add(new Wallhacker(300, 300, blue_ghost_image));
 
         addGhostsToRoot(root, ghosts);
@@ -87,7 +87,8 @@ public class Map extends Application {
         // 1 Scooby_crisp; version2: 5 Ham, ...)
         // Asking how many items they want
 
-        setFoodNumbers(3,3, 3);
+        setFoodNumbers(3,4, 2);
+        // getFoodNumbersInput();
 
         // Adding food to the list
         for (int i = 0; i < Scooby_crisp_number; i++) {
@@ -116,7 +117,7 @@ public class Map extends Application {
         // ########## MOVING ON KEY PRESS (END) ###################
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
         // wątkiem
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 20, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
         // natychmiast co 200 milisekund
 
         stage.setScene(scene);
