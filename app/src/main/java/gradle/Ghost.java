@@ -19,9 +19,9 @@ public class Ghost extends Character{
                 mainCharacter.dying();
                 System.out.println("Scooby DIED :((");
                 mainCharacter.viewResults();
-                //Platform.exit();
                 Map.timeline.stop();
                 Map.executor.shutdownNow();
+                Map.stage.setScene(Map.closing_scene);
             }
         }
     }

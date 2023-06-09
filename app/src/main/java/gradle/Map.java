@@ -59,10 +59,12 @@ public class Map extends Application {
     protected static Group choosing_level_root;
     protected static Group choosing_ghost_root;
     protected static Group root;
+    protected static Group closing_root;
     protected static Scene opening_scene;
     protected static Scene choosing_level_scene;
     protected static Scene choosing_ghost_scene;
     protected static Scene scene;
+    protected static Scene closing_scene;
     protected static ScheduledExecutorService executor;
     protected static int seconds;
     protected static Timeline timeline;
@@ -110,10 +112,6 @@ public class Map extends Application {
             @Override
             public void handle(ActionEvent event) {
                 stage.setScene(choosing_level_scene);
-                /*timeline.play();
-                executor = Executors.newScheduledThreadPool(1);                                                  // tworzenie harmonogramu z jednym wątkiem
-                executor.scheduleAtFixedRate(new MyAnimate(), 0, 200, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
-                */
             }
         });
         opening_root.getChildren().add(opening_button);
@@ -127,7 +125,7 @@ public class Map extends Application {
         opening_root.getChildren().add(imageView);
         imageView.setFitHeight(80);
         imageView.setFitWidth(300);
-        imageView.setLayoutX(50);
+        imageView.setLayoutX(55);
         imageView.setLayoutY(130);
 
         opening_scene = new Scene(opening_root, 400, 400);
@@ -179,7 +177,7 @@ public class Map extends Application {
         choosing_level_root.getChildren().add(imageView1);
         imageView1.setFitHeight(80);
         imageView1.setFitWidth(300);
-        imageView1.setLayoutX(50);
+        imageView1.setLayoutX(55);
         imageView1.setLayoutY(130);
 
         choosing_level_root.getChildren().add(easyLevelButton);
@@ -252,7 +250,7 @@ public class Map extends Application {
         choosing_ghost_root.getChildren().add(imageView2);
         imageView2.setFitHeight(80);
         imageView2.setFitWidth(300);
-        imageView2.setLayoutX(50);
+        imageView2.setLayoutX(55);
         imageView2.setLayoutY(130);
 
         choosing_ghost_root.getChildren().add(WallhackerButton);
@@ -293,6 +291,10 @@ public class Map extends Application {
 
         choosing_ghost_scene = new Scene(choosing_ghost_root, 400, 400);
         choosing_ghost_scene.setFill(Color.BLACK);
+
+        // ############## ADD CLOSING SCENE #####################
+
+
 
         // ############## ADD CHARACTERS TO THE MAP #####################
 

@@ -144,8 +144,7 @@ public class MainCharacter extends Character {
             this.viewResults();
             Map.timeline.stop();
             Map.executor.shutdownNow();
-            //Platform.exit();
-            //System.exit(0);
+            Map.stage.setScene(Map.closing_scene);
         }
     }
 
