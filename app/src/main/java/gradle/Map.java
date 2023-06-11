@@ -292,9 +292,6 @@ public class Map extends Application {
         choosing_ghost_scene = new Scene(choosing_ghost_root, 400, 400);
         choosing_ghost_scene.setFill(Color.BLACK);
 
-        // ############## ADD CLOSING SCENE #####################
-
-
 
         // ############## ADD CHARACTERS TO THE MAP #####################
 
@@ -321,10 +318,32 @@ public class Map extends Application {
             scaringLabel.setText("Scaring level: " + Scooby.getScaring_level());
         });*/
 
+
         // ############## ADD CHARACTERS TO THE MAP (END) ###################
 
         createBoxes(boxes, scene_size / 100, scene_size / 100);
         addBoxToRoot(root, boxes);
+
+        // ############## ADD CLOSING SCENE #####################
+        closing_root = new Group();
+
+        Label levelLabel = new Label("Level: " + Map.level);
+        closing_root.getChildren().add(levelLabel);
+
+        Label ghostLabel = new Label("Ghost: " + Map.ghost);
+        closing_root.getChildren().add(ghostLabel);
+
+        Label scaringLabel = new Label("Scaring level: " + Scooby.getScaring_level());
+        closing_root.getChildren().add(scaringLabel);
+
+        Label pointsLabel = new Label("Points: " + Scooby.getCharacter_points());
+        closing_root.getChildren().add(pointsLabel);
+
+        Label timeLabel = new Label("Time: " + Map.seconds + " seconds");
+        closing_root.getChildren().add(timeLabel);
+
+        closing_scene = new Scene(closing_root, 400, 400);
+        closing_scene.setFill(Color.BLACK);
 
         // ########## MOVING ON KEY PRESS ##################
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
