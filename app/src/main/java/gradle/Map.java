@@ -28,7 +28,7 @@ import javafx.util.Duration;
 
 public class Map extends Application {
     // Hardcoded Scene size for testing
-    public static int scene_size = 300;
+    public static int scene_size = 400;
     protected static String level;
     protected static String ghost;
     private String scooby_image = "Scooby.png";
@@ -72,14 +72,14 @@ public class Map extends Application {
     public void start(Stage stage) {
         // Thanks to this override, application ends after closing windows
 
-        /*stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
                 // @TODO We can list stats here ;p
                 Platform.exit();
                 System.exit(0);
             }
-        });*/
+        });
 
         // ############## ADD MAIN SCENE #####################
 

@@ -35,16 +35,16 @@ public class MainCharacter extends Character {
 
                 if ((x_difference <= ghost_detecting_size) && ((y_difference <= ghost_detecting_size))) {
                     if ( (x_difference <= Map.character_size) && (this.getMiddleY() >= ghost.getMiddleY() && y_difference > Map.character_size/2) ){
-                        System.out.println("Ghost detected");
+                        System.out.println("  Ghost detected");
                         this.setMovingDirection("DOWN");
                         is_nearby = true;
                     } else if ( (x_difference <= Map.character_size) && (this.getMiddleY() < ghost.getMiddleY()) && y_difference > Map.character_size/2){
                         this.setMovingDirection("UP");
-                        System.out.println("Ghost detected");
+                        System.out.println("  Ghost detected");
                         is_nearby = true;
                     } else if ( (y_difference <= Map.character_size) && (this.getMiddleX() <= ghost.getMiddleX()) ){
                         this.setMovingDirection("LEFT");
-                        System.out.println("Ghost detected");
+                        System.out.println("  Ghost detected");
                         is_nearby = true;
                     } else if ( (y_difference <= Map.character_size) && (this.getMiddleX() > ghost.getMiddleX()) ){
                         this.setMovingDirection("RIGHT");
@@ -145,6 +145,8 @@ public class MainCharacter extends Character {
             Map.timeline.stop();
             Map.executor.shutdownNow();
             Map.stage.setScene(Map.closing_scene);
+            //Platform.exit();
+            //System.exit(0);
         }
     }
 
