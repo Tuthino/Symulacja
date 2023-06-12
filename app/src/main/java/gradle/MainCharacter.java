@@ -2,9 +2,6 @@ package gradle;
 
 import javafx.application.Platform;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainCharacter extends Character {
 
     private int listening_size = Map.scene_size;
