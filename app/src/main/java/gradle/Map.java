@@ -245,7 +245,7 @@ public class Map extends Application {
             public void handle(ActionEvent event) {
                 ghost = "Looker";
 
-                ghosts.get(0).add(new Looker(100, 100, red_ghost_image));
+                ghosts.get(0).add(new Looker(300, 300, red_ghost_image));
                 addGhostsToRoot(root, ghosts);
                 changingToMainScene(stage, scene, timeline);
             }
@@ -257,7 +257,7 @@ public class Map extends Application {
             public void handle(ActionEvent event) {
                 ghost = "Listener";
 
-                ghosts.get(1).add(new Listener(100, 100, yellow_ghost_image));
+                ghosts.get(1).add(new Listener(300, 300, yellow_ghost_image));
                 addGhostsToRoot(root, ghosts);
                 changingToMainScene(stage, scene, timeline);
             }
