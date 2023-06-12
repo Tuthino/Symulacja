@@ -1,5 +1,6 @@
 package gradle;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Box extends Rectangle {
@@ -10,6 +11,7 @@ public class Box extends Rectangle {
         this.setY(50.0 + i * 100.0);
         this.setWidth(49);
         this.setHeight(49);
+        this.setFill(Color.BLUE);
     }
 
     public double getMiddleX(){

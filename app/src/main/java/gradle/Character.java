@@ -178,6 +178,13 @@ public class Character extends Rectangle {
         this.setMovingDirection(directions.get(index));
     }
 
+    public void setRandomDirectionShorter(List<String> directions) {
+        Random random = new Random();
+        int index = random.nextInt(100) % directions.size();
+        this.setMovingDirection(directions.get(index));
+        //System.out.println("  " + this.getMovingDirection());
+    }
+
     public double getMiddleX() {
         return (this.getX() + this.getWidth()) / 2;
     }
