@@ -21,7 +21,7 @@ public class Ghost extends Character{
                 mainCharacter.viewResults();
                 Map.timeline.stop();
                 Map.executor.shutdownNow();
-                Map.stage.setScene(Map.closing_scene);
+                //Map.stage.setScene(Map.closing_scene);
                 //Platform.exit();
                 //System.exit(0);
             }

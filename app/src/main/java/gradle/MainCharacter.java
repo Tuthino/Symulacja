@@ -12,6 +12,7 @@ public class MainCharacter extends Character {
     private int scaring_level = 0;
     private int character_points = 0;
     private boolean is_alive = true;
+    private int time;
 
     public MainCharacter(double x, double y, String imagePath, String name) {
         super(x, y, imagePath, name);
@@ -58,44 +59,6 @@ public class MainCharacter extends Character {
     }
 
     // @TODO We may add checking which food is closer to us
-    /*public boolean check_if_food() {
-        boolean is_nearby = false;
-        List<String> find_food = new ArrayList<>();
-
-        for (int i = 0; i < Map.food_list.size(); i++) {
-            Food food = Map.food_list.get(i);
-            double distanceX = Math.abs(this.getMiddleX() - food.getMiddleX());
-            double distanceY = Math.abs(this.getMiddleY() - food.getMiddleY());
-
-            if ((distanceX <= listening_size) && ((distanceY <= listening_size))) {
-                System.out.println("  Food nearby: " + food);
-                is_nearby = true;
-                // We have to know if it is closer on Y axis or X axis
-
-                // we have to move right or left
-                if ((this.getMiddleX() >= food.getMiddleX()) && distanceX >= 20) {
-                    find_food.add("LEFT");
-                }
-                if ((this.getMiddleX() < food.getMiddleX()) && distanceX > 20) {
-                    find_food.add("RIGHT");
-                }
-                if (this.getMiddleY() >= food.getMiddleY()) {
-                    find_food.add("UP");
-                }
-                if (this.getMiddleY() < food.getMiddleY()) {
-                    find_food.add("DOWN");
-                }
-            }
-            System.out.println("  Food nearby: " + is_nearby);
-            System.out.println("  Position of food: " + find_food);
-
-            if (is_nearby){
-                setRandomDirectionShorter(find_food);
-            }
-            eating();
-        }
-        return is_nearby;
-    }*/
 
     public boolean check_if_food() { // Checks if we can smell the food ;p
         boolean is_nearby = false;
@@ -144,7 +107,7 @@ public class MainCharacter extends Character {
             this.viewResults();
             Map.timeline.stop();
             Map.executor.shutdownNow();
-            Map.stage.setScene(Map.closing_scene);
+            //Map.stage.setScene(Map.closing_scene);
             //Platform.exit();
             //System.exit(0);
         }
@@ -162,6 +125,7 @@ public class MainCharacter extends Character {
         System.out.println("  Scaring level: " + this.getScaring_level());
         System.out.println("  Points: " + this.getCharacter_points());
         System.out.println("  Time: " + Map.seconds + " seconds");
+        time = Map.seconds;
     }
 
     public void increaseScaringLvl(int scaringPoints){
@@ -177,5 +141,13 @@ public class MainCharacter extends Character {
 
     public int getListening_size() {
         return listening_size;
+    }
+
+    public boolean getIsAlive(){
+        return is_alive;
+    }
+
+    public int getTime(){
+        return time;
     }
 }
