@@ -3,14 +3,9 @@ package gradle;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javafx.application.Platform;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainCharacter extends Character {
 
-    private int listening_size = 70;
+    private int smelling_size = 70;
     private int ghost_detecting_size = 70;
     private int scaring_level = 0;
     private int character_points = 0;
@@ -96,7 +91,7 @@ public class MainCharacter extends Character {
             Food food = Map.food_list.get(i);
             double x_difference = Math.abs(this.getMiddleX() - food.getMiddleX());
             double y_difference = Math.abs(this.getMiddleY() - food.getMiddleY());
-            if ((x_difference <= listening_size) && ((y_difference <= listening_size))) {
+            if ((x_difference <= smelling_size) && ((y_difference <= smelling_size))) {
                 // System.out.println("Food nearby");
                 is_nearby = true;
                 // We have to know if it is closer on Y axis or X axis
@@ -171,8 +166,8 @@ public class MainCharacter extends Character {
         return scaring_level;
     }
 
-    public int getListening_size() {
-        return listening_size;
+    public int getSmelling_size() {
+        return smelling_size;
     }
 
     public boolean getIsAlive(){
