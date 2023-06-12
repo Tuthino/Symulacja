@@ -7,9 +7,7 @@ class MyAnimate implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("\nAnimate task");
 
-        System.out.println("\n Main character");
         for(MainCharacter mainCharacter : Map.main_characters){
              mainCharacter.steps_left = 3;
 
@@ -25,7 +23,6 @@ class MyAnimate implements Runnable {
 
             mainCharacter.hitted_wall = false;
             while(mainCharacter.hitted_wall == false && mainCharacter.steps_left != 0 ){
-                System.out.println("  Moving");
                 mainCharacter.move(mainCharacter.getMovingDirection());
             }
         }

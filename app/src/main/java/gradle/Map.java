@@ -357,11 +357,6 @@ public class Map extends Application {
         });
 
         // ########## MOVING ON KEY PRESS (END) ###################
-        // ScheduledExecutorService executor = Executors.newScheduledThreadPool(1); // tworzenie harmonogramu z jednym
-        // // wątkiem
-        // executor.scheduleAtFixedRate(new MyAnimate(), 0, 50, TimeUnit.MILLISECONDS); // zadanie zostanie uruchomione
-        // // natychmiast co 200 milisekund
-
         stage.setScene(opening_scene);
         stage.show();
     }
@@ -432,55 +427,7 @@ public class Map extends Application {
         Pancake_number = pancakes;
         Scooby_crisp_number = crisp;
     }
-    public void getFoodNumbersInput(){
-        Scanner input = new Scanner(System.in);
 
-        System.out.println("How many Ham items do you want?");
-        System.out.print("  Ham: ");
-
-        try {
-            while (!input.hasNextInt()) {
-                input.next();
-                System.out.print("  Please give a number: ");
-            }
-            ;
-            Ham_number = input.nextInt();
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-
-        System.out.println("How many Pancake items do you want?");
-        System.out.print("  Pancake: ");
-        try {
-            while (!input.hasNextInt()) {
-                input.next();
-                System.out.print("  Please give a number: ");
-            }
-            ;
-            Pancake_number = input.nextInt();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-
-        System.out.println("How many Scooby_crisp items do you want?");
-        System.out.print("  Scooby_crisp: ");
-
-        try {
-            while (!input.hasNextInt()) {
-                input.next();
-                System.out.print("  Please give a number: ");
-            }
-            ;
-            Scooby_crisp_number = input.nextInt();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-    }
 
     public double getMapWidth() {
         return scene_size;

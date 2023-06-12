@@ -29,8 +29,6 @@ public class Character extends Rectangle {
     }
 
     public void move(String direction) {
-        // System.out.println(this.getMovingDirection());
-        // System.out.println(direction);
 
         switch (direction) {
             case "UP":
@@ -46,82 +44,80 @@ public class Character extends Rectangle {
                 this.moveLeft();
                 break;
         }
-        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
-        // System.out.println(this.getMovingDirection());
 
     }
 
     // ###################### MOVING ############################
     public void moveUp() {
-        if (this.steps_left>0){
-            this.steps_left-=1;
+        if (this.steps_left > 0) {
+            this.steps_left -= 1;
             this.setY(this.getY() - this.step_size);
             if (checkIfWalls(Map.boxes)) {
-                this.setY(this.getY() + this.step_size);                                                                // cofanie ruchu
+                this.setY(this.getY() + this.step_size); // cofanie ruchu
                 hitted_wall = true;
                 this.goAroundBox();
-            } else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
+            } else if (checkIfMapBound(Map.scene_size, Map.scene_size)) {
                 hitted_wall = true;
             }
         }
-        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+
     }
 
     public void moveDown() {
-        if (this.steps_left>0){
-            this.steps_left-=1;
-              this.setY(this.getY() + this.step_size);
+        if (this.steps_left > 0) {
+            this.steps_left -= 1;
+            this.setY(this.getY() + this.step_size);
             if (checkIfWalls(Map.boxes)) {
                 this.setY(this.getY() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
-            }else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
+            } else if (checkIfMapBound(Map.scene_size, Map.scene_size)) {
                 hitted_wall = true;
             }
-         }
-        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+        }
+
     }
 
     public void moveLeft() {
-        if (this.steps_left>0){
-            this.steps_left-=1;
+        if (this.steps_left > 0) {
+            this.steps_left -= 1;
             this.setX(this.getX() - this.step_size);
             if (checkIfWalls(Map.boxes)) {
                 this.setX(this.getX() + this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
-            }else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
+            } else if (checkIfMapBound(Map.scene_size, Map.scene_size)) {
                 hitted_wall = true;
             }
         }
-        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+
     }
 
     public void moveRight() {
-            if (this.steps_left>0){
-                this.steps_left-=1;
+        if (this.steps_left > 0) {
+            this.steps_left -= 1;
             this.setX(this.getX() + this.step_size);
             if (checkIfWalls(Map.boxes)) {
                 this.setX(this.getX() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
-            }else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
+            } else if (checkIfMapBound(Map.scene_size, Map.scene_size)) {
                 hitted_wall = true;
             }
         }
-        // System.out.println(this.getClass().getSimpleName() + "X: " + this.getX() + " Y: " + this.getY());
+
     }
 
     // ############# MOVING (END) #######################
 
-    public void goAroundBox(){
-        if (this.getMovingDirection() == "UP" || this.getMovingDirection() == "DOWN"){
+    public void goAroundBox() {
+        if (this.getMovingDirection() == "UP" || this.getMovingDirection() == "DOWN") {
             if (Map.boxes.get(intersected_box_index).getMiddleX() < this.getMiddleX()) {
                 this.moveRight();
             } else {
                 this.moveLeft();
             }
-        } else if (this.getMovingDirection() == "LEFT" || this.getMovingDirection() == "RIGHT"){
+        } else if (this.getMovingDirection() == "LEFT" || this.getMovingDirection() == "RIGHT") {
             if (Map.boxes.get(intersected_box_index).getMiddleY() > this.getMiddleY()) {
                 this.moveUp();
             } else {
@@ -134,11 +130,12 @@ public class Character extends Rectangle {
         boolean intersects = false;
 
         for (int i = 0; i < boxes.size(); i++) {
-            if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) {                                // getBoundsInParent() - zwraca granice wezła w kontekście jego rodzica
-                intersects = true;                                                                                      // node1.interesects(node2) - interakcja jednego elementu z drugim
+            if (this.getBoundsInParent().intersects(boxes.get(i).getBoundsInParent())) { // getBoundsInParent() - zwraca
+                                                                                         // granice wezła w kontekście
+                                                                                         // jego rodzica
+                intersects = true; // node1.interesects(node2) - interakcja jednego elementu z drugim
                 intersected_box_index = i;
-                // System.out.println(boxes.get(i));
-                // System.out.println(boxes.get(i).getClass().getSimpleName());
+
             }
         }
         return intersects;
@@ -147,29 +144,21 @@ public class Character extends Rectangle {
     // ###### CHECK IF WE ARE GOING OUT OF BOUNDS
     // THIS HAS TO BE CHANGED FOR CHARACTER WIDTH
     public boolean checkIfMapBound(double scene_width, double scene_height) {
-        if (this.getX() >= (scene_width - this.getWidth())){
+        if (this.getX() > scene_width) {
             this.setX(this.getX() - this.step_size);
             return true;
-        } else if (this.getX() < 0){
+        } else if (this.getX() < 0) {
             this.setX(this.getX() + this.step_size);
             return true;
-        } else if (this.getY() >= (scene_height - this.getHeight())){
+        } else if (this.getY() > scene_height) {
             this.setY(this.getY() - this.step_size);
             return true;
-        } else if (this.getY() < 0){
+        } else if (this.getY() < 0) {
             this.setY(this.getY() + this.step_size);
             return true;
         }
         return false;
 
-
-        // if (this.getX() > scene_width - this.getWidth() || this.getX() < 0) {
-        //     return true;
-        // } else if (this.getY() > scene_height - this.getHeight() || this.getY() < 0) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
     }
 
     public void setRandomDirection(ArrayList<String> directions) {
@@ -182,7 +171,7 @@ public class Character extends Rectangle {
         Random random = new Random();
         int index = random.nextInt(100) % directions.size();
         this.setMovingDirection(directions.get(index));
-        //System.out.println("  " + this.getMovingDirection());
+
     }
 
     public double getMiddleX() {
@@ -209,7 +198,7 @@ public class Character extends Rectangle {
         return name;
     }
 
-    public void setStepSize(int step_size){
+    public void setStepSize(int step_size) {
         this.step_size = step_size;
     }
 

@@ -16,7 +16,7 @@ public class Listener extends Ghost {
     public boolean checkIfNearby() {
         boolean is_nearby = false;
         for (MainCharacter main_character : Map.main_characters) {
-            double y_difference = Math.abs(this.getMiddleY() - main_character.getMiddleY()); // wartość bezwzględna
+            double y_difference = Math.abs(this.getMiddleY() - main_character.getMiddleY());
             double x_difference = Math.abs(this.getMiddleX() - main_character.getMiddleX());
 
             if(x_difference < (this.getWidth() + main_character.getWidth()) || (y_difference < (this.getHeight()+main_character.getHeight()))){
@@ -25,9 +25,6 @@ public class Listener extends Ghost {
 
             if ((x_difference <= listening_size) && ((y_difference <= listening_size))) {
                 is_nearby = true;
-                // We have to know if it is closer on Y axis or X axis
-                
-                    // we have to move right or left
                     if((this.getMiddleX() >= main_character.getMiddleX()) && x_difference> 20){
                         this.setMovingDirection("LEFT");
                     } else if((this.getMiddleX() < main_character.getMiddleX()) && x_difference> 20){
