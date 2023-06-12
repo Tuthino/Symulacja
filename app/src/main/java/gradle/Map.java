@@ -115,7 +115,7 @@ public class Map extends Application {
         root.getChildren().add(closing_button);
 
         closing_button.setLayoutX(170);
-        closing_button.setLayoutY(210);
+        closing_button.setLayoutY(212);
         closing_button.setTextFill(Color.WHITE);
         closing_button.setStyle("-fx-background-color: blue");
 
