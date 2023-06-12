@@ -60,7 +60,7 @@ public class Character extends Rectangle {
                 this.setY(this.getY() + this.step_size);                                                                // cofanie ruchu
                 hitted_wall = true;
                 this.goAroundBox();
-            } else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+            } else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
                 hitted_wall = true;
             }
         }
@@ -75,7 +75,7 @@ public class Character extends Rectangle {
                 this.setY(this.getY() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
-            }else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+            }else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
                 hitted_wall = true;
             }
          }
@@ -90,7 +90,7 @@ public class Character extends Rectangle {
                 this.setX(this.getX() + this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
-            }else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+            }else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
                 hitted_wall = true;
             }
         }
@@ -105,7 +105,7 @@ public class Character extends Rectangle {
                 this.setX(this.getX() - this.step_size);
                 hitted_wall = true;
                 this.goAroundBox();
-            }else if (checkIfMapBound(Map.scene.getWidth(), Map.scene.getHeight())){
+            }else if (checkIfMapBound(Map.scene_size, Map.scene_size)){
                 hitted_wall = true;
             }
         }
@@ -147,13 +147,13 @@ public class Character extends Rectangle {
     // ###### CHECK IF WE ARE GOING OUT OF BOUNDS
     // THIS HAS TO BE CHANGED FOR CHARACTER WIDTH
     public boolean checkIfMapBound(double scene_width, double scene_height) {
-        if (this.getX() > (scene_width - this.getWidth())){
+        if (this.getX() >= (scene_width - this.getWidth())){
             this.setX(this.getX() - this.step_size);
             return true;
         } else if (this.getX() < 0){
             this.setX(this.getX() + this.step_size);
             return true;
-        } else if (this.getY() > (scene_height - this.getHeight())){
+        } else if (this.getY() >= (scene_height - this.getHeight())){
             this.setY(this.getY() - this.step_size);
             return true;
         } else if (this.getY() < 0){

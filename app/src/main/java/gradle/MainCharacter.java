@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MainCharacter extends Character {
 
-    private int listening_size = Map.scene_size;
+    private int listening_size = 70;
     private int ghost_detecting_size = 70;
     private int scaring_level = 0;
     private int character_points = 0;
@@ -18,7 +18,7 @@ public class MainCharacter extends Character {
 
     public MainCharacter(double x, double y, String imagePath, String name) {
         super(x, y, imagePath, name);
-        this.step_size = 6;
+        this.step_size = 5;
     }
 
     public boolean detect_ghost() {
@@ -28,7 +28,6 @@ public class MainCharacter extends Character {
         // After that we have to check if it is diagonal with us (so there are no boxes
         // between us)
 
-        boolean is_nearby = false;
         for (int i = 0; i < Map.ghosts.size(); i++) {
             for (Ghost ghost : Map.ghosts.get(i)) {
                 double x_difference = Math.abs(this.getMiddleX() - ghost.getMiddleX());
@@ -45,11 +44,9 @@ public class MainCharacter extends Character {
                             && (this.getMiddleY() >= ghost.getMiddleY() && y_difference < Map.character_size / 2)) {
                         if (this.getY() >= Map.scene_size - 5) {
                             this.setRandomDirection(new ArrayList<>(Arrays.asList("RIGHT", "LEFT")));
-                            // System.out.println("Ghost detected1");
                             return true;
                         } else {
                             this.setMovingDirection("DOWN");
-                            // System.out.println("Ghost detected2");
                             return true;
                         }
                     } else if ((x_difference <= Map.character_size) && (this.getMiddleY() < ghost.getMiddleY())
@@ -105,9 +102,9 @@ public class MainCharacter extends Character {
 
                 // we have to move right or left
                 // System.out.println(food);
-                if ((this.getMiddleX() >= food.getMiddleX()) && x_difference >= 20) {
+                if ((this.getMiddleX() >= food.getMiddleX()) && x_difference >= 25) {
                     this.setMovingDirection("LEFT");
-                } else if ((this.getMiddleX() < food.getMiddleX()) && x_difference > 20) {
+                } else if ((this.getMiddleX() < food.getMiddleX()) && x_difference > 25) {
                     this.setMovingDirection("RIGHT");
                 } else if (this.getMiddleY() >= food.getMiddleY()) {
                     this.setMovingDirection("UP");
@@ -142,8 +139,8 @@ public class MainCharacter extends Character {
             Map.timeline.stop();
             Map.executor.shutdownNow();
             Map.stage.setScene(Map.closing_scene);
-            // Platform.exit();
-            // System.exit(0);
+            Platform.exit();
+            System.exit(0);
         }
     }
 
