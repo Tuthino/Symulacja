@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.util.ArrayList;
@@ -41,6 +40,8 @@ public class Map extends Application {
     private String PacDoo_image = "PacDoo.jpg";
     private String Ghosts_image = "Ghosts.jpg";
     private String Level_image = "Level.jpg";
+    private String GameOver_image = "GameOver.jpg";
+    private String Winner_image = "Winner.jpg";
     int Ham_number;
     int Pancake_number;
     int Scooby_crisp_number;
@@ -68,18 +69,18 @@ public class Map extends Application {
     protected static ScheduledExecutorService executor;
     protected static int seconds;
     protected static Timeline timeline;
+    protected static Button closing_button;
     @Override
     public void start(Stage stage) {
         // Thanks to this override, application ends after closing windows
 
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        /*stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
-                // @TODO We can list stats here ;p
                 Platform.exit();
                 System.exit(0);
             }
-        });
+        });*/
 
         // ############## ADD MAIN SCENE #####################
 
@@ -101,6 +102,22 @@ public class Map extends Application {
         // Tworzenie Timeline z powtarzającymi się KeyFrame'ami
         Timeline timeline = new Timeline(keyFrame);
         timeline.setCycleCount(Animation.INDEFINITE);
+
+        closing_button = new Button("End the simulation");
+        closing_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Map.executor.shutdownNow();
+                closingScene(level, ghost, Scooby.getScaring_level(), Scooby.getCharacter_points(), Scooby.getTime());
+                stage.setScene(closing_scene);
+            }
+        });
+        root.getChildren().add(closing_button);
+
+        closing_button.setLayoutX(170);
+        closing_button.setLayoutY(212);
+        closing_button.setTextFill(Color.WHITE);
+        closing_button.setStyle("-fx-background-color: blue");
 
         scene.setFill(Color.BLACK);
 
@@ -324,27 +341,6 @@ public class Map extends Application {
         createBoxes(boxes, scene_size / 100, scene_size / 100);
         addBoxToRoot(root, boxes);
 
-        // ############## ADD CLOSING SCENE #####################
-        closing_root = new Group();
-
-        Label levelLabel = new Label("Level: " + Map.level);
-        closing_root.getChildren().add(levelLabel);
-
-        Label ghostLabel = new Label("Ghost: " + Map.ghost);
-        closing_root.getChildren().add(ghostLabel);
-
-        Label scaringLabel = new Label("Scaring level: " + Scooby.getScaring_level());
-        closing_root.getChildren().add(scaringLabel);
-
-        Label pointsLabel = new Label("Points: " + Scooby.getCharacter_points());
-        closing_root.getChildren().add(pointsLabel);
-
-        Label timeLabel = new Label("Time: " + Map.seconds + " seconds");
-        closing_root.getChildren().add(timeLabel);
-
-        closing_scene = new Scene(closing_root, 400, 400);
-        closing_scene.setFill(Color.BLACK);
-
         // ########## MOVING ON KEY PRESS ##################
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -428,6 +424,92 @@ public class Map extends Application {
         Scooby_crisp_number = crisp;
     }
 
+
+    public void closingScene(String level, String ghost, int scaring_level, int points, int time){
+        // ############## ADD CLOSING SCENE #####################
+        closing_root = new Group();
+
+        Label levelLabel = new Label("Level: " + level);
+        closing_root.getChildren().add(levelLabel);
+        levelLabel.setLayoutX(155);
+        levelLabel.setLayoutY(190);
+
+        Rectangle point1 = new Rectangle();
+        point1.setX(145);
+        point1.setY(195);
+        point1.setWidth(7);
+        point1.setHeight(7);
+        point1.setFill(Color.BLUE);
+
+        Label ghostLabel = new Label("Ghost: " + ghost);
+        closing_root.getChildren().add(ghostLabel);
+        ghostLabel.setLayoutX(155);
+        ghostLabel.setLayoutY(210);
+
+        Rectangle point2 = new Rectangle();
+        point2.setX(145);
+        point2.setY(215);
+        point2.setWidth(7);
+        point2.setHeight(7);
+        point2.setFill(Color.BLUE);
+
+        Label scaringLabel = new Label("Scaring level: " + scaring_level);
+        closing_root.getChildren().add(scaringLabel);
+        scaringLabel.setLayoutX(155);
+        scaringLabel.setLayoutY(230);
+
+        Rectangle point3 = new Rectangle();
+        point3.setX(145);
+        point3.setY(235);
+        point3.setWidth(7);
+        point3.setHeight(7);
+        point3.setFill(Color.BLUE);
+
+        Label pointsLabel = new Label("Points: " + points);
+        closing_root.getChildren().add(pointsLabel);
+        pointsLabel.setLayoutX(155);
+        pointsLabel.setLayoutY(250);
+
+        Rectangle point4 = new Rectangle();
+        point4.setX(145);
+        point4.setY(255);
+        point4.setWidth(7);
+        point4.setHeight(7);
+        point4.setFill(Color.BLUE);
+
+        Label timeLabel = new Label("Time: " + time + " seconds");
+        closing_root.getChildren().add(timeLabel);
+        timeLabel.setLayoutX(155);
+        timeLabel.setLayoutY(270);
+
+        Rectangle point5 = new Rectangle();
+        point5.setX(145);
+        point5.setY(275);
+        point5.setWidth(7);
+        point5.setHeight(7);
+        point5.setFill(Color.BLUE);
+
+        if(Scooby.getIsAlive()){
+            ImageView winner = new ImageView(Winner_image);
+            closing_root.getChildren().add(winner);
+            winner.setFitHeight(80);
+            winner.setFitWidth(300);
+            winner.setLayoutX(50);
+            winner.setLayoutY(100);
+        }else{
+            ImageView gameOver = new ImageView(GameOver_image);
+            closing_root.getChildren().add(gameOver);
+            gameOver.setFitHeight(65);
+            gameOver.setFitWidth(370);
+            gameOver.setLayoutX(15);
+            gameOver.setLayoutY(110);
+        }
+
+        closing_root.getChildren().addAll(point1, point2, point3, point4, point5);
+
+        closing_scene = new Scene(closing_root, 400, 400);
+        closing_scene.setFill(Color.BLACK);
+    }
 
     public double getMapWidth() {
         return scene_size;
