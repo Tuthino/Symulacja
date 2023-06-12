@@ -361,7 +361,7 @@ public class Map extends Application {
         stage.setScene(scene);
         timeline.play();
         executor = Executors.newScheduledThreadPool(1);                              // tworzenie harmonogramu z jednym wątkiem
-        executor.scheduleAtFixedRate(new MyAnimate(), 0, 80, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
+        executor.scheduleAtFixedRate(new MyAnimate(), 0, 180, TimeUnit.MILLISECONDS);                    // zadanie zostanie uruchomione natychmiast co 200 milisekund
     }
 
     // ###################### FOOD #################################### //
