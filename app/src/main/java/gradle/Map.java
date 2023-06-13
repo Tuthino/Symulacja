@@ -108,7 +108,7 @@ public class Map extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Map.executor.shutdownNow();
-                closingScene(level, ghost, Scooby.getScaring_level(), Scooby.getCharacter_points(), Scooby.getTime());
+                closingScene(level, ghost, Scooby.getScaring_level(), Scooby.getCharacter_points());
                 stage.setScene(closing_scene);
             }
         });
@@ -425,7 +425,7 @@ public class Map extends Application {
     }
 
 
-    public void closingScene(String level, String ghost, int scaring_level, int points, int time){
+    public void closingScene(String level, String ghost, int scaring_level, int points){
         // ############## ADD CLOSING SCENE #####################
         closing_root = new Group();
 
@@ -477,18 +477,6 @@ public class Map extends Application {
         point4.setHeight(7);
         point4.setFill(Color.BLUE);
 
-        Label timeLabel = new Label("Time: " + time + " seconds");
-        closing_root.getChildren().add(timeLabel);
-        timeLabel.setLayoutX(155);
-        timeLabel.setLayoutY(270);
-
-        Rectangle point5 = new Rectangle();
-        point5.setX(145);
-        point5.setY(275);
-        point5.setWidth(7);
-        point5.setHeight(7);
-        point5.setFill(Color.BLUE);
-
         if(Scooby.getIsAlive()){
             ImageView winner = new ImageView(Winner_image);
             closing_root.getChildren().add(winner);
@@ -505,7 +493,7 @@ public class Map extends Application {
             gameOver.setLayoutY(110);
         }
 
-        closing_root.getChildren().addAll(point1, point2, point3, point4, point5);
+        closing_root.getChildren().addAll(point1, point2, point3, point4);
 
         closing_scene = new Scene(closing_root, 400, 400);
         closing_scene.setFill(Color.BLACK);

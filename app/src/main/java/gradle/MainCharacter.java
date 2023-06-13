@@ -10,7 +10,6 @@ public class MainCharacter extends Character {
     private int scaring_level = 0;
     private int character_points = 0;
     private boolean is_alive = true;
-    private int time;
 
     public MainCharacter(double x, double y, String imagePath, String name) {
         super(x, y, imagePath, name);
@@ -152,7 +151,6 @@ public class MainCharacter extends Character {
         System.out.println("  Scaring level: " + this.getScaring_level());
         System.out.println("  Points: " + this.getCharacter_points());
         System.out.println("  Time: " + Map.seconds + " seconds");
-        time = Map.seconds;
     }
 
     public void increaseScaringLvl(int scaringPoints){
@@ -172,9 +170,5 @@ public class MainCharacter extends Character {
 
     public boolean getIsAlive(){
         return is_alive;
-    }
-
-    public int getTime(){
-        return time;
     }
 }
